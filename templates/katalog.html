@@ -1,0 +1,48 @@
+<section class="hero hero-page">
+  <div class="container">
+    <h1>Katalog tuningu</h1>
+    <p class="lead">Sprawdź, ile mocy i momentu może uzyskać Twoje auto po chiptuningu. Wybierz markę, model, rok i silnik.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <form id="catalog-selector" class="selector-grid" autocomplete="off">
+      <label>
+        <span>Marka</span>
+        <select id="sel-marka" name="marka" required>
+          <option value="">— wybierz —</option>
+        </select>
+      </label>
+      <label>
+        <span>Model</span>
+        <select id="sel-model" name="model" required disabled>
+          <option value="">— najpierw wybierz markę —</option>
+        </select>
+      </label>
+      <label>
+        <span>Rok / Generacja</span>
+        <select id="sel-rok" name="rok" required disabled>
+          <option value="">—</option>
+        </select>
+      </label>
+      <label>
+        <span>Silnik</span>
+        <select id="sel-silnik" name="silnik" required disabled>
+          <option value="">—</option>
+        </select>
+      </label>
+      <button type="submit" id="catalog-go" class="btn btn-primary" disabled>Sprawdź wynik</button>
+    </form>
+
+    <div id="catalog-result" class="catalog-result" hidden></div>
+
+    <h2 class="section-title" style="margin-top:4rem;">Przeglądaj według marki</h2>
+    <div class="brand-cloud">
+      {{BRAND_LINKS}}
+    </div>
+  </div>
+</section>
+
+<script id="catalog-data" type="application/json">{{CATALOG_JSON}}</script>
+<script src="/js/catalog.js" defer></script>
