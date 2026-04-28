@@ -1,0 +1,26 @@
+<nav class="breadcrumbs container" aria-label="Breadcrumb">
+  <a href="/">Strona główna</a> ›
+  <a href="/realizacje/">Realizacje</a> ›
+  <span>{{TYTUL}}</span>
+</nav>
+
+<section class="section realizacja-detail">
+  <div class="container">
+    <span class="eyebrow">{{DATA_FORMATTED}} · {{SAMOCHOD}}</span>
+    <h1>{{TYTUL}}</h1>
+    <p class="lead">{{KROTKI_OPIS}}</p>
+
+    {{COVER_IMAGE}}
+
+    <div class="markdown-body">
+      {{DLUGI_OPIS}}
+    </div>
+
+    {{GALLERY}}
+
+    <div class="cta-box" style="margin-top:3rem;">
+      <h3>Chcesz podobną realizację u siebie?</h3>
+      <a href="/kontakt.html" class="btn btn-primary">Skontaktuj się</a>
+    </div>
+  </div>
+</section>

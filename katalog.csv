@@ -1,0 +1,16 @@
+marka,model,generacja,rok_od,rok_do,silnik,moc_kw_seryjna,moc_km_seryjna,moc_kw_tuning,moc_km_tuning,moment_seryjny,moment_tuning,sterownik,slug
+BMW,Seria 3,F30,2012,2019,320d 2.0,135,184,170,231,380,460,Bosch EDC17C50,bmw-seria-3-f30-320d-2-0
+BMW,Seria 3,F30,2012,2019,330d 3.0,190,258,235,320,560,680,Bosch EDC17CP45,bmw-seria-3-f30-330d-3-0
+BMW,Seria 5,F10,2010,2017,520d 2.0,135,184,170,231,380,460,Bosch EDC17C50,bmw-seria-5-f10-520d-2-0
+BMW,Seria 5,G30,2017,2023,530d 3.0,195,265,250,340,620,720,Bosch EDC17CP45,bmw-seria-5-g30-530d-3-0
+BMW,X5,F15,2013,2018,xDrive30d 3.0,190,258,235,320,560,680,Bosch EDC17CP45,bmw-x5-f15-xdrive30d-3-0
+Audi,A4,B8,2008,2015,2.0 TDI,130,177,165,224,380,440,Bosch EDC17C46,audi-a4-b8-2-0-tdi
+Audi,A4,B9,2015,2023,2.0 TDI,140,190,175,238,400,460,Bosch EDC17C74,audi-a4-b9-2-0-tdi
+Audi,A6,C7,2011,2018,3.0 TDI,180,245,225,306,500,620,Bosch EDC17CP44,audi-a6-c7-3-0-tdi
+Audi,Q5,8R,2008,2017,2.0 TDI,130,177,165,224,380,440,Bosch EDC17C46,audi-q5-8r-2-0-tdi
+Volkswagen,Passat,B8,2014,2023,2.0 TDI,140,190,175,238,400,460,Bosch EDC17C74,volkswagen-passat-b8-2-0-tdi
+Volkswagen,Golf,VII,2012,2020,2.0 TDI,110,150,140,190,340,400,Bosch EDC17C64,volkswagen-golf-vii-2-0-tdi
+Volkswagen,Tiguan,II,2016,2023,2.0 TDI,110,150,140,190,340,400,Bosch EDC17C74,volkswagen-tiguan-ii-2-0-tdi
+Skoda,Octavia,III,2013,2020,2.0 TDI,110,150,140,190,340,400,Bosch EDC17C64,skoda-octavia-iii-2-0-tdi
+Ford,Focus,Mk3,2010,2018,2.0 TDCi,103,140,135,184,320,400,Delphi DCM3.5,ford-focus-mk3-2-0-tdci
+Mercedes-Benz,C-Klasa,W205,2014,2021,C220d 2.0,125,170,165,224,400,470,Bosch EDC17CP46,mercedes-benz-c-klasa-w205-c220d-2-0

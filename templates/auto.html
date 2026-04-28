@@ -1,0 +1,67 @@
+<nav class="breadcrumbs container" aria-label="Breadcrumb">
+  <a href="/">Strona główna</a> ›
+  <a href="/katalog/">Katalog</a> ›
+  <a href="/marka/{{MARKA_SLUG}}.html">{{MARKA}}</a> ›
+  <span>{{MODEL}} {{GENERACJA}} {{SILNIK}}</span>
+</nav>
+
+<section class="section car-detail">
+  <div class="container car-detail-grid">
+    <div class="car-detail-main">
+      <h1>{{MARKA}} {{MODEL}} {{GENERACJA}} – {{SILNIK}}</h1>
+      <p class="lead">Chiptuning {{MARKA}} {{MODEL}} {{GENERACJA}} {{SILNIK}} ({{ROK_OD}}–{{ROK_DO}}). Sprawdź jakie efekty możesz uzyskać po modyfikacji oprogramowania sterownika silnika.</p>
+
+      <div class="power-grid">
+        <div class="power-cell">
+          <span class="label">Moc seryjna</span>
+          <span class="value">{{MOC_KM_SERYJNA}} <small>KM</small></span>
+          <span class="sub">{{MOC_KW_SERYJNA}} kW</span>
+        </div>
+        <div class="power-cell highlight">
+          <span class="label">Moc po tuningu</span>
+          <span class="value">{{MOC_KM_TUNING}} <small>KM</small></span>
+          <span class="sub">{{MOC_KW_TUNING}} kW</span>
+          <span class="diff">+{{DIFF_KM}} KM</span>
+        </div>
+        <div class="power-cell">
+          <span class="label">Moment seryjny</span>
+          <span class="value">{{MOMENT_SERYJNY}} <small>Nm</small></span>
+        </div>
+        <div class="power-cell highlight">
+          <span class="label">Moment po tuningu</span>
+          <span class="value">{{MOMENT_TUNING}} <small>Nm</small></span>
+          <span class="diff">+{{DIFF_NM}} Nm</span>
+        </div>
+      </div>
+
+      <table class="spec-table">
+        <tbody>
+          <tr><th>Marka</th><td><a href="/marka/{{MARKA_SLUG}}.html">{{MARKA}}</a></td></tr>
+          <tr><th>Model</th><td>{{MODEL}}</td></tr>
+          <tr><th>Generacja</th><td>{{GENERACJA}}</td></tr>
+          <tr><th>Lata produkcji</th><td>{{ROK_OD}} – {{ROK_DO}}</td></tr>
+          <tr><th>Silnik</th><td><a href="/silnik/{{SILNIK_SLUG}}.html">{{SILNIK}}</a></td></tr>
+          <tr><th>Sterownik</th><td><a href="/sterownik/{{STEROWNIK_SLUG}}.html">{{STEROWNIK}}</a></td></tr>
+        </tbody>
+      </table>
+
+      <div class="cta-box">
+        <h3>Zainteresowany chiptuningiem tego auta?</h3>
+        <p>Skontaktuj się z nami, doradzimy najlepsze rozwiązanie i umówimy termin.</p>
+        <a href="/kontakt.html" class="btn btn-primary">Umów wizytę</a>
+      </div>
+    </div>
+    <aside class="car-detail-aside">
+      <div class="aside-box">
+        <h4>Powiązane</h4>
+        <ul>
+          <li><a href="/marka/{{MARKA_SLUG}}.html">Wszystkie {{MARKA}}</a></li>
+          <li><a href="/silnik/{{SILNIK_SLUG}}.html">Inne auta z silnikiem {{SILNIK}}</a></li>
+          <li><a href="/sterownik/{{STEROWNIK_SLUG}}.html">Inne auta ze sterownikiem {{STEROWNIK}}</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<script type="application/ld+json">{{JSONLD}}</script>
