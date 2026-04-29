@@ -1,15 +1,15 @@
 <nav class="breadcrumbs container" aria-label="Breadcrumb">
-  <a href="/">Strona główna</a> ›
-  <a href="/katalog/">Katalog</a> ›
-  <a href="/marka/{{MARKA_SLUG}}">{{MARKA}}</a> ›
+  <a href="/">Strona główna</a> /
+  <a href="/katalog/">Katalog</a> /
+  <a href="/marka/{{MARKA_SLUG}}">{{MARKA}}</a> /
   <span>{{MODEL}} {{GENERACJA}} {{SILNIK}}</span>
 </nav>
 
 <section class="section car-detail">
   <div class="container car-detail-grid">
     <div class="car-detail-main">
-      <h1>{{MARKA}} {{MODEL}} {{GENERACJA}} – {{SILNIK}}</h1>
-      <p class="lead">Chiptuning {{MARKA}} {{MODEL}} {{GENERACJA}} {{SILNIK}} ({{ROK_OD}}–{{ROK_DO}}). Sprawdź jakie efekty możesz uzyskać po modyfikacji oprogramowania sterownika silnika.</p>
+      <h1>{{MARKA}} {{MODEL}} {{GENERACJA}} - {{SILNIK}}</h1>
+      <p class="lead">Chiptuning {{MARKA}} {{MODEL}} {{GENERACJA}} {{SILNIK}} ({{ROK_OD}}-{{ROK_DO}}). Sprawdź jakie efekty możesz uzyskać po modyfikacji oprogramowania sterownika silnika.</p>
 
       <div class="power-grid">
         <div class="power-cell">
@@ -39,7 +39,7 @@
           <tr><th>Marka</th><td><a href="/marka/{{MARKA_SLUG}}">{{MARKA}}</a></td></tr>
           <tr><th>Model</th><td>{{MODEL}}</td></tr>
           <tr><th>Generacja</th><td>{{GENERACJA}}</td></tr>
-          <tr><th>Lata produkcji</th><td>{{ROK_OD}} – {{ROK_DO}}</td></tr>
+          <tr><th>Lata produkcji</th><td>{{ROK_OD}} - {{ROK_DO}}</td></tr>
           <tr><th>Silnik</th><td><a href="/silnik/{{SILNIK_SLUG}}">{{SILNIK}}</a></td></tr>
           <tr><th>Sterownik</th><td><a href="/sterownik/{{STEROWNIK_SLUG}}">{{STEROWNIK}}</a></td></tr>
         </tbody>
