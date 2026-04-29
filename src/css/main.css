@@ -161,7 +161,21 @@ p { margin: 0 0 1em; }
     linear-gradient(180deg, #0e1116 0%, var(--bg) 70%);
   border-bottom: 1px solid var(--border);
 }
-.hero-home { padding: 6rem 0 5rem; text-align: center; }
+.hero-home {
+  padding: 6rem 0 5rem;
+  text-align: center;
+  background: linear-gradient(180deg, #0b0e12 0%, var(--bg) 100%);
+}
+.hero-home::before {
+  background-image:
+    linear-gradient(180deg, rgba(10, 12, 15, 0.78) 0%, rgba(10, 12, 15, 0.5) 45%, rgba(14, 17, 22, 0.96) 100%),
+    radial-gradient(ellipse 75% 55% at 50% 5%, rgba(255, 90, 31, 0.22), transparent 65%),
+    url("https://github.com/user-attachments/assets/96c8bd6e-cd07-4631-9b8b-d1c8f042743d");
+  background-size: cover, cover, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: saturate(0.65) contrast(1.08) brightness(0.85);
+}
 .hero-home h1 { font-size: clamp(2.25rem, 5vw, 3.75rem); }
 .hero-home .lead { margin: 1.25rem auto 2rem; }
 .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
