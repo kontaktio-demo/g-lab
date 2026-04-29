@@ -22,6 +22,16 @@ EGR (recyrkulacja spalin) to element, który z czasem niemal w każdym diesle st
 
 **Nasze rozwiązanie:** **programowa dezaktywacja zaworu EGR** w sterowniku silnika. Po modyfikacji zawór pozostaje zamknięty, do silnika trafia czyste powietrze, a sterownik nie zgłasza żadnych błędów związanych z układem recyrkulacji spalin.
 
+## SCR / AdBlue
+
+W nowszych dieslach (Euro 5/6) za redukcję NOx odpowiada układ Selektywnej Redukcji Katalitycznej (SCR) z dozowaniem AdBlue. Awarie czujników NOx, pompy AdBlue czy zatkany katalizator SCR potrafią unieruchomić auto (tryb awaryjny, blokada rozruchu po określonej liczbie cykli).
+
+**Nasze rozwiązanie:** programowa dezaktywacja układu SCR/AdBlue w sterowniku silnika - bez błędów, bez odliczania kilometrów do blokady rozruchu, bez konieczności uzupełniania płynu.
+
+## Przepustnice dolotowe i klapy wirowe (TVA/VSA)
+
+Klapy wirowe w kolektorze ssącym i dodatkowe przepustnice dolotowe to kolejne typowe źródło problemów - wycierające się trzpienie, zacinanie mechanizmów, wpadające do cylindrów elementy. **Wykonujemy programową dezaktywację TVA/VSA**, dzięki czemu sterownik nie steruje już uszkodzonym mechanizmem i nie zgłasza związanych z nim błędów.
+
 ## Dlaczego programowo, a nie tylko mechanicznie?
 
 Sama zaślepka mechaniczna nie wystarczy - sterownik nadal oczekuje określonych odczytów z czujników i prędzej czy później wystawi błąd. Dlatego każdą dezaktywację wykonujemy w warstwie oprogramowania ECU, zachowując fabryczne zabezpieczenia silnika i komfort codziennej eksploatacji.
