@@ -5,17 +5,33 @@
     var btn = document.querySelector('.nav-toggle');
     var nav = document.querySelector('.main-nav');
     if (!btn || !nav) return;
-    btn.addEventListener('click', function () {
-      var open = nav.classList.toggle('open');
+
+    var backdrop = document.createElement('div');
+    backdrop.className = 'nav-backdrop';
+    backdrop.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(backdrop);
+
+    function setOpen(open) {
+      nav.classList.toggle('open', open);
+      backdrop.classList.toggle('show', open);
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.classList.toggle('nav-open', open);
+    }
+
+    btn.addEventListener('click', function () {
+      setOpen(!nav.classList.contains('open'));
     });
+    backdrop.addEventListener('click', function () { setOpen(false); });
     nav.querySelectorAll('a').forEach(function (a) {
       a.addEventListener('click', function () {
-        if (nav.classList.contains('open')) {
-          nav.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-        }
+        if (nav.classList.contains('open')) setOpen(false);
       });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.classList.contains('open')) setOpen(false);
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 860 && nav.classList.contains('open')) setOpen(false);
     });
   }
 
