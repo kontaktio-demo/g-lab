@@ -88,7 +88,66 @@
   }
 
   function initPageLoad() {
-    document.body.classList.add('page-loaded');
+    // Sync paint with rAF so reveal/hero appear together with body fade-in
+    if (window.requestAnimationFrame) {
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(function () {
+          document.body.classList.add('page-loaded');
+        });
+      });
+    } else {
+      document.body.classList.add('page-loaded');
+    }
+  }
+
+  function initFooterAccordion() {
+    var items = document.querySelectorAll('.footer-collapsible');
+    if (!items.length) return;
+    var MOBILE = 640;
+    function apply() {
+      var isMobile = window.innerWidth <= MOBILE;
+      items.forEach(function (d) {
+        var summary = d.querySelector('summary');
+        if (isMobile) {
+          // Collapse on phones for a compact footer
+          if (d.hasAttribute('open')) d.removeAttribute('open');
+          if (summary) summary.setAttribute('aria-expanded', 'false');
+        } else {
+          // Always expanded on tablets/desktop — looks like normal sections
+          if (!d.hasAttribute('open')) d.setAttribute('open', '');
+          if (summary) summary.setAttribute('aria-expanded', 'true');
+        }
+      });
+    }
+    apply();
+    var resizeT;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(apply, 120);
+    });
+    // Sync aria-expanded on user toggle
+    items.forEach(function (d) {
+      d.addEventListener('toggle', function () {
+        var s = d.querySelector('summary');
+        if (s) s.setAttribute('aria-expanded', d.open ? 'true' : 'false');
+      });
+    });
+  }
+
+  function initImageFade() {
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+    var imgs = document.querySelectorAll('main img');
+    imgs.forEach(function (img) {
+      if (img.classList.contains('no-fade')) return;
+      img.classList.add('img-fade');
+      if (img.complete && img.naturalWidth > 0) {
+        img.classList.add('loaded');
+      } else {
+        img.addEventListener('load', function () { img.classList.add('loaded'); }, { once: true });
+        img.addEventListener('error', function () { img.classList.add('loaded'); }, { once: true });
+      }
+    });
   }
 
   function initHeaderScroll() {
@@ -213,6 +272,8 @@
       initPageLoad();
       initHeaderScroll();
       initCookieConsent();
+      initFooterAccordion();
+      initImageFade();
     });
   } else {
     initNav();
@@ -220,5 +281,7 @@
     initPageLoad();
     initHeaderScroll();
     initCookieConsent();
+    initFooterAccordion();
+    initImageFade();
   }
 })();
