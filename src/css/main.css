@@ -21,7 +21,7 @@
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
   --reveal-delay: 0ms;
   --grad-accent: linear-gradient(135deg, #ff6a2c 0%, #ff8a1f 100%);
-  --grad-accent-strong: linear-gradient(135deg, #ff5a1f 0%, #ffb800 120%);
+  --grad-accent-strong: linear-gradient(135deg, #ff5a1f 0%, #ff8a3d 100%);
   --grad-surface: linear-gradient(180deg, #161a20 0%, #11151a 100%);
 }
 
