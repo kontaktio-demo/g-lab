@@ -151,13 +151,13 @@ function renderCarPage(car) {
 
   return wrapLayout({
     title, description,
-    canonicalPath: `/tuning/${car.slug}.html`,
+    canonicalPath: `/tuning/${car.slug}`,
     content: inner,
   });
 }
 
 function carCard(car) {
-  return `<a class="car-card" href="/tuning/${esc(car.slug)}.html">
+  return `<a class="car-card" href="/tuning/${esc(car.slug)}">
     <div class="car-title">${esc(car.marka)} ${esc(car.model)} ${esc(car.generacja)}</div>
     <div class="car-meta">${esc(car.silnik)} · ${esc(car.rok_od)}–${esc(car.rok_do)}</div>
     <div class="car-power">
@@ -178,7 +178,7 @@ function renderArchive({ label, name, intro, slug, dirSegment, cars }) {
   const html = wrapLayout({
     title: `${label}: ${name} – chiptuning`,
     description: `${intro} ${cars.length} ${cars.length === 1 ? 'pozycja' : 'pozycji'} w katalogu.`,
-    canonicalPath: `/${dirSegment}/${slug}.html`,
+    canonicalPath: `/${dirSegment}/${slug}`,
     content: inner,
   });
   writeFile(path.join(OUT, dirSegment, `${slug}.html`), html);
@@ -201,7 +201,7 @@ function buildCatalog(cars) {
   };
 
   const written = []; // for sitemap
-  for (const car of cars) written.push(`/tuning/${car.slug}.html`);
+  for (const car of cars) written.push(`/tuning/${car.slug}`);
 
   for (const g of Object.values(groups)) {
     const map = new Map();
@@ -213,13 +213,13 @@ function buildCatalog(cars) {
     }
     for (const [slug, { name, cars: list }] of map) {
       renderArchive({ label: g.label, name, intro: g.intro(name), slug, dirSegment: g.dir, cars: list });
-      written.push(`/${g.dir}/${slug}.html`);
+      written.push(`/${g.dir}/${slug}`);
     }
   }
 
   // catalog index
   const brandLinks = [...new Set(cars.map((c) => c.marka))].sort()
-    .map((m) => `<a href="/marka/${slugify(m)}.html">${esc(m)}</a>`)
+    .map((m) => `<a href="/marka/${slugify(m)}">${esc(m)}</a>`)
     .join('\n');
 
   const catalogJson = JSON.stringify(cars.map((c) => ({
@@ -278,7 +278,7 @@ function buildRealizations(items) {
   // list
   const grid = items.length
     ? `<div class="cards-grid">${items.map((r) => `
-        <a class="realization-card" href="/realizacje/${esc(r.slug)}.html">
+        <a class="realization-card" href="/realizacje/${esc(r.slug)}">
           ${r.cover ? `<div class="thumb" style="background-image:url('${esc(r.cover)}')"></div>` : `<div class="thumb"></div>`}
           <div class="body">
             <div class="meta">${esc(formatDatePL(r.data))} · ${esc(r.samochod)}</div>
@@ -322,11 +322,11 @@ function buildRealizations(items) {
     const html = wrapLayout({
       title: `${r.title} – realizacja G-Lab`,
       description: r.krotki_opis || `Realizacja ${r.samochod} w warsztacie G-Lab.`,
-      canonicalPath: `/realizacje/${r.slug}.html`,
+      canonicalPath: `/realizacje/${r.slug}`,
       content: inner,
     });
     writeFile(path.join(OUT, 'realizacje', `${r.slug}.html`), html);
-    written.push(`/realizacje/${r.slug}.html`);
+    written.push(`/realizacje/${r.slug}`);
   }
 
   return written;
@@ -345,7 +345,7 @@ function buildStaticPages() {
     const html = wrapLayout({
       title: `${data.title || slug} – G-Lab Chip Tuning`,
       description: data.description || data.subtitle || `${data.title} – G-Lab Chip Tuning`,
-      canonicalPath: `/${slug}.html`,
+      canonicalPath: `/${slug}`,
       content: render(T.page, {
         TITLE: esc(data.title || slug),
         SUBTITLE: data.subtitle ? `<p class="lead">${esc(data.subtitle)}</p>` : '',
@@ -353,7 +353,7 @@ function buildStaticPages() {
       }),
     });
     writeFile(path.join(OUT, `${slug}.html`), html);
-    written.push(`/${slug}.html`);
+    written.push(`/${slug}`);
   }
   return written;
 }

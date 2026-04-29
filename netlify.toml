@@ -5,6 +5,12 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# Strip .html extension from URLs (Pretty URLs)
+[build.processing]
+  skip_processing = false
+[build.processing.html]
+  pretty_urls = true
+
 # Pretty URLs / 301s
 [[redirects]]
   from = "/katalog"

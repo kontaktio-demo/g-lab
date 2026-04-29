@@ -51,7 +51,7 @@ description: "Regulamin serwisu G-Lab Chip Tuning. Zasady korzystania z serwisu 
 
 ## §6. Ochrona danych osobowych
 
-Zasady przetwarzania danych osobowych Użytkowników opisuje [Polityka Prywatności](/polityka-prywatnosci.html), która stanowi integralną część niniejszego Regulaminu.
+Zasady przetwarzania danych osobowych Użytkowników opisuje [Polityka Prywatności](/polityka-prywatnosci), która stanowi integralną część niniejszego Regulaminu.
 
 ## §7. Własność intelektualna
 

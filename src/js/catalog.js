@@ -112,7 +112,7 @@
       }
       return;
     }
-    window.location.assign('/tuning/' + encodeURIComponent(match.slug) + '.html');
+    window.location.assign('/tuning/' + encodeURIComponent(match.slug));
   });
 
   init();
