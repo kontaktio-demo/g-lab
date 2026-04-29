@@ -1,16 +1,349 @@
 marka,model,generacja,rok_od,rok_do,silnik,moc_kw_seryjna,moc_km_seryjna,moc_kw_tuning,moc_km_tuning,moment_seryjny,moment_tuning,sterownik,slug
+BMW,Seria 1,E87,2007,2011,118d 2.0,105,143,135,184,300,380,Bosch EDC17CP02,bmw-seria-1-e87-118d-2-0
+BMW,Seria 1,E87,2007,2011,120d 2.0,130,177,160,218,350,430,Bosch EDC17CP02,bmw-seria-1-e87-120d-2-0
+BMW,Seria 1,F20,2011,2019,116d 1.6,85,116,110,150,260,320,Bosch EDC17C41,bmw-seria-1-f20-116d-1-6
+BMW,Seria 1,F20,2011,2019,118d 2.0,105,143,135,184,320,400,Bosch EDC17C50,bmw-seria-1-f20-118d-2-0
+BMW,Seria 1,F20,2011,2019,120d 2.0,135,184,165,224,380,460,Bosch EDC17C50,bmw-seria-1-f20-120d-2-0
+BMW,Seria 1,F20,2012,2019,125d 2.0,160,218,190,258,450,530,Bosch EDC17C50,bmw-seria-1-f20-125d-2-0
+BMW,Seria 3,E90,2005,2012,318d 2.0,105,143,135,184,300,380,Bosch EDC17CP02,bmw-seria-3-e90-318d-2-0
+BMW,Seria 3,E90,2005,2012,320d 2.0,130,177,160,218,350,430,Bosch EDC17CP02,bmw-seria-3-e90-320d-2-0
+BMW,Seria 3,E90,2007,2012,325d 3.0,145,197,180,245,400,480,Bosch EDC17CP02,bmw-seria-3-e90-325d-3-0
+BMW,Seria 3,E90,2008,2012,330d 3.0,170,231,210,286,500,600,Bosch EDC17CP02,bmw-seria-3-e90-330d-3-0
+BMW,Seria 3,E90,2008,2012,335d 3.0,210,286,250,340,580,680,Bosch EDC17CP02,bmw-seria-3-e90-335d-3-0
+BMW,Seria 3,F30,2012,2019,316d 2.0,85,116,110,150,260,320,Bosch EDC17C41,bmw-seria-3-f30-316d-2-0
+BMW,Seria 3,F30,2012,2019,318d 2.0,105,143,135,184,320,400,Bosch EDC17C50,bmw-seria-3-f30-318d-2-0
 BMW,Seria 3,F30,2012,2019,320d 2.0,135,184,170,231,380,460,Bosch EDC17C50,bmw-seria-3-f30-320d-2-0
+BMW,Seria 3,F30,2012,2019,325d 2.0,160,218,190,258,450,530,Bosch EDC17C50,bmw-seria-3-f30-325d-2-0
 BMW,Seria 3,F30,2012,2019,330d 3.0,190,258,235,320,560,680,Bosch EDC17CP45,bmw-seria-3-f30-330d-3-0
+BMW,Seria 3,F30,2012,2019,335d 3.0 xDrive,230,313,265,360,630,730,Bosch EDC17CP45,bmw-seria-3-f30-335d-3-0-xdrive
+BMW,Seria 3,G20,2019,2024,320d 2.0,140,190,170,231,400,470,Bosch EDC17C76,bmw-seria-3-g20-320d-2-0
+BMW,Seria 3,G20,2019,2024,330d 3.0,195,265,235,320,580,680,Bosch EDC17CP49,bmw-seria-3-g20-330d-3-0
+BMW,Seria 5,E60,2003,2010,520d 2.0,130,177,160,218,350,430,Bosch EDC17CP02,bmw-seria-5-e60-520d-2-0
+BMW,Seria 5,E60,2007,2010,525d 3.0,145,197,180,245,400,480,Bosch EDC17CP02,bmw-seria-5-e60-525d-3-0
+BMW,Seria 5,E60,2007,2010,530d 3.0,170,231,210,286,500,600,Bosch EDC17CP02,bmw-seria-5-e60-530d-3-0
+BMW,Seria 5,E60,2007,2010,535d 3.0,210,286,250,340,580,680,Bosch EDC17CP02,bmw-seria-5-e60-535d-3-0
 BMW,Seria 5,F10,2010,2017,520d 2.0,135,184,170,231,380,460,Bosch EDC17C50,bmw-seria-5-f10-520d-2-0
+BMW,Seria 5,F10,2011,2017,525d 2.0,160,218,190,258,450,530,Bosch EDC17C50,bmw-seria-5-f10-525d-2-0
+BMW,Seria 5,F10,2011,2017,530d 3.0,190,258,235,320,560,680,Bosch EDC17CP45,bmw-seria-5-f10-530d-3-0
+BMW,Seria 5,F10,2011,2017,535d 3.0,230,313,265,360,630,730,Bosch EDC17CP45,bmw-seria-5-f10-535d-3-0
+BMW,Seria 5,G30,2017,2023,520d 2.0,140,190,170,231,400,470,Bosch EDC17C76,bmw-seria-5-g30-520d-2-0
 BMW,Seria 5,G30,2017,2023,530d 3.0,195,265,250,340,620,720,Bosch EDC17CP45,bmw-seria-5-g30-530d-3-0
+BMW,Seria 5,G30,2017,2023,540d 3.0,235,320,275,374,680,770,Bosch EDC17CP49,bmw-seria-5-g30-540d-3-0
+BMW,Seria 7,F01,2008,2015,730d 3.0,180,245,225,306,540,650,Bosch EDC17CP09,bmw-seria-7-f01-730d-3-0
+BMW,Seria 7,F01,2012,2015,740d 3.0,225,306,265,360,600,700,Bosch EDC17CP45,bmw-seria-7-f01-740d-3-0
+BMW,Seria 7,G11,2015,2022,730d 3.0,195,265,235,320,620,720,Bosch EDC17CP49,bmw-seria-7-g11-730d-3-0
+BMW,X1,E84,2009,2015,xDrive18d 2.0,105,143,135,184,320,400,Bosch EDC17C50,bmw-x1-e84-xdrive18d-2-0
+BMW,X1,E84,2009,2015,xDrive20d 2.0,130,177,160,218,350,430,Bosch EDC17CP02,bmw-x1-e84-xdrive20d-2-0
+BMW,X1,F48,2015,2022,xDrive18d 2.0,110,150,140,190,330,400,Bosch EDC17C76,bmw-x1-f48-xdrive18d-2-0
+BMW,X1,F48,2015,2022,xDrive20d 2.0,140,190,170,231,400,470,Bosch EDC17C76,bmw-x1-f48-xdrive20d-2-0
+BMW,X3,F25,2010,2017,xDrive20d 2.0,135,184,170,231,380,460,Bosch EDC17C50,bmw-x3-f25-xdrive20d-2-0
+BMW,X3,F25,2011,2017,xDrive30d 3.0,190,258,235,320,560,680,Bosch EDC17CP45,bmw-x3-f25-xdrive30d-3-0
+BMW,X3,G01,2017,2023,xDrive20d 2.0,140,190,170,231,400,470,Bosch EDC17C76,bmw-x3-g01-xdrive20d-2-0
+BMW,X3,G01,2017,2023,xDrive30d 3.0,195,265,235,320,620,720,Bosch EDC17CP49,bmw-x3-g01-xdrive30d-3-0
+BMW,X5,E70,2007,2013,xDrive30d 3.0,180,245,225,306,540,650,Bosch EDC17CP09,bmw-x5-e70-xdrive30d-3-0
+BMW,X5,E70,2008,2013,xDrive35d 3.0,210,286,250,340,580,680,Bosch EDC17CP09,bmw-x5-e70-xdrive35d-3-0
 BMW,X5,F15,2013,2018,xDrive30d 3.0,190,258,235,320,560,680,Bosch EDC17CP45,bmw-x5-f15-xdrive30d-3-0
+BMW,X5,F15,2013,2018,xDrive40d 3.0,230,313,265,360,630,730,Bosch EDC17CP45,bmw-x5-f15-xdrive40d-3-0
+BMW,X5,G05,2018,2023,xDrive30d 3.0,195,265,235,320,620,720,Bosch EDC17CP49,bmw-x5-g05-xdrive30d-3-0
+BMW,X6,E71,2008,2014,xDrive30d 3.0,180,245,225,306,540,650,Bosch EDC17CP09,bmw-x6-e71-xdrive30d-3-0
+BMW,X6,E71,2008,2014,xDrive40d 3.0,225,306,265,360,600,700,Bosch EDC17CP45,bmw-x6-e71-xdrive40d-3-0
+Audi,A1,8X,2010,2018,1.6 TDI,66,90,85,116,230,280,Bosch EDC17C46,audi-a1-8x-1-6-tdi
+Audi,A3,8P,2003,2012,1.9 TDI,77,105,96,130,250,300,Bosch EDC16U34,audi-a3-8p-1-9-tdi
+Audi,A3,8P,2008,2012,2.0 TDI 140,103,140,125,170,320,380,Bosch EDC17CP14,audi-a3-8p-2-0-tdi-140
+Audi,A3,8P,2008,2012,2.0 TDI 170,125,170,150,204,350,420,Bosch EDC17CP14,audi-a3-8p-2-0-tdi-170
+Audi,A3,8V,2012,2020,1.6 TDI,81,110,100,136,250,300,Bosch EDC17C64,audi-a3-8v-1-6-tdi
+Audi,A3,8V,2012,2020,2.0 TDI 150,110,150,140,190,340,400,Bosch EDC17C64,audi-a3-8v-2-0-tdi-150
+Audi,A3,8V,2014,2020,2.0 TDI 184,135,184,165,224,380,440,Bosch EDC17C74,audi-a3-8v-2-0-tdi-184
+Audi,A4,B7,2004,2008,2.0 TDI,103,140,125,170,320,380,Bosch EDC16U34,audi-a4-b7-2-0-tdi
+Audi,A4,B7,2006,2008,3.0 TDI,150,204,185,252,450,530,Bosch EDC16CP34,audi-a4-b7-3-0-tdi
 Audi,A4,B8,2008,2015,2.0 TDI,130,177,165,224,380,440,Bosch EDC17C46,audi-a4-b8-2-0-tdi
+Audi,A4,B8,2008,2015,2.0 TDI 170,125,170,150,204,350,420,Bosch EDC17CP14,audi-a4-b8-2-0-tdi-170
+Audi,A4,B8,2008,2015,3.0 TDI,176,240,215,293,500,580,Bosch EDC17CP24,audi-a4-b8-3-0-tdi
 Audi,A4,B9,2015,2023,2.0 TDI,140,190,175,238,400,460,Bosch EDC17C74,audi-a4-b9-2-0-tdi
+Audi,A4,B9,2015,2023,2.0 TDI 150,110,150,140,190,340,400,Bosch EDC17C74,audi-a4-b9-2-0-tdi-150
+Audi,A4,B9,2015,2023,3.0 TDI,160,218,195,265,400,480,Bosch EDC17CP54,audi-a4-b9-3-0-tdi
+Audi,A5,B8,2007,2016,2.0 TDI,130,177,165,224,380,440,Bosch EDC17C46,audi-a5-b8-2-0-tdi
+Audi,A5,B8,2007,2016,3.0 TDI,180,245,220,300,500,580,Bosch EDC17CP24,audi-a5-b8-3-0-tdi
+Audi,A6,C6,2004,2011,2.0 TDI,103,140,125,170,320,380,Bosch EDC16U34,audi-a6-c6-2-0-tdi
+Audi,A6,C6,2008,2011,2.7 TDI,140,190,170,231,400,470,Bosch EDC16CP34,audi-a6-c6-2-7-tdi
+Audi,A6,C6,2004,2011,3.0 TDI,165,225,200,272,450,530,Bosch EDC16CP34,audi-a6-c6-3-0-tdi
+Audi,A6,C7,2011,2018,2.0 TDI,130,177,165,224,380,440,Bosch EDC17C46,audi-a6-c7-2-0-tdi
 Audi,A6,C7,2011,2018,3.0 TDI,180,245,225,306,500,620,Bosch EDC17CP44,audi-a6-c7-3-0-tdi
+Audi,A6,C7,2012,2018,BiTDI 3.0,230,313,270,367,650,750,Bosch EDC17CP44,audi-a6-c7-bitdi-3-0
+Audi,A6,C8,2018,2024,2.0 TDI,150,204,180,245,400,470,Bosch EDC17C84,audi-a6-c8-2-0-tdi
+Audi,A6,C8,2018,2024,3.0 TDI,210,286,250,340,620,720,Bosch EDC17CP54,audi-a6-c8-3-0-tdi
+Audi,A7,4G,2010,2018,3.0 TDI,180,245,220,300,500,580,Bosch EDC17CP44,audi-a7-4g-3-0-tdi
+Audi,A8,D4,2010,2017,3.0 TDI,190,258,230,313,580,680,Bosch EDC17CP44,audi-a8-d4-3-0-tdi
+Audi,A8,D4,2010,2017,4.2 TDI,283,385,325,442,850,950,Bosch EDC17CP04,audi-a8-d4-4-2-tdi
+Audi,Q3,8U,2011,2018,2.0 TDI,103,140,125,170,320,380,Bosch EDC17C46,audi-q3-8u-2-0-tdi
 Audi,Q5,8R,2008,2017,2.0 TDI,130,177,165,224,380,440,Bosch EDC17C46,audi-q5-8r-2-0-tdi
-Volkswagen,Passat,B8,2014,2023,2.0 TDI,140,190,175,238,400,460,Bosch EDC17C74,volkswagen-passat-b8-2-0-tdi
+Audi,Q5,8R,2008,2017,3.0 TDI,176,240,215,293,500,580,Bosch EDC17CP24,audi-q5-8r-3-0-tdi
+Audi,Q5,FY,2017,2023,2.0 TDI,140,190,170,231,400,460,Bosch EDC17C74,audi-q5-fy-2-0-tdi
+Audi,Q5,FY,2017,2023,3.0 TDI,210,286,250,340,620,720,Bosch EDC17CP54,audi-q5-fy-3-0-tdi
+Audi,Q7,4L,2006,2015,3.0 TDI,176,240,215,293,550,650,Bosch EDC17CP24,audi-q7-4l-3-0-tdi
+Audi,Q7,4L,2008,2015,4.2 TDI,240,326,285,388,760,870,Bosch EDC17CP04,audi-q7-4l-4-2-tdi
+Audi,Q7,4M,2015,2023,3.0 TDI,200,272,240,326,600,700,Bosch EDC17CP54,audi-q7-4m-3-0-tdi
+Volkswagen,Polo,6R,2009,2017,1.6 TDI,66,90,85,116,230,280,Bosch EDC17C46,volkswagen-polo-6r-1-6-tdi
+Volkswagen,Polo,6R,2009,2017,1.6 TDI 105,77,105,96,130,250,300,Bosch EDC17C46,volkswagen-polo-6r-1-6-tdi-105
+Volkswagen,Caddy,III,2010,2015,1.6 TDI,75,102,96,130,250,300,Bosch EDC17C46,volkswagen-caddy-iii-1-6-tdi
+Volkswagen,Caddy,III,2010,2015,2.0 TDI,103,140,125,170,320,380,Bosch EDC17C46,volkswagen-caddy-iii-2-0-tdi
+Volkswagen,Golf,V,2003,2008,1.9 TDI,77,105,96,130,250,300,Bosch EDC16U34,volkswagen-golf-v-1-9-tdi
+Volkswagen,Golf,V,2005,2008,2.0 TDI 140,103,140,125,170,320,380,Bosch EDC16U34,volkswagen-golf-v-2-0-tdi-140
+Volkswagen,Golf,V,2006,2008,2.0 TDI 170,125,170,150,204,350,420,Bosch EDC16U34,volkswagen-golf-v-2-0-tdi-170
+Volkswagen,Golf,VI,2008,2012,1.6 TDI,77,105,96,130,250,300,Bosch EDC17C46,volkswagen-golf-vi-1-6-tdi
+Volkswagen,Golf,VI,2008,2012,2.0 TDI 140,103,140,125,170,320,380,Bosch EDC17CP14,volkswagen-golf-vi-2-0-tdi-140
+Volkswagen,Golf,VI,2009,2012,GTD 2.0 TDI,125,170,150,204,350,420,Bosch EDC17CP14,volkswagen-golf-vi-gtd-2-0-tdi
+Volkswagen,Golf,VII,2012,2020,1.6 TDI,77,105,100,136,250,300,Bosch EDC17C64,volkswagen-golf-vii-1-6-tdi
 Volkswagen,Golf,VII,2012,2020,2.0 TDI,110,150,140,190,340,400,Bosch EDC17C64,volkswagen-golf-vii-2-0-tdi
+Volkswagen,Golf,VII,2013,2020,GTD 2.0 TDI,135,184,165,224,380,440,Bosch EDC17C74,volkswagen-golf-vii-gtd-2-0-tdi
+Volkswagen,Golf,VIII,2019,2024,2.0 TDI 115,85,115,110,150,300,360,Bosch MD1CS006,volkswagen-golf-viii-2-0-tdi-115
+Volkswagen,Golf,VIII,2019,2024,2.0 TDI 150,110,150,140,190,360,420,Bosch MD1CS006,volkswagen-golf-viii-2-0-tdi-150
+Volkswagen,Jetta,VI,2010,2018,2.0 TDI,103,140,125,170,320,380,Bosch EDC17CP14,volkswagen-jetta-vi-2-0-tdi
+Volkswagen,Passat,B6,2005,2010,1.9 TDI,77,105,96,130,250,300,Bosch EDC16U34,volkswagen-passat-b6-1-9-tdi
+Volkswagen,Passat,B6,2005,2010,2.0 TDI 140,103,140,125,170,320,380,Bosch EDC16U34,volkswagen-passat-b6-2-0-tdi-140
+Volkswagen,Passat,B6,2005,2010,2.0 TDI 170,125,170,150,204,350,420,Bosch EDC16U34,volkswagen-passat-b6-2-0-tdi-170
+Volkswagen,Passat,B7,2010,2014,2.0 TDI 140,103,140,125,170,320,380,Bosch EDC17CP14,volkswagen-passat-b7-2-0-tdi-140
+Volkswagen,Passat,B7,2010,2014,2.0 TDI 170,125,170,150,204,350,420,Bosch EDC17CP14,volkswagen-passat-b7-2-0-tdi-170
+Volkswagen,Passat,B8,2014,2023,2.0 TDI,140,190,175,238,400,460,Bosch EDC17C74,volkswagen-passat-b8-2-0-tdi
+Volkswagen,Passat,B8,2014,2023,2.0 TDI 150,110,150,140,190,340,400,Bosch EDC17C74,volkswagen-passat-b8-2-0-tdi-150
+Volkswagen,Passat,B8,2014,2018,BiTDI 2.0,176,240,210,285,500,580,Bosch EDC17C74,volkswagen-passat-b8-bitdi-2-0
+Volkswagen,Sharan,II,2010,2020,2.0 TDI,103,140,125,170,320,380,Bosch EDC17CP14,volkswagen-sharan-ii-2-0-tdi
+Volkswagen,Sharan,II,2010,2020,2.0 TDI 170,125,170,150,204,350,420,Bosch EDC17CP14,volkswagen-sharan-ii-2-0-tdi-170
+Volkswagen,Tiguan,I,2007,2016,2.0 TDI 140,103,140,125,170,320,380,Bosch EDC17CP14,volkswagen-tiguan-i-2-0-tdi-140
+Volkswagen,Tiguan,I,2008,2016,2.0 TDI 170,125,170,150,204,350,420,Bosch EDC17CP14,volkswagen-tiguan-i-2-0-tdi-170
 Volkswagen,Tiguan,II,2016,2023,2.0 TDI,110,150,140,190,340,400,Bosch EDC17C74,volkswagen-tiguan-ii-2-0-tdi
+Volkswagen,Tiguan,II,2016,2023,2.0 TDI 190,140,190,170,231,400,460,Bosch EDC17C74,volkswagen-tiguan-ii-2-0-tdi-190
+Volkswagen,Touareg,7L,2002,2010,3.0 TDI,165,225,200,272,500,580,Bosch EDC16CP34,volkswagen-touareg-7l-3-0-tdi
+Volkswagen,Touareg,7L,2007,2010,5.0 TDI,230,313,265,360,750,850,Bosch EDC16CP34,volkswagen-touareg-7l-5-0-tdi
+Volkswagen,Touareg,7P,2010,2018,3.0 TDI,180,245,220,300,550,650,Bosch EDC17CP44,volkswagen-touareg-7p-3-0-tdi
+Volkswagen,Touareg,CR,2018,2024,3.0 TDI,210,286,250,340,600,700,Bosch EDC17CP54,volkswagen-touareg-cr-3-0-tdi
+Volkswagen,Touran,I,2003,2010,1.9 TDI,77,105,96,130,250,300,Bosch EDC16U34,volkswagen-touran-i-1-9-tdi
+Volkswagen,Touran,I,2003,2010,2.0 TDI,103,140,125,170,320,380,Bosch EDC16U34,volkswagen-touran-i-2-0-tdi
+Volkswagen,Touran,II,2015,2023,2.0 TDI 150,110,150,140,190,340,400,Bosch EDC17C74,volkswagen-touran-ii-2-0-tdi-150
+Volkswagen,Transporter,T5,2003,2009,2.5 TDI,96,130,120,163,340,400,Bosch EDC16U1,volkswagen-transporter-t5-2-5-tdi
+Volkswagen,Transporter,T5,2003,2009,2.5 TDI 174,128,174,155,210,400,470,Bosch EDC16U1,volkswagen-transporter-t5-2-5-tdi-174
+Volkswagen,Transporter,T5,2009,2015,2.0 TDI 140,103,140,125,170,340,400,Bosch EDC17CP14,volkswagen-transporter-t5-2-0-tdi-140
+Volkswagen,Transporter,T5,2009,2015,2.0 BiTDI,132,180,160,218,400,470,Bosch EDC17CP14,volkswagen-transporter-t5-2-0-bitdi
+Volkswagen,Transporter,T6,2015,2019,2.0 TDI 150,110,150,140,190,340,400,Bosch EDC17C74,volkswagen-transporter-t6-2-0-tdi-150
+Volkswagen,Transporter,T6,2015,2019,2.0 BiTDI 204,150,204,180,245,450,510,Bosch EDC17C74,volkswagen-transporter-t6-2-0-bitdi-204
+Volkswagen,Crafter,I,2011,2016,2.0 TDI 140,103,140,125,170,340,400,Bosch EDC17CP20,volkswagen-crafter-i-2-0-tdi-140
+Skoda,Fabia,II,2010,2014,1.6 TDI,77,105,96,130,250,300,Bosch EDC17C46,skoda-fabia-ii-1-6-tdi
+Skoda,Fabia,III,2014,2021,1.4 TDI,66,90,85,115,230,280,Bosch EDC17C74,skoda-fabia-iii-1-4-tdi
+Skoda,Octavia,II,2004,2009,1.9 TDI,77,105,96,130,250,300,Bosch EDC16U34,skoda-octavia-ii-1-9-tdi
+Skoda,Octavia,II,2005,2013,2.0 TDI 140,103,140,125,170,320,380,Bosch EDC17CP14,skoda-octavia-ii-2-0-tdi-140
+Skoda,Octavia,II,2006,2013,RS 2.0 TDI,125,170,150,204,350,420,Bosch EDC17CP14,skoda-octavia-ii-rs-2-0-tdi
+Skoda,Octavia,III,2013,2020,1.6 TDI,77,105,100,136,250,300,Bosch EDC17C64,skoda-octavia-iii-1-6-tdi
 Skoda,Octavia,III,2013,2020,2.0 TDI,110,150,140,190,340,400,Bosch EDC17C64,skoda-octavia-iii-2-0-tdi
+Skoda,Octavia,III,2013,2020,RS 2.0 TDI,135,184,165,224,380,440,Bosch EDC17C74,skoda-octavia-iii-rs-2-0-tdi
+Skoda,Octavia,IV,2020,2024,2.0 TDI 150,110,150,140,190,360,420,Bosch MD1CS006,skoda-octavia-iv-2-0-tdi-150
+Skoda,Superb,II,2008,2015,2.0 TDI 140,103,140,125,170,320,380,Bosch EDC17CP14,skoda-superb-ii-2-0-tdi-140
+Skoda,Superb,II,2008,2015,2.0 TDI 170,125,170,150,204,350,420,Bosch EDC17CP14,skoda-superb-ii-2-0-tdi-170
+Skoda,Superb,III,2015,2023,2.0 TDI 150,110,150,140,190,340,400,Bosch EDC17C74,skoda-superb-iii-2-0-tdi-150
+Skoda,Superb,III,2015,2023,2.0 TDI 190,140,190,170,231,400,460,Bosch EDC17C74,skoda-superb-iii-2-0-tdi-190
+Skoda,Yeti,I,2009,2017,2.0 TDI 140,103,140,125,170,320,380,Bosch EDC17CP14,skoda-yeti-i-2-0-tdi-140
+Skoda,Kodiaq,I,2016,2023,2.0 TDI 150,110,150,140,190,340,400,Bosch EDC17C74,skoda-kodiaq-i-2-0-tdi-150
+Skoda,Kodiaq,I,2016,2023,2.0 TDI 190,140,190,170,231,400,460,Bosch EDC17C74,skoda-kodiaq-i-2-0-tdi-190
+Seat,Leon,II,2005,2012,2.0 TDI,103,140,125,170,320,380,Bosch EDC17CP14,seat-leon-ii-2-0-tdi
+Seat,Leon,III,2012,2020,2.0 TDI 150,110,150,140,190,340,400,Bosch EDC17C64,seat-leon-iii-2-0-tdi-150
+Seat,Leon,III,2014,2020,FR 2.0 TDI 184,135,184,165,224,380,440,Bosch EDC17C74,seat-leon-iii-fr-2-0-tdi-184
+Seat,Ibiza,6J,2008,2017,1.6 TDI,77,105,96,130,250,300,Bosch EDC17C46,seat-ibiza-6j-1-6-tdi
+Seat,Alhambra,II,2010,2020,2.0 TDI 140,103,140,125,170,320,380,Bosch EDC17CP14,seat-alhambra-ii-2-0-tdi-140
+Ford,Fiesta,Mk7,2008,2017,1.6 TDCi,70,95,88,120,205,250,Bosch EDC17C10,ford-fiesta-mk7-1-6-tdci
+Ford,Focus,Mk2,2004,2010,1.6 TDCi,80,109,100,136,240,290,Bosch EDC16C34,ford-focus-mk2-1-6-tdci
+Ford,Focus,Mk2,2004,2010,2.0 TDCi,100,136,125,170,320,380,Bosch EDC16C34,ford-focus-mk2-2-0-tdci
+Ford,Focus,Mk3,2010,2018,1.6 TDCi,85,115,105,143,270,320,Bosch EDC17C10,ford-focus-mk3-1-6-tdci
 Ford,Focus,Mk3,2010,2018,2.0 TDCi,103,140,135,184,320,400,Delphi DCM3.5,ford-focus-mk3-2-0-tdci
+Ford,Focus,Mk4,2018,2024,2.0 EcoBlue 150,110,150,135,184,370,420,Bosch MD1CS006,ford-focus-mk4-2-0-ecoblue-150
+Ford,Mondeo,Mk4,2007,2014,2.0 TDCi 140,103,140,125,170,320,380,Bosch EDC16C34,ford-mondeo-mk4-2-0-tdci-140
+Ford,Mondeo,Mk4,2007,2014,2.2 TDCi,129,175,155,210,400,470,Bosch EDC16C34,ford-mondeo-mk4-2-2-tdci
+Ford,Mondeo,Mk5,2014,2022,2.0 TDCi 150,110,150,135,184,370,420,Delphi DCM3.7,ford-mondeo-mk5-2-0-tdci-150
+Ford,Mondeo,Mk5,2014,2022,2.0 TDCi 180,132,180,160,218,400,460,Delphi DCM3.7,ford-mondeo-mk5-2-0-tdci-180
+Ford,Kuga,I,2008,2012,2.0 TDCi,100,136,125,170,320,380,Bosch EDC16C34,ford-kuga-i-2-0-tdci
+Ford,Kuga,II,2012,2019,2.0 TDCi 150,110,150,135,184,370,420,Delphi DCM3.7,ford-kuga-ii-2-0-tdci-150
+Ford,S-Max,I,2006,2014,2.0 TDCi,103,140,125,170,320,380,Bosch EDC16C34,ford-s-max-i-2-0-tdci
+Ford,Galaxy,II,2006,2015,2.0 TDCi,103,140,125,170,320,380,Bosch EDC16C34,ford-galaxy-ii-2-0-tdci
+Ford,Transit,VII,2006,2014,2.2 TDCi,92,125,115,156,350,400,Bosch EDC16C34,ford-transit-vii-2-2-tdci
+Ford,Ranger,T6,2011,2019,3.2 TDCi,147,200,175,238,470,540,Delphi DCM3.7,ford-ranger-t6-3-2-tdci
+Mercedes-Benz,A-Klasa,W176,2012,2018,A180 CDI 1.5,80,109,100,136,260,310,Delphi DCM3.7,mercedes-benz-a-klasa-w176-a180-cdi-1-5
+Mercedes-Benz,A-Klasa,W176,2012,2018,A200 CDI 1.8,100,136,125,170,300,360,Bosch EDC17CP46,mercedes-benz-a-klasa-w176-a200-cdi-1-8
+Mercedes-Benz,A-Klasa,W176,2012,2018,A220 CDI 2.1,125,170,155,211,350,420,Bosch EDC17CP46,mercedes-benz-a-klasa-w176-a220-cdi-2-1
+Mercedes-Benz,B-Klasa,W246,2011,2018,B180 CDI,80,109,100,136,250,300,Delphi DCM3.7,mercedes-benz-b-klasa-w246-b180-cdi
+Mercedes-Benz,B-Klasa,W246,2011,2018,B200 CDI,100,136,125,170,300,360,Bosch EDC17CP46,mercedes-benz-b-klasa-w246-b200-cdi
+Mercedes-Benz,C-Klasa,W204,2007,2014,C200 CDI,100,136,125,170,360,420,Bosch EDC17CP10,mercedes-benz-c-klasa-w204-c200-cdi
+Mercedes-Benz,C-Klasa,W204,2007,2014,C220 CDI,125,170,155,210,400,470,Bosch EDC17CP10,mercedes-benz-c-klasa-w204-c220-cdi
+Mercedes-Benz,C-Klasa,W204,2009,2014,C250 CDI,150,204,180,245,500,580,Bosch EDC17CP10,mercedes-benz-c-klasa-w204-c250-cdi
+Mercedes-Benz,C-Klasa,W205,2014,2021,C200d 1.6,100,136,120,163,300,360,Bosch EDC17CP46,mercedes-benz-c-klasa-w205-c200d-1-6
 Mercedes-Benz,C-Klasa,W205,2014,2021,C220d 2.0,125,170,165,224,400,470,Bosch EDC17CP46,mercedes-benz-c-klasa-w205-c220d-2-0
+Mercedes-Benz,C-Klasa,W205,2014,2021,C250d 2.0,150,204,180,245,500,560,Bosch EDC17CP46,mercedes-benz-c-klasa-w205-c250d-2-0
+Mercedes-Benz,C-Klasa,W205,2016,2021,C300d 2.0,180,245,210,286,500,580,Bosch EDC17CP57,mercedes-benz-c-klasa-w205-c300d-2-0
+Mercedes-Benz,E-Klasa,W211,2002,2009,E220 CDI,125,170,155,211,400,470,Bosch EDC16C31,mercedes-benz-e-klasa-w211-e220-cdi
+Mercedes-Benz,E-Klasa,W211,2005,2009,E280 CDI,140,190,175,238,440,510,Bosch EDC16CP31,mercedes-benz-e-klasa-w211-e280-cdi
+Mercedes-Benz,E-Klasa,W211,2005,2009,E320 CDI,165,224,200,272,510,590,Bosch EDC16CP31,mercedes-benz-e-klasa-w211-e320-cdi
+Mercedes-Benz,E-Klasa,W212,2009,2016,E200 CDI,100,136,125,170,360,420,Bosch EDC17CP10,mercedes-benz-e-klasa-w212-e200-cdi
+Mercedes-Benz,E-Klasa,W212,2009,2016,E220 CDI,125,170,155,211,400,470,Bosch EDC17CP10,mercedes-benz-e-klasa-w212-e220-cdi
+Mercedes-Benz,E-Klasa,W212,2009,2016,E250 CDI,150,204,180,245,500,580,Bosch EDC17CP10,mercedes-benz-e-klasa-w212-e250-cdi
+Mercedes-Benz,E-Klasa,W212,2009,2016,E350 CDI,195,265,235,320,620,720,Bosch EDC17CP10,mercedes-benz-e-klasa-w212-e350-cdi
+Mercedes-Benz,E-Klasa,W213,2016,2023,E220d 2.0,143,194,175,238,400,460,Bosch EDC17CP57,mercedes-benz-e-klasa-w213-e220d-2-0
+Mercedes-Benz,E-Klasa,W213,2016,2023,E350d 3.0,190,258,230,313,620,720,Bosch EDC17CP57,mercedes-benz-e-klasa-w213-e350d-3-0
+Mercedes-Benz,ML,W164,2005,2011,ML280 CDI,140,190,175,238,440,510,Bosch EDC16CP31,mercedes-benz-ml-w164-ml280-cdi
+Mercedes-Benz,ML,W164,2005,2011,ML320 CDI,165,224,200,272,510,590,Bosch EDC16CP31,mercedes-benz-ml-w164-ml320-cdi
+Mercedes-Benz,ML,W166,2011,2015,ML250 BlueTEC,150,204,180,245,500,580,Bosch EDC17CP46,mercedes-benz-ml-w166-ml250-bluetec
+Mercedes-Benz,ML,W166,2011,2015,ML350 BlueTEC,190,258,230,313,620,720,Bosch EDC17CP10,mercedes-benz-ml-w166-ml350-bluetec
+Mercedes-Benz,GLE,W166,2015,2019,GLE350d,190,258,230,313,620,720,Bosch EDC17CP57,mercedes-benz-gle-w166-gle350d
+Mercedes-Benz,GLC,X253,2015,2022,GLC220d,125,170,155,211,400,460,Bosch EDC17CP46,mercedes-benz-glc-x253-glc220d
+Mercedes-Benz,GLC,X253,2015,2022,GLC250d,150,204,180,245,500,560,Bosch EDC17CP46,mercedes-benz-glc-x253-glc250d
+Mercedes-Benz,GLK,X204,2008,2015,GLK220 CDI,125,170,155,211,400,470,Bosch EDC17CP46,mercedes-benz-glk-x204-glk220-cdi
+Mercedes-Benz,GLK,X204,2008,2015,GLK320 CDI,165,224,200,272,540,620,Bosch EDC17CP10,mercedes-benz-glk-x204-glk320-cdi
+Mercedes-Benz,Vito,W639,2003,2014,111 CDI,85,116,110,150,290,340,Bosch EDC16CP31,mercedes-benz-vito-w639-111-cdi
+Mercedes-Benz,Vito,W639,2003,2014,115 CDI,110,150,135,184,330,380,Bosch EDC16CP31,mercedes-benz-vito-w639-115-cdi
+Mercedes-Benz,Vito,W447,2014,2023,116 CDI,120,163,145,197,380,440,Bosch EDC17CP57,mercedes-benz-vito-w447-116-cdi
+Mercedes-Benz,Sprinter,W906,2006,2018,313 CDI,95,129,120,163,305,360,Bosch EDC17CP10,mercedes-benz-sprinter-w906-313-cdi
+Mercedes-Benz,Sprinter,W906,2009,2018,316 CDI,120,163,145,197,360,420,Bosch EDC17CP10,mercedes-benz-sprinter-w906-316-cdi
+Opel,Astra,H,2004,2010,1.7 CDTI,74,100,90,122,240,290,Bosch EDC16C39,opel-astra-h-1-7-cdti
+Opel,Astra,H,2004,2010,1.9 CDTI 120,88,120,110,150,280,330,Bosch EDC16C39,opel-astra-h-1-9-cdti-120
+Opel,Astra,H,2004,2010,1.9 CDTI 150,110,150,135,184,320,380,Bosch EDC16C39,opel-astra-h-1-9-cdti-150
+Opel,Astra,J,2009,2015,1.7 CDTI,81,110,100,136,280,320,Bosch EDC17C18,opel-astra-j-1-7-cdti
+Opel,Astra,J,2009,2015,2.0 CDTI 160,118,160,145,197,350,410,Bosch EDC17CP47,opel-astra-j-2-0-cdti-160
+Opel,Astra,K,2015,2021,1.6 CDTI,100,136,125,170,320,380,Bosch EDC17C68,opel-astra-k-1-6-cdti
+Opel,Insignia,A,2008,2017,2.0 CDTI 130,96,130,120,163,300,360,Bosch EDC17CP47,opel-insignia-a-2-0-cdti-130
+Opel,Insignia,A,2008,2017,2.0 CDTI 160,118,160,145,197,350,410,Bosch EDC17CP47,opel-insignia-a-2-0-cdti-160
+Opel,Insignia,A,2012,2017,2.0 BiTurbo CDTI,143,195,170,231,400,460,Bosch EDC17CP47,opel-insignia-a-2-0-biturbo-cdti
+Opel,Insignia,B,2017,2022,2.0 CDTI 170,125,170,155,211,400,460,Bosch EDC17C68,opel-insignia-b-2-0-cdti-170
+Opel,Vectra,C,2004,2008,1.9 CDTI 150,110,150,135,184,320,380,Bosch EDC16C39,opel-vectra-c-1-9-cdti-150
+Opel,Zafira,B,2005,2014,1.9 CDTI 150,110,150,135,184,320,380,Bosch EDC16C39,opel-zafira-b-1-9-cdti-150
+Opel,Vivaro,B,2014,2019,1.6 CDTI BiTurbo,107,145,130,177,340,400,Delphi DCM6.2,opel-vivaro-b-1-6-cdti-biturbo
+Opel,Movano,B,2010,2021,2.3 CDTI 125,92,125,115,156,310,360,Bosch EDC17C49,opel-movano-b-2-3-cdti-125
+Renault,Megane,III,2008,2016,1.5 dCi 110,81,110,100,136,240,290,Delphi DCM3.5,renault-megane-iii-1-5-dci-110
+Renault,Megane,III,2008,2016,1.9 dCi,96,130,115,156,300,350,Bosch EDC16CP33,renault-megane-iii-1-9-dci
+Renault,Megane,III,2008,2016,2.0 dCi,118,160,140,190,380,440,Continental SID301,renault-megane-iii-2-0-dci
+Renault,Megane,IV,2016,2022,1.5 dCi 110,81,110,100,136,250,300,Continental SID310,renault-megane-iv-1-5-dci-110
+Renault,Megane,IV,2016,2022,1.6 dCi 130,96,130,120,163,320,380,Continental SID310,renault-megane-iv-1-6-dci-130
+Renault,Laguna,III,2007,2015,2.0 dCi 150,110,150,135,184,340,400,Continental SID301,renault-laguna-iii-2-0-dci-150
+Renault,Laguna,III,2007,2015,2.0 dCi 175,127,173,150,204,360,420,Continental SID301,renault-laguna-iii-2-0-dci-175
+Renault,Scenic,III,2009,2016,1.5 dCi,81,110,100,136,240,290,Delphi DCM3.5,renault-scenic-iii-1-5-dci
+Renault,Trafic,II,2006,2014,2.0 dCi,84,114,105,143,290,340,Bosch EDC16CP33,renault-trafic-ii-2-0-dci
+Renault,Master,III,2010,2023,2.3 dCi 125,92,125,115,156,310,360,Continental SID305,renault-master-iii-2-3-dci-125
+Renault,Master,III,2014,2023,2.3 dCi 150,110,150,130,177,350,410,Continental SID305,renault-master-iii-2-3-dci-150
+Peugeot,207,I,2006,2014,1.6 HDi 90,66,90,85,116,215,260,Bosch EDC16C34,peugeot-207-i-1-6-hdi-90
+Peugeot,208,I,2012,2019,1.6 HDi 92,68,92,85,116,230,270,Bosch EDC17C10,peugeot-208-i-1-6-hdi-92
+Peugeot,308,I,2007,2013,1.6 HDi 110,80,110,98,133,240,290,Bosch EDC16C34,peugeot-308-i-1-6-hdi-110
+Peugeot,308,I,2007,2013,2.0 HDi 140,100,136,125,170,320,380,Bosch EDC16C34,peugeot-308-i-2-0-hdi-140
+Peugeot,308,II,2013,2021,1.6 BlueHDi 120,88,120,110,150,300,350,Continental SID208,peugeot-308-ii-1-6-bluehdi-120
+Peugeot,308,II,2013,2021,2.0 BlueHDi 150,110,150,135,184,370,420,Continental SID208,peugeot-308-ii-2-0-bluehdi-150
+Peugeot,407,I,2004,2010,2.0 HDi,100,136,125,170,320,380,Bosch EDC16C34,peugeot-407-i-2-0-hdi
+Peugeot,407,I,2005,2010,2.7 HDi V6,150,204,180,245,440,510,Bosch EDC16CP39,peugeot-407-i-2-7-hdi-v6
+Peugeot,508,I,2010,2018,2.0 HDi 140,103,140,125,170,320,380,Bosch EDC17CP42,peugeot-508-i-2-0-hdi-140
+Peugeot,508,I,2010,2018,2.0 HDi 163,120,163,140,190,340,400,Bosch EDC17CP42,peugeot-508-i-2-0-hdi-163
+Peugeot,3008,I,2009,2016,1.6 HDi,80,110,98,133,240,290,Bosch EDC16C34,peugeot-3008-i-1-6-hdi
+Peugeot,3008,II,2016,2023,2.0 BlueHDi 150,110,150,135,184,370,420,Continental SID208,peugeot-3008-ii-2-0-bluehdi-150
+Peugeot,5008,II,2017,2023,2.0 BlueHDi 180,130,177,155,211,400,460,Continental SID208,peugeot-5008-ii-2-0-bluehdi-180
+Citroen,C3,II,2009,2016,1.6 HDi 90,66,90,85,116,215,260,Bosch EDC16C34,citroen-c3-ii-1-6-hdi-90
+Citroen,C4,II,2010,2018,1.6 HDi 110,82,112,100,136,270,320,Bosch EDC16C34,citroen-c4-ii-1-6-hdi-110
+Citroen,C4,II,2010,2018,2.0 HDi 150,110,150,135,184,370,420,Continental SID208,citroen-c4-ii-2-0-hdi-150
+Citroen,C5,II,2008,2017,2.0 HDi 140,103,140,125,170,320,380,Bosch EDC17CP42,citroen-c5-ii-2-0-hdi-140
+Citroen,C5,II,2008,2017,2.7 HDi,150,204,180,245,440,510,Bosch EDC16CP39,citroen-c5-ii-2-7-hdi
+Citroen,C5,II,2009,2017,3.0 HDi,177,240,210,286,450,530,Bosch EDC17CP42,citroen-c5-ii-3-0-hdi
+Citroen,Berlingo,II,2008,2018,1.6 HDi 90,66,90,85,116,215,260,Bosch EDC16C34,citroen-berlingo-ii-1-6-hdi-90
+Citroen,Jumpy,II,2007,2016,2.0 HDi 120,88,120,110,150,300,350,Bosch EDC16C34,citroen-jumpy-ii-2-0-hdi-120
+Citroen,Jumper,III,2006,2014,2.2 HDi 150,110,150,135,184,350,410,Bosch EDC16C39,citroen-jumper-iii-2-2-hdi-150
+Toyota,Auris,II,2012,2018,2.0 D-4D,93,126,115,156,310,360,Denso 89663,toyota-auris-ii-2-0-d-4d
+Toyota,Avensis,T27,2009,2018,2.0 D-4D,93,126,115,156,310,360,Denso 89663,toyota-avensis-t27-2-0-d-4d
+Toyota,Avensis,T27,2009,2018,2.2 D-4D,110,150,135,184,340,400,Denso 89663,toyota-avensis-t27-2-2-d-4d
+Toyota,RAV4,IV,2013,2018,2.2 D-4D,110,150,135,184,340,400,Denso 89663,toyota-rav4-iv-2-2-d-4d
+Toyota,Hilux,AN30,2005,2015,2.5 D-4D,106,144,130,177,343,400,Denso 89663,toyota-hilux-an30-2-5-d-4d
+Toyota,Hilux,AN30,2005,2015,3.0 D-4D,126,171,150,204,360,420,Denso 89663,toyota-hilux-an30-3-0-d-4d
+Toyota,Land Cruiser,J150,2009,2017,3.0 D-4D,140,190,165,224,420,480,Denso 89663,toyota-land-cruiser-j150-3-0-d-4d
+Toyota,Land Cruiser,J200,2008,2015,4.5 D-4D V8,195,265,225,306,650,750,Denso 89663,toyota-land-cruiser-j200-4-5-d-4d-v8
+Nissan,Qashqai,J10,2007,2013,1.5 dCi,78,106,95,129,240,290,Delphi DCM3.5,nissan-qashqai-j10-1-5-dci
+Nissan,Qashqai,J10,2007,2013,2.0 dCi,110,150,135,184,320,380,Continental SID301,nissan-qashqai-j10-2-0-dci
+Nissan,Qashqai,J11,2014,2021,1.6 dCi,96,130,120,163,320,380,Continental SID310,nissan-qashqai-j11-1-6-dci
+Nissan,X-Trail,T31,2007,2014,2.0 dCi,110,150,135,184,320,380,Continental SID301,nissan-x-trail-t31-2-0-dci
+Nissan,X-Trail,T32,2014,2022,1.6 dCi,96,130,120,163,320,380,Continental SID310,nissan-x-trail-t32-1-6-dci
+Nissan,Navara,D40,2005,2015,2.5 dCi,140,190,165,224,450,510,Bosch EDC16CP33,nissan-navara-d40-2-5-dci
+Nissan,Navara,D40,2005,2010,3.0 dCi V6,170,231,200,272,550,630,Bosch EDC17CP44,nissan-navara-d40-3-0-dci-v6
+Nissan,Pathfinder,R51,2005,2014,2.5 dCi,140,190,165,224,450,510,Bosch EDC16CP33,nissan-pathfinder-r51-2-5-dci
+Hyundai,i30,II,2012,2017,1.6 CRDi,94,128,115,156,260,310,Bosch EDC17C57,hyundai-i30-ii-1-6-crdi
+Hyundai,i30,III,2017,2022,1.6 CRDi 136,100,136,120,163,280,330,Bosch EDC17C57,hyundai-i30-iii-1-6-crdi-136
+Hyundai,ix35,I,2010,2015,1.7 CRDi,85,116,105,143,260,310,Bosch EDC17C57,hyundai-ix35-i-1-7-crdi
+Hyundai,ix35,I,2010,2015,2.0 CRDi,100,136,125,170,320,380,Bosch EDC17C57,hyundai-ix35-i-2-0-crdi
+Hyundai,Tucson,III,2015,2020,1.7 CRDi,85,116,105,143,280,330,Bosch EDC17C57,hyundai-tucson-iii-1-7-crdi
+Hyundai,Tucson,III,2015,2020,2.0 CRDi,100,136,125,170,320,380,Bosch EDC17C57,hyundai-tucson-iii-2-0-crdi
+Hyundai,Santa Fe,DM,2012,2018,2.2 CRDi,145,197,175,238,437,510,Bosch EDC17C08,hyundai-santa-fe-dm-2-2-crdi
+Kia,Ceed,JD,2012,2018,1.6 CRDi,94,128,115,156,260,310,Bosch EDC17C57,kia-ceed-jd-1-6-crdi
+Kia,Ceed,CD,2018,2023,1.6 CRDi 136,100,136,120,163,280,330,Bosch EDC17C57,kia-ceed-cd-1-6-crdi-136
+Kia,Sportage,III,2010,2015,1.7 CRDi,85,116,105,143,260,310,Bosch EDC17C57,kia-sportage-iii-1-7-crdi
+Kia,Sportage,III,2010,2015,2.0 CRDi,100,136,125,170,320,380,Bosch EDC17C57,kia-sportage-iii-2-0-crdi
+Kia,Sportage,IV,2015,2021,1.7 CRDi,85,116,105,143,280,330,Bosch EDC17C57,kia-sportage-iv-1-7-crdi
+Kia,Sportage,IV,2015,2021,2.0 CRDi,136,185,160,218,400,460,Bosch EDC17C57,kia-sportage-iv-2-0-crdi
+Kia,Sorento,XM,2009,2014,2.2 CRDi,145,197,175,238,437,510,Bosch EDC17C08,kia-sorento-xm-2-2-crdi
+Volvo,V40,II,2012,2019,D2 1.6,84,115,105,143,270,320,Delphi DCM3.7,volvo-v40-ii-d2-1-6
+Volvo,V40,II,2012,2019,D3 2.0,110,150,135,184,350,410,Bosch EDC17CP22,volvo-v40-ii-d3-2-0
+Volvo,V40,II,2012,2019,D4 2.0,130,177,160,218,400,470,Bosch EDC17CP22,volvo-v40-ii-d4-2-0
+Volvo,V60,I,2010,2018,D3 2.0,100,136,125,170,350,410,Bosch EDC17CP22,volvo-v60-i-d3-2-0
+Volvo,V60,I,2010,2018,D5 2.4,158,215,190,258,440,510,Continental SID807,volvo-v60-i-d5-2-4
+Volvo,XC60,I,2008,2017,D4 2.0,133,181,160,218,400,470,Bosch EDC17CP22,volvo-xc60-i-d4-2-0
+Volvo,XC60,I,2008,2017,D5 2.4,158,215,190,258,440,510,Continental SID807,volvo-xc60-i-d5-2-4
+Volvo,XC60,II,2017,2023,D4 2.0,140,190,170,231,400,460,Bosch EDC17C84,volvo-xc60-ii-d4-2-0
+Volvo,XC90,I,2002,2014,D5 2.4,147,200,175,238,420,490,Continental SID807,volvo-xc90-i-d5-2-4
+Volvo,XC90,II,2014,2022,D5 2.0,173,235,205,279,480,540,Bosch EDC17C84,volvo-xc90-ii-d5-2-0
+Volvo,S60,II,2010,2018,D5 2.4,158,215,190,258,440,510,Continental SID807,volvo-s60-ii-d5-2-4
+Mazda,3,II,2008,2013,1.6 MZR-CD,80,109,100,136,240,290,Bosch EDC16C3,mazda-3-ii-1-6-mzr-cd
+Mazda,3,III,2013,2019,2.2 SkyActiv-D,110,150,135,184,380,440,Denso 89663,mazda-3-iii-2-2-skyactiv-d
+Mazda,6,III,2012,2018,2.2 SkyActiv-D 150,110,150,135,184,380,440,Denso 89663,mazda-6-iii-2-2-skyactiv-d-150
+Mazda,6,III,2012,2018,2.2 SkyActiv-D 175,129,175,155,211,420,480,Denso 89663,mazda-6-iii-2-2-skyactiv-d-175
+Mazda,CX-5,I,2012,2017,2.2 SkyActiv-D 150,110,150,135,184,380,440,Denso 89663,mazda-cx-5-i-2-2-skyactiv-d-150
+Mazda,CX-5,I,2012,2017,2.2 SkyActiv-D 175,129,175,155,211,420,480,Denso 89663,mazda-cx-5-i-2-2-skyactiv-d-175
+Honda,Civic,VIII,2006,2011,2.2 i-CTDi,103,140,125,170,340,400,Bosch EDC17C58,honda-civic-viii-2-2-i-ctdi
+Honda,Civic,IX,2012,2017,1.6 i-DTEC,88,120,110,150,300,350,Bosch EDC17C58,honda-civic-ix-1-6-i-dtec
+Honda,Civic,IX,2012,2017,2.2 i-DTEC,110,150,130,177,350,410,Bosch EDC17C58,honda-civic-ix-2-2-i-dtec
+Honda,CR-V,III,2007,2012,2.2 i-CTDi,103,140,125,170,340,400,Bosch EDC17C58,honda-cr-v-iii-2-2-i-ctdi
+Honda,CR-V,IV,2012,2018,1.6 i-DTEC,88,120,110,150,300,350,Bosch EDC17C58,honda-cr-v-iv-1-6-i-dtec
+Honda,CR-V,IV,2012,2018,2.2 i-DTEC,110,150,130,177,350,410,Bosch EDC17C58,honda-cr-v-iv-2-2-i-dtec
+Honda,Accord,VIII,2008,2015,2.2 i-DTEC,110,150,130,177,350,410,Bosch EDC17C58,honda-accord-viii-2-2-i-dtec
+Land Rover,Discovery,III,2004,2009,2.7 TDV6,140,190,170,231,440,510,Bosch EDC16CP39,land-rover-discovery-iii-2-7-tdv6
+Land Rover,Discovery,IV,2009,2016,3.0 TDV6,188,256,225,306,600,700,Bosch EDC17CP11,land-rover-discovery-iv-3-0-tdv6
+Land Rover,Range Rover Sport,L320,2005,2013,3.0 TDV6,180,245,215,293,600,700,Bosch EDC17CP11,land-rover-range-rover-sport-l320-3-0-tdv6
+Land Rover,Range Rover Sport,L494,2013,2022,3.0 SDV6,225,306,265,360,700,800,Bosch EDC17CP55,land-rover-range-rover-sport-l494-3-0-sdv6
+Land Rover,Freelander,II,2006,2014,2.2 TD4,110,150,135,184,400,460,Bosch EDC17CP42,land-rover-freelander-ii-2-2-td4
+Land Rover,Freelander,II,2010,2014,2.2 SD4,140,190,165,224,420,480,Bosch EDC17CP42,land-rover-freelander-ii-2-2-sd4
+Land Rover,Defender,L316,2007,2016,2.4 TD4,90,122,110,150,360,420,Bosch EDC16C34,land-rover-defender-l316-2-4-td4
+Jaguar,XF,X250,2008,2015,2.7 TDV6,152,207,180,245,435,510,Bosch EDC16CP39,jaguar-xf-x250-2-7-tdv6
+Jaguar,XF,X250,2009,2015,3.0 TDV6,177,240,215,292,500,580,Bosch EDC17CP11,jaguar-xf-x250-3-0-tdv6
+Jaguar,XF,X260,2015,2023,2.0 D 180,132,180,160,218,430,490,Bosch EDC17CP55,jaguar-xf-x260-2-0-d-180
+Jaguar,XJ,X351,2009,2019,3.0 TDV6,202,275,240,326,600,700,Bosch EDC17CP11,jaguar-xj-x351-3-0-tdv6
+Jaguar,F-Pace,X761,2016,2023,2.0 D 180,132,180,160,218,430,490,Bosch EDC17CP55,jaguar-f-pace-x761-2-0-d-180
+Alfa Romeo,159,I,2005,2011,1.9 JTDM 150,110,150,135,184,320,380,Bosch EDC16C39,alfa-romeo-159-i-1-9-jtdm-150
+Alfa Romeo,159,I,2005,2011,2.0 JTDM 170,125,170,150,204,360,420,Bosch EDC17C49,alfa-romeo-159-i-2-0-jtdm-170
+Alfa Romeo,159,I,2007,2011,2.4 JTDM 200,147,200,175,238,400,470,Bosch EDC16CP39,alfa-romeo-159-i-2-4-jtdm-200
+Alfa Romeo,Giulietta,I,2010,2020,2.0 JTDM 140,103,140,125,170,350,410,Bosch EDC17C49,alfa-romeo-giulietta-i-2-0-jtdm-140
+Alfa Romeo,Giulietta,I,2010,2020,2.0 JTDM 170,125,170,150,204,360,420,Bosch EDC17C49,alfa-romeo-giulietta-i-2-0-jtdm-170
+Alfa Romeo,Giulia,I,2016,2023,2.2 JTDM 180,132,180,160,218,450,510,Bosch EDC17C69,alfa-romeo-giulia-i-2-2-jtdm-180
+Alfa Romeo,Giulia,I,2016,2023,2.2 JTDM 210,154,210,185,252,470,530,Bosch EDC17C69,alfa-romeo-giulia-i-2-2-jtdm-210
+Alfa Romeo,Stelvio,I,2017,2023,2.2 JTDM 210,154,210,185,252,470,530,Bosch EDC17C69,alfa-romeo-stelvio-i-2-2-jtdm-210
+Fiat,Punto,III,2005,2018,1.3 MultiJet,55,75,70,95,190,230,Bosch EDC16C39,fiat-punto-iii-1-3-multijet
+Fiat,Bravo,II,2007,2014,1.6 MultiJet,88,120,110,150,300,350,Bosch EDC17C49,fiat-bravo-ii-1-6-multijet
+Fiat,Bravo,II,2007,2014,2.0 MultiJet,121,165,145,197,360,420,Bosch EDC17C49,fiat-bravo-ii-2-0-multijet
+Fiat,Doblo,II,2010,2022,1.6 MultiJet,77,105,95,129,290,340,Bosch EDC17C49,fiat-doblo-ii-1-6-multijet
+Fiat,Ducato,III,2006,2014,2.3 MultiJet 130,96,130,120,163,320,380,Bosch EDC17C49,fiat-ducato-iii-2-3-multijet-130
+Fiat,Ducato,III,2014,2021,2.3 MultiJet 150,109,148,135,184,350,410,Bosch EDC17C49,fiat-ducato-iii-2-3-multijet-150
+Fiat,Ducato,III,2011,2018,3.0 MultiJet 180,130,177,155,211,400,460,Bosch EDC17C49,fiat-ducato-iii-3-0-multijet-180
+Mitsubishi,Outlander,II,2007,2012,2.0 DI-D,103,140,125,170,310,360,Bosch EDC16U31,mitsubishi-outlander-ii-2-0-di-d
+Mitsubishi,Outlander,II,2010,2012,2.2 DI-D,115,156,140,190,380,440,Bosch EDC17CP42,mitsubishi-outlander-ii-2-2-di-d
+Mitsubishi,Outlander,III,2012,2021,2.2 DI-D,110,150,135,184,380,440,Bosch EDC17CP42,mitsubishi-outlander-iii-2-2-di-d
+Mitsubishi,ASX,I,2010,2019,1.8 DI-D,110,150,135,184,300,350,Bosch EDC17C58,mitsubishi-asx-i-1-8-di-d
+Mitsubishi,L200,IV,2006,2015,2.5 DI-D 178,131,178,155,211,400,460,Bosch EDC16CP41,mitsubishi-l200-iv-2-5-di-d-178
+Mitsubishi,Pajero,IV,2006,2018,3.2 DI-D,147,200,175,238,441,510,Bosch EDC16CP41,mitsubishi-pajero-iv-3-2-di-d
+Subaru,Forester,III,2008,2013,2.0 D,108,147,130,177,350,410,Denso 89663,subaru-forester-iii-2-0-d
+Subaru,Outback,IV,2009,2014,2.0 D,110,150,130,177,350,410,Denso 89663,subaru-outback-iv-2-0-d
+Porsche,Cayenne,I,2009,2010,3.0 TDI,176,240,215,293,550,650,Bosch EDC17CP24,porsche-cayenne-i-3-0-tdi
+Porsche,Cayenne,II,2010,2017,3.0 TDI,180,245,220,300,550,650,Bosch EDC17CP44,porsche-cayenne-ii-3-0-tdi
+Porsche,Cayenne,II,2012,2017,4.2 TDI S,283,385,325,442,850,950,Bosch EDC17CP04,porsche-cayenne-ii-4-2-tdi-s
+Porsche,Macan,I,2014,2018,3.0 TDI S,190,258,225,306,580,680,Bosch EDC17CP44,porsche-macan-i-3-0-tdi-s
+Porsche,Panamera,I,2011,2016,3.0 V6 Diesel,184,250,220,300,550,650,Bosch EDC17CP44,porsche-panamera-i-3-0-v6-diesel
+Dacia,Duster,I,2010,2017,1.5 dCi 110,80,109,100,136,240,290,Delphi DCM3.5,dacia-duster-i-1-5-dci-110
+Dacia,Sandero,II,2012,2020,1.5 dCi 90,66,90,85,116,220,270,Delphi DCM3.5,dacia-sandero-ii-1-5-dci-90
+Dacia,Logan,II,2012,2020,1.5 dCi 90,66,90,85,116,220,270,Delphi DCM3.5,dacia-logan-ii-1-5-dci-90
+Suzuki,Vitara,II,2015,2022,1.6 DDiS,88,120,110,150,320,380,Bosch EDC17C49,suzuki-vitara-ii-1-6-ddis
+Suzuki,SX4 S-Cross,I,2013,2021,1.6 DDiS,88,120,110,150,320,380,Bosch EDC17C49,suzuki-sx4-s-cross-i-1-6-ddis
+Iveco,Daily,IV,2006,2011,2.3 HPI,85,116,105,143,270,320,Bosch EDC17C49,iveco-daily-iv-2-3-hpi
+Iveco,Daily,V,2011,2014,3.0 HPI,125,170,150,204,400,460,Bosch EDC17C49,iveco-daily-v-3-0-hpi
