@@ -215,21 +215,8 @@ p { margin: 0 0 1em; }
 .hero-home .lead { margin: 1.25rem auto 2rem; }
 .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 .hero-page { padding: 3.5rem 0 2rem; }
-/* Subpage hero: anchor the orange glow + vignette behind the left-aligned
-   title. The container is centered at max-width 1200px, so
-   calc(50% - 360px) tracks roughly the left third of the container; max()
-   clamps it on narrow viewports. */
-.hero-page::before {
-  background-image:
-    radial-gradient(ellipse 38% 70% at max(20%, calc(50% - 360px)) 50%, rgba(255, 90, 31, 0.22), transparent 70%),
-    repeating-linear-gradient(45deg, #14181d 0 6px, #1a1f25 6px 12px),
-    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.025) 0 6px, transparent 6px 12px);
-}
-.hero-page::after {
-  background: radial-gradient(ellipse 80% 75% at max(20%, calc(50% - 360px)) 50%, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
-}
 .hero > .container { position: relative; z-index: 1; }
-.hero::before {
+.hero-home::before {
   content: "";
   position: absolute; inset: 0;
   background-color: #101317;
@@ -241,7 +228,7 @@ p { margin: 0 0 1em; }
   z-index: 0;
   pointer-events: none;
 }
-.hero::after {
+.hero-home::after {
   content: "";
   position: absolute; inset: 0;
   background: radial-gradient(ellipse 80% 75% at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
@@ -511,10 +498,6 @@ p { margin: 0 0 1em; }
 .footer-grid a { color: var(--text-muted); transition: color 0.15s var(--ease-out); }
 .footer-grid a:hover { color: var(--accent); }
 .footer-grid p { color: var(--text-muted); margin: 0; }
-.footer-kontakt { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 0.85rem; flex-wrap: nowrap; padding-top: 1.25rem; border-top: 1px solid var(--border); white-space: nowrap; overflow-x: auto; }
-.footer-kontakt h4 { margin: 0; flex: 0 0 auto; }
-.footer-kontakt p { flex: 1 1 auto; }
-@media (max-width: 800px) { .footer-kontakt { white-space: normal; overflow-x: visible; flex-wrap: wrap; } }
 .logo-footer { margin-bottom: 1rem; }
 .footer-bottom {
   border-top: 1px solid var(--border); padding-top: 1.25rem;
@@ -741,7 +724,7 @@ body.nav-open { overflow: hidden; }
 
   /* Hero — calmer, centered, full-width CTAs */
   .hero { padding: 2.5rem 0 1.75rem; text-align: center; border-bottom: 1px solid var(--border); }
-  .hero::before {
+  .hero-home::before {
     background-image:
       radial-gradient(ellipse 80% 60% at 50% 25%, rgba(255, 90, 31, 0.16), transparent 70%),
       linear-gradient(180deg, #11151a 0%, #0e1216 100%);
@@ -750,11 +733,6 @@ body.nav-open { overflow: hidden; }
   .hero-home h1 { font-size: clamp(1.85rem, 7.5vw, 2.4rem); }
   .hero-home .lead { margin: 1rem auto 1.5rem; font-size: 1rem; padding: 0 0.25rem; }
   .hero-page { padding: 2rem 0 1rem; text-align: left; }
-  .hero-page::before {
-    background-image:
-      radial-gradient(ellipse 90% 65% at 18% 35%, rgba(255, 90, 31, 0.18), transparent 70%),
-      linear-gradient(180deg, #11151a 0%, #0e1216 100%);
-  }
   .hero-page h1 { font-size: clamp(1.6rem, 6.5vw, 2.1rem); }
   .hero-page .lead { font-size: 0.98rem; }
   .hero-cta { flex-direction: column; align-items: stretch; gap: 0.65rem; }
