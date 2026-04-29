@@ -30,4 +30,4 @@ Wykonujemy:
 
 Bez pomiaru obciążeniowego nie da się odpowiedzialnie modyfikować mapy silnika. Tylko praca pod realnym obciążeniem pozwala obserwować zachowanie sondy lambda, ciśnienie doładowania, temperaturę spalin i pozostałe parametry, które decydują o tym, czy modyfikacja jest bezpieczna w długiej eksploatacji – czy tylko ładnie wygląda na papierze.
 
-Umów termin telefonicznie lub przez [formularz kontaktowy](/kontakt.html).
+Umów termin telefonicznie lub przez [formularz kontaktowy](/kontakt).
