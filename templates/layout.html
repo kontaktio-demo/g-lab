@@ -17,6 +17,7 @@
 {{EXTRA_HEAD}}
 </head>
 <body>
+<a class="skip-link" href="#main-content">Przejdź do treści</a>
 <header class="site-header">
   <div class="container header-inner">
     <a class="logo" href="/">G-<span>Lab</span></a>
@@ -33,7 +34,7 @@
     </nav>
   </div>
 </header>
-<main>
+<main id="main-content">
 {{CONTENT}}
 </main>
 <footer class="site-footer">
@@ -60,12 +61,57 @@
       </ul>
     </div>
     <div>
+      <h4>Informacje prawne</h4>
+      <ul>
+        <li><a href="/polityka-prywatnosci.html">Polityka prywatności</a></li>
+        <li><a href="/regulamin.html">Regulamin serwisu</a></li>
+        <li><a href="#" id="cookieSettingsLink">Ustawienia cookies</a></li>
+      </ul>
+    </div>
+    <div>
       <h4>Kontakt</h4>
       <p>tel. +48 000 000 000<br>kontakt@g-lab.pl</p>
     </div>
   </div>
   <div class="container footer-bottom">© {{YEAR}} G-Lab Chip Tuning. Wszystkie prawa zastrzeżone.</div>
 </footer>
+
+<div id="cookieConsent" class="cookie-consent" role="dialog" aria-labelledby="cookieTitle" aria-modal="false" hidden>
+  <div class="cookie-inner">
+    <div class="cookie-icon" aria-hidden="true">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.6 12c.3 0 .5.2.4.5A9 9 0 1 1 11.5 2.1c.3 0 .5.2.5.5a3 3 0 0 0 3.5 3.5c.3 0 .5.2.5.5a3 3 0 0 0 3.5 3.5c.3 0 .5.2.5.5a3 3 0 0 0 1.6 1.4Z"/><circle cx="8.5" cy="9.5" r=".8"/><circle cx="14" cy="14.5" r=".8"/><circle cx="9" cy="15" r=".8"/></svg>
+    </div>
+    <div class="cookie-text">
+      <strong id="cookieTitle">Używamy plików cookies</strong>
+      <p>Ta strona używa plików cookie w&nbsp;celu zapewnienia najlepszej jakości usług. Możesz zaakceptować wszystkie, odmówić lub wybrać, które cookies akceptujesz. Szczegóły w&nbsp;<a href="/polityka-prywatnosci.html">polityce prywatności</a>.</p>
+    </div>
+    <div class="cookie-actions">
+      <button type="button" id="cookieCustomize" class="cookie-btn cookie-btn-ghost">Dostosuj</button>
+      <button type="button" id="cookieReject" class="cookie-btn cookie-btn-outline">Odmów</button>
+      <button type="button" id="cookieAccept" class="cookie-btn cookie-btn-primary">Akceptuj wszystkie</button>
+    </div>
+  </div>
+  <div id="cookieCustomPanel" class="cookie-custom-panel" hidden>
+    <div class="cookie-checks">
+      <label class="cookie-check">
+        <input type="checkbox" checked disabled>
+        <span><strong>Niezbędne</strong> – wymagane do działania strony</span>
+      </label>
+      <label class="cookie-check">
+        <input type="checkbox" id="cookieAnalytics">
+        <span><strong>Analityczne</strong> – pomagają nam ulepszać stronę</span>
+      </label>
+      <label class="cookie-check">
+        <input type="checkbox" id="cookieMarketing">
+        <span><strong>Marketingowe</strong> – spersonalizowane treści i&nbsp;reklamy</span>
+      </label>
+    </div>
+    <div class="cookie-actions cookie-actions-panel">
+      <button type="button" id="cookieSave" class="cookie-btn cookie-btn-primary">Zapisz preferencje</button>
+    </div>
+  </div>
+</div>
+
 <script src="/js/main.js" defer></script>
 {{EXTRA_SCRIPTS}}
 </body>
