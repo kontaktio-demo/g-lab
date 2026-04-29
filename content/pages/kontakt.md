@@ -6,13 +6,13 @@ slug: "kontakt"
 
 ## UMÓW WIZYTĘ U SPECJALISTÓW G-LAB
 
-Zapraszamy do naszego warsztatu - miejsca, w którym Twój silnik trafia w ręce ludzi traktujących chiptuning jako rzemiosło, a nie sprzedaż gotowych plików. Oddzwaniamy szybko, terminy realizacji są krótkie, a każdą wizytę planujemy tak, abyś jak najmniej czasu spędził z dala od swojego auta.
+Zapraszamy do naszego warsztatu przy Rokicińskiej 266 w Łodzi - miejsca, w którym Twój silnik trafia w ręce ludzi traktujących chiptuning jako rzemiosło, a nie sprzedaż gotowych plików. Działamy od 2006 roku, oddzwaniamy szybko, terminy realizacji są krótkie, a każdą wizytę planujemy tak, abyś jak najmniej czasu spędził z dala od swojego auta.
 
 ## Dane kontaktowe
 
-- **Telefon:** +48 000 000 000
-- **E-mail:** kontakt@g-lab.pl
-- **Adres:** ul. Przykładowa 1, 00-000 Miasto
+- **Telefon:** [+48 508 146 945](tel:+48508146945)
+- **E-mail:** [kontakt@g-lab.pl](mailto:kontakt@g-lab.pl)
+- **Adres:** G-Lab Diesel Tuning, Rokicińska 266, 92-620 Łódź
 
 ## Godziny otwarcia
 

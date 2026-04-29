@@ -164,20 +164,7 @@ p { margin: 0 0 1em; }
 .hero-home {
   padding: 6rem 0 5rem;
   text-align: center;
-  background: linear-gradient(180deg, #0b0e12 0%, var(--bg) 100%);
-}
-.hero-home::before {
-  content: "";
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(180deg, rgba(10, 12, 15, 0.55) 0%, rgba(10, 12, 15, 0.35) 45%, rgba(14, 17, 22, 0.95) 100%),
-    url("https://github.com/user-attachments/assets/fa8918db-192a-4813-bc04-86872da8d8ec");
-  background-size: cover, cover;
-  background-position: center, center;
-  background-repeat: no-repeat;
-  filter: saturate(1.15) contrast(1.18) brightness(0.78);
-  z-index: 0;
-  pointer-events: none;
+  background-color: #101317;
 }
 .hero-home h1 { font-size: clamp(2.25rem, 5vw, 3.75rem); }
 .hero-home .lead { margin: 1.25rem auto 2rem; }
@@ -201,6 +188,29 @@ p { margin: 0 0 1em; }
   pointer-events: none;
   z-index: 0;
   will-change: transform;
+}
+.hero-home::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-color: #101317;
+  background-image:
+    radial-gradient(ellipse 55% 45% at 50% 30%, rgba(255, 90, 31, 0.18), transparent 70%),
+    repeating-linear-gradient(45deg, #14181d 0 6px, #1a1f25 6px 12px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.025) 0 6px, transparent 6px 12px);
+  background-blend-mode: normal, normal, overlay;
+  z-index: 0;
+  pointer-events: none;
+  transform: none;
+}
+.hero-home::after {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 75% at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
+  z-index: 0;
+  pointer-events: none;
+  transform: none;
+  height: auto;
 }
 
 .section { padding: 4rem 0; }

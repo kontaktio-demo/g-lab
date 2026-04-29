@@ -10,6 +10,16 @@ Każdą zmianę parametrów silnika weryfikujemy na hamowni - dzięki temu wiemy
 
 W G-Lab pomiar na hamowni jest nieodzownym elementem profesjonalnego chiptuningu. Pozwala odczytać parametry pracy silnika **pod obciążeniem**, a nie tylko na biegu jałowym - dzięki czemu modyfikacja zyskuje niezbędną optymalizację pod kątem stopnia wysterowania, ciśnienia doładowania i termiki kluczowych elementów.
 
+## Specyfikacja naszej hamowni
+
+Pracujemy na hamowni podwoziowej **VT2 / B1** - obciążeniowej, dwurolkowej, dostosowanej do precyzyjnych pomiarów i strojenia indywidualnego:
+
+- **Błąd pomiarowy:** 0,1%
+- **Częstotliwość próbkowania:** 3 000 punktów pomiarowych na sekundę
+- **Maksymalna prędkość pomiaru:** 300 km/h
+
+Była to pierwsza hamownia podwoziowa w Łodzi - korzystamy z niej od początku działalności G-Lab w 2006 roku.
+
 ## Po co pomiar na hamowni?
 
 Pomiar na hamowni to jedyny obiektywny sposób, aby sprawdzić **rzeczywiste** osiągi auta - nie tylko te deklarowane przez producenta. Bez niego chiptuning sprowadza się do "uczucia z fotela kierowcy", a to za mało, aby mówić o pracy wykonanej rzetelnie.
