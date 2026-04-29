@@ -499,6 +499,26 @@ p { margin: 0 0 1em; }
 .footer-grid a:hover { color: var(--accent); }
 .footer-grid p { color: var(--text-muted); margin: 0; }
 .logo-footer { margin-bottom: 1rem; }
+
+/* Footer collapsible sections — look like normal blocks on desktop */
+.footer-collapsible { border: 0; padding: 0; margin: 0; }
+.footer-collapsible > summary {
+  list-style: none;
+  cursor: default;
+  display: block;
+  padding: 0;
+}
+.footer-collapsible > summary::-webkit-details-marker { display: none; }
+.footer-collapsible > summary::marker { content: ''; }
+.footer-collapsible > summary > h4 {
+  display: inline-block;
+  margin: 0 0 0.85rem;
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
 .footer-bottom {
   border-top: 1px solid var(--border); padding-top: 1.25rem;
   color: var(--text-muted); font-size: 0.875rem; text-align: center;
@@ -513,6 +533,13 @@ p { margin: 0 0 1em; }
 
 body { opacity: 0; transition: opacity 0.5s var(--ease-out); }
 body.page-loaded { opacity: 1; }
+
+/* Smooth fade-in dla obrazów po załadowaniu */
+.img-fade {
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out-soft);
+}
+.img-fade.loaded { opacity: 1; }
 
 .reveal {
   opacity: 0;
@@ -544,12 +571,14 @@ body.nav-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   body, .reveal, .card-link, .car-card, .realization-card, .gallery img,
   .realization-card .thumb, .car-card .car-power .arrow,
-  .site-header {
+  .site-header, .img-fade, .footer-collapsible > summary::after,
+  .footer-collapsible > ul, .footer-collapsible > p {
     transition: none !important;
     animation: none !important;
     transform: none !important;
   }
   .reveal { opacity: 1 !important; }
+  .img-fade { opacity: 1 !important; }
   html { scroll-behavior: auto; }
 }
 
@@ -803,13 +832,75 @@ body.nav-open { overflow: hidden; }
   /* Buttons get bigger tap targets */
   .btn { padding: 0.85rem 1.25rem; min-height: 46px; display: inline-flex; align-items: center; justify-content: center; }
 
-  /* Footer — center on mobile */
-  .site-footer { padding: 2.5rem 0 1.25rem; margin-top: 2.5rem; }
-  .footer-grid { grid-template-columns: 1fr; gap: 1.75rem; text-align: center; }
-  .footer-grid h4 { margin-bottom: 0.5rem; }
-  .footer-grid ul { display: inline-block; text-align: left; }
+  /* Footer — kompaktowa, zwijana stopka na mobilkach */
+  .site-footer { padding: 2rem 0 1rem; margin-top: 2.5rem; }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-bottom: 1rem;
+    text-align: left;
+  }
+  .footer-grid > div:first-child { /* blok marki */
+    text-align: center;
+    padding-bottom: 1.25rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-grid > div:first-child p { font-size: 0.9rem; max-width: 36ch; margin: 0 auto; }
   .logo-footer { display: inline-flex; }
-  .footer-bottom { padding-top: 1rem; font-size: 0.8rem; }
+
+  /* 3 sekcje linków: zwijane akordeony */
+  .footer-collapsible {
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-collapsible > summary {
+    cursor: pointer;
+    padding: 0.95rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .footer-collapsible > summary > h4 {
+    margin: 0;
+    font-size: 0.98rem;
+  }
+  .footer-collapsible > summary::after {
+    content: '';
+    width: 10px; height: 10px;
+    border-right: 2px solid var(--text-muted);
+    border-bottom: 2px solid var(--text-muted);
+    transform: rotate(45deg);
+    transition: transform 0.3s var(--ease-out-soft), border-color 0.2s var(--ease-out);
+    margin-right: 4px;
+  }
+  .footer-collapsible[open] > summary::after {
+    transform: rotate(-135deg);
+    border-color: var(--accent);
+  }
+  .footer-collapsible > ul,
+  .footer-collapsible > p {
+    padding: 0 0 0.9rem;
+    animation: footerAccOpen 0.3s var(--ease-out-soft);
+  }
+  .footer-collapsible > ul { display: block; text-align: left; }
+  .footer-collapsible > ul a { display: inline-block; padding: 0.45rem 0; }
+
+  /* Kontakt — widoczny zawsze, bez akordeonu */
+  .footer-contact {
+    padding: 1rem 0 0;
+    text-align: center;
+  }
+  .footer-contact h4 { margin: 0 0 0.5rem; font-size: 0.98rem; }
+  .footer-contact p { font-size: 0.9rem; line-height: 1.6; }
+
+  .footer-bottom { padding-top: 1rem; font-size: 0.78rem; }
+}
+
+@keyframes footerAccOpen {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Very small phones */
