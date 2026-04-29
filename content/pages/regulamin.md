@@ -7,19 +7,19 @@ description: "Regulamin serwisu G-Lab Chip Tuning. Zasady korzystania z serwisu 
 
 ## §1. Postanowienia ogólne
 
-1. Niniejszy Regulamin określa zasady korzystania z serwisu internetowego G-Lab Chip Tuning dostępnego pod adresem [www.g-lab.pl](https://g-lab.pl) (dalej: „Serwis") oraz świadczenia usług chiptuningu, usuwania DPF/EGR oraz pomiarów na hamowni podwoziowej.
-2. Właścicielem i administratorem Serwisu jest G-Lab Chip Tuning z siedzibą przy ul. Przykładowej 1, 00-000 Miasto (dalej: „Usługodawca").
+1. Niniejszy Regulamin określa zasady korzystania z serwisu internetowego G-Lab Chip Tuning dostępnego pod adresem [www.g-lab.pl](https://g-lab.pl) (dalej: "Serwis") oraz świadczenia usług chiptuningu, usuwania DPF/EGR oraz pomiarów na hamowni podwoziowej.
+2. Właścicielem i administratorem Serwisu jest G-Lab Chip Tuning z siedzibą przy ul. Przykładowej 1, 00-000 Miasto (dalej: "Usługodawca").
 3. Korzystanie z Serwisu jest dobrowolne i bezpłatne, chyba że odrębne przepisy lub umowa stanowią inaczej.
 4. Korzystając z Serwisu, Użytkownik akceptuje postanowienia niniejszego Regulaminu.
 
 ## §2. Definicje
 
-- **Serwis** – strona internetowa dostępna pod adresem www.g-lab.pl
-- **Usługodawca** – G-Lab Chip Tuning
-- **Użytkownik** – każda osoba fizyczna lub prawna korzystająca z Serwisu
-- **Katalog** – baza modeli pojazdów wraz z parametrami chiptuningu prezentowana w Serwisie
-- **Usługi warsztatowe** – chiptuning, usuwanie DPF/EGR, pomiary mocy i momentu obrotowego na hamowni
-- **Umowa** – umowa o świadczenie usług warsztatowych zawarta między Usługodawcą a Klientem w formie pisemnej lub przez przyjęcie pojazdu do warsztatu
+- **Serwis** - strona internetowa dostępna pod adresem www.g-lab.pl
+- **Usługodawca** - G-Lab Chip Tuning
+- **Użytkownik** - każda osoba fizyczna lub prawna korzystająca z Serwisu
+- **Katalog** - baza modeli pojazdów wraz z parametrami chiptuningu prezentowana w Serwisie
+- **Usługi warsztatowe** - chiptuning, usuwanie DPF/EGR, pomiary mocy i momentu obrotowego na hamowni
+- **Umowa** - umowa o świadczenie usług warsztatowych zawarta między Usługodawcą a Klientem w formie pisemnej lub przez przyjęcie pojazdu do warsztatu
 
 ## §3. Zakres usług
 

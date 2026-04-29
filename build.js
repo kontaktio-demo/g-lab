@@ -1,18 +1,4 @@
 #!/usr/bin/env node
-/**
- * G-Lab build script.
- * - Reads katalog.csv → generates per-car pages (/tuning/[slug].html)
- *   and archive pages by marka, sterownik, silnik
- * - Renders the catalog page with cascading-select data
- * - Reads content/pages/*.md → static pages (chiptuning, dpf-egr, hamownia, kontakt)
- * - Reads content/realizacje/*.md → realizations list + per-realization pages
- * - Copies src/ assets to public/{css,js,img}
- * - Writes sitemap.xml and robots.txt
- * - Writes Decap CMS admin (public/admin/)
- *
- * No frameworks – just templates with {{TOKENS}} and small string replacement.
- */
-
 'use strict';
 
 const fs = require('fs');
@@ -21,7 +7,6 @@ const { parse } = require('csv-parse/sync');
 const matter = require('gray-matter');
 const { marked } = require('marked');
 
-// ---------- config ----------
 const ROOT = __dirname;
 const SRC = path.join(ROOT, 'src');
 const TEMPLATES = path.join(ROOT, 'templates');
@@ -29,7 +14,6 @@ const CONTENT = path.join(ROOT, 'content');
 const OUT = path.join(ROOT, 'public');
 const SITE_URL = process.env.SITE_URL || 'https://g-lab.pl';
 
-// ---------- helpers ----------
 const escMap = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => escMap[c]);
 const slugify = (s) =>
@@ -60,14 +44,12 @@ function rmrf(p) {
   if (fs.existsSync(p)) fs.rmSync(p, { recursive: true, force: true });
 }
 
-/** Replace all {{TOKEN}} occurrences. Values are inserted verbatim (callers must escape). */
 function render(template, vars) {
   return template.replace(/\{\{(\w+)\}\}/g, (_, k) =>
     Object.prototype.hasOwnProperty.call(vars, k) ? String(vars[k]) : ''
   );
 }
 
-// ---------- load templates ----------
 const T = {
   layout: readFile(path.join(TEMPLATES, 'layout.html')),
   home: readFile(path.join(TEMPLATES, 'home.html')),
@@ -91,7 +73,6 @@ function wrapLayout({ title, description, canonicalPath, content, extraHead = ''
   });
 }
 
-// ---------- catalog ----------
 function loadCatalog() {
   const csv = readFile(path.join(ROOT, 'katalog.csv'));
   const rows = parse(csv, { columns: true, skip_empty_lines: true, trim: true });
@@ -115,7 +96,7 @@ function loadCatalog() {
 }
 
 function renderCarPage(car) {
-  const title = `Chiptuning ${car.marka} ${car.model} ${car.generacja} ${car.silnik} – ${car.moc_km_seryjna} → ${car.moc_km_tuning} KM`;
+  const title = `Chiptuning ${car.marka} ${car.model} ${car.generacja} ${car.silnik} - ${car.moc_km_seryjna} → ${car.moc_km_tuning} KM`;
   const description = `Chiptuning ${car.marka} ${car.model} ${car.generacja} ${car.silnik} (${car.rok_od}-${car.rok_do}). Moc seryjna ${car.moc_km_seryjna} KM (${car.moc_kw_seryjna} kW), moc po tuningu ${car.moc_km_tuning} KM (${car.moc_kw_tuning} kW). Moment ${car.moment_seryjny} → ${car.moment_tuning} Nm. Sterownik ${car.sterownik}.`;
 
   const jsonld = JSON.stringify({
@@ -159,7 +140,7 @@ function renderCarPage(car) {
 function carCard(car) {
   return `<a class="car-card" href="/tuning/${esc(car.slug)}">
     <div class="car-title">${esc(car.marka)} ${esc(car.model)} ${esc(car.generacja)}</div>
-    <div class="car-meta">${esc(car.silnik)} · ${esc(car.rok_od)}–${esc(car.rok_do)}</div>
+    <div class="car-meta">${esc(car.silnik)} | ${esc(car.rok_od)}-${esc(car.rok_do)}</div>
     <div class="car-power">
       <span class="from">${esc(car.moc_km_seryjna)} KM</span>
       <span class="arrow">→</span>
@@ -176,7 +157,7 @@ function renderArchive({ label, name, intro, slug, dirSegment, cars }) {
     CAR_CARDS: cars.map(carCard).join('\n'),
   });
   const html = wrapLayout({
-    title: `${label}: ${name} – chiptuning`,
+    title: `${label}: ${name} - chiptuning`,
     description: `${intro} ${cars.length} ${cars.length === 1 ? 'pozycja' : 'pozycji'} w katalogu.`,
     canonicalPath: `/${dirSegment}/${slug}`,
     content: inner,
@@ -185,22 +166,21 @@ function renderArchive({ label, name, intro, slug, dirSegment, cars }) {
 }
 
 function buildCatalog(cars) {
-  // per-car
+
   for (const car of cars) {
     writeFile(path.join(OUT, 'tuning', `${car.slug}.html`), renderCarPage(car));
   }
 
-  // archives by marka / sterownik / silnik
   const groups = {
     marka: { label: 'Marka', dir: 'marka', keyer: (c) => c.marka, slug: (c) => c.marka_slug,
              intro: (n) => `Wszystkie modele ${n} w naszym katalogu chiptuningu.` },
     sterownik: { label: 'Sterownik', dir: 'sterownik', keyer: (c) => c.sterownik, slug: (c) => c.sterownik_slug,
              intro: (n) => `Lista aut ze sterownikiem ${n}, dla których oferujemy chiptuning.` },
     silnik: { label: 'Jednostka silnikowa', dir: 'silnik', keyer: (c) => c.marka + ' ' + c.silnik, slug: (c) => c.silnik_slug,
-             intro: (n) => `Auta z jednostką ${n} – sprawdź możliwe efekty chiptuningu.` },
+             intro: (n) => `Auta z jednostką ${n} - sprawdź możliwe efekty chiptuningu.` },
   };
 
-  const written = []; // for sitemap
+  const written = [];
   for (const car of cars) written.push(`/tuning/${car.slug}`);
 
   for (const g of Object.values(groups)) {
@@ -217,7 +197,6 @@ function buildCatalog(cars) {
     }
   }
 
-  // catalog index
   const brandLinks = [...new Set(cars.map((c) => c.marka))].sort()
     .map((m) => `<a href="/marka/${slugify(m)}">${esc(m)}</a>`)
     .join('\n');
@@ -229,7 +208,7 @@ function buildCatalog(cars) {
 
   const inner = render(T.katalog, { BRAND_LINKS: brandLinks, CATALOG_JSON: catalogJson });
   const html = wrapLayout({
-    title: 'Katalog chiptuningu – sprawdź swoje auto',
+    title: 'Katalog chiptuningu - sprawdź swoje auto',
     description: 'Sprawdź, ile mocy i momentu obrotowego może uzyskać Twoje auto po chiptuningu. Kilka tysięcy modeli w bazie.',
     canonicalPath: '/katalog/',
     content: inner,
@@ -240,7 +219,6 @@ function buildCatalog(cars) {
   return written;
 }
 
-// ---------- realizations ----------
 function loadRealizations() {
   const dir = path.join(CONTENT, 'realizacje');
   if (!fs.existsSync(dir)) return [];
@@ -275,13 +253,12 @@ function formatDatePL(s) {
 function buildRealizations(items) {
   const written = [];
 
-  // list
   const grid = items.length
     ? `<div class="cards-grid">${items.map((r) => `
         <a class="realization-card" href="/realizacje/${esc(r.slug)}">
           ${r.cover ? `<div class="thumb" style="background-image:url('${esc(r.cover)}')"></div>` : `<div class="thumb"></div>`}
           <div class="body">
-            <div class="meta">${esc(formatDatePL(r.data))} · ${esc(r.samochod)}</div>
+            <div class="meta">${esc(formatDatePL(r.data))} | ${esc(r.samochod)}</div>
             <h3>${esc(r.title)}</h3>
             <p>${esc(r.krotki_opis)}</p>
           </div>
@@ -290,7 +267,7 @@ function buildRealizations(items) {
 
   const listInner = render(T.realizacjeList, { REALIZATIONS_GRID: grid });
   const listHtml = wrapLayout({
-    title: 'Realizacje – G-Lab Chip Tuning',
+    title: 'Realizacje - G-Lab Chip Tuning',
     description: 'Wybrane realizacje chiptuningu, usuwania DPF/EGR i pomiarów na hamowni wykonane w naszym warsztacie.',
     canonicalPath: '/realizacje/',
     content: listInner,
@@ -298,7 +275,6 @@ function buildRealizations(items) {
   writeFile(path.join(OUT, 'realizacje', 'index.html'), listHtml);
   written.push('/realizacje/');
 
-  // per-realization
   for (const r of items) {
     const cover = r.cover
       ? `<img class="realization-cover" src="${esc(r.cover)}" alt="${esc(r.title)}">`
@@ -320,7 +296,7 @@ function buildRealizations(items) {
       GALLERY: gallery,
     });
     const html = wrapLayout({
-      title: `${r.title} – realizacja G-Lab`,
+      title: `${r.title} - realizacja G-Lab`,
       description: r.krotki_opis || `Realizacja ${r.samochod} w warsztacie G-Lab.`,
       canonicalPath: `/realizacje/${r.slug}`,
       content: inner,
@@ -332,7 +308,6 @@ function buildRealizations(items) {
   return written;
 }
 
-// ---------- static pages ----------
 function buildStaticPages() {
   const dir = path.join(CONTENT, 'pages');
   const written = [];
@@ -343,8 +318,8 @@ function buildStaticPages() {
     const { data, content } = matter(raw);
     const slug = data.slug || path.basename(f, '.md');
     const html = wrapLayout({
-      title: `${data.title || slug} – G-Lab Chip Tuning`,
-      description: data.description || data.subtitle || `${data.title} – G-Lab Chip Tuning`,
+      title: `${data.title || slug} - G-Lab Chip Tuning`,
+      description: data.description || data.subtitle || `${data.title} - G-Lab Chip Tuning`,
       canonicalPath: `/${slug}`,
       content: render(T.page, {
         TITLE: esc(data.title || slug),
@@ -360,7 +335,7 @@ function buildStaticPages() {
 
 function buildHome() {
   const html = wrapLayout({
-    title: 'G-Lab Chip Tuning – chiptuning, DPF/EGR, hamownia',
+    title: 'G-Lab Chip Tuning - chiptuning, DPF/EGR, hamownia',
     description: 'Profesjonalny chiptuning, usuwanie DPF i EGR, hamownia podwoziowa. Sprawdź swoje auto w naszym katalogu.',
     canonicalPath: '/',
     content: T.home,
@@ -369,7 +344,6 @@ function buildHome() {
   return ['/'];
 }
 
-// ---------- sitemap & robots ----------
 function buildSitemap(urls) {
   const today = new Date().toISOString().slice(0, 10);
   const xml =
@@ -382,7 +356,6 @@ function buildSitemap(urls) {
     `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 }
 
-// ---------- Decap CMS admin ----------
 function buildAdmin() {
   const html = `<!DOCTYPE html>
 <html lang="pl">
@@ -406,8 +379,7 @@ function buildAdmin() {
 </body>
 </html>
 `;
-  const config = `# Decap CMS configuration for G-Lab
-backend:
+  const config = `backend:
   name: git-gateway
   branch: main
 
@@ -425,7 +397,7 @@ collections:
     folder: "content/realizacje"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    summary: "{{title}} – {{samochod}} ({{data}})"
+    summary: "{{title}} - {{samochod}} ({{data}})"
     sortable_fields: ["data", "title"]
     fields:
       - { label: "Tytuł", name: "title", widget: "string" }
@@ -461,7 +433,6 @@ collections:
   writeFile(path.join(OUT, 'admin', 'config.yml'), config);
 }
 
-// ---------- main ----------
 function main() {
   console.log('• Cleaning public/');
   rmrf(OUT);
@@ -496,7 +467,6 @@ function main() {
   console.log('• Writing /admin (Decap CMS)');
   buildAdmin();
 
-  // _redirects (nice URLs for Netlify/CF Pages)
   writeFile(path.join(OUT, '_redirects'),
     '/katalog /katalog/ 301\n/realizacje /realizacje/ 301\n');
 

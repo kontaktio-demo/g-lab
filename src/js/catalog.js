@@ -1,4 +1,3 @@
-// Catalog cascading selects (Marka -> Model -> Rok/Generacja -> Silnik)
 (function () {
   var dataEl = document.getElementById('catalog-data');
   if (!dataEl) return;
@@ -42,47 +41,47 @@
   }
 
   function init() {
-    fillSelect(selMarka, uniqSorted(DATA.map(function (x) { return x.marka; })), '— wybierz —');
-    reset(selModel, '— najpierw wybierz markę —');
-    reset(selRok, '—');
-    reset(selSilnik, '—');
+    fillSelect(selMarka, uniqSorted(DATA.map(function (x) { return x.marka; })), 'wybierz markę');
+    reset(selModel, 'najpierw wybierz markę');
+    reset(selRok, 'wybierz rok');
+    reset(selSilnik, 'wybierz silnik');
     btnGo.disabled = true;
     if (resultBox) { resultBox.hidden = true; resultBox.innerHTML = ''; }
   }
 
   selMarka.addEventListener('change', function () {
     var v = selMarka.value;
-    reset(selRok, '—'); reset(selSilnik, '—'); btnGo.disabled = true;
+    reset(selRok, 'wybierz rok'); reset(selSilnik, 'wybierz silnik'); btnGo.disabled = true;
     if (resultBox) { resultBox.hidden = true; resultBox.innerHTML = ''; }
-    if (!v) { reset(selModel, '— najpierw wybierz markę —'); return; }
+    if (!v) { reset(selModel, 'najpierw wybierz markę'); return; }
     var models = uniqSorted(DATA.filter(function (x) { return x.marka === v; }).map(function (x) { return x.model; }));
-    fillSelect(selModel, models, '— wybierz model —');
+    fillSelect(selModel, models, 'wybierz model');
   });
 
   selModel.addEventListener('change', function () {
     var m = selMarka.value, mo = selModel.value;
-    reset(selSilnik, '—'); btnGo.disabled = true;
+    reset(selSilnik, 'wybierz silnik'); btnGo.disabled = true;
     if (resultBox) { resultBox.hidden = true; resultBox.innerHTML = ''; }
-    if (!mo) { reset(selRok, '—'); return; }
+    if (!mo) { reset(selRok, 'wybierz rok'); return; }
     var roks = uniqSorted(
       DATA.filter(function (x) { return x.marka === m && x.model === mo; })
-          .map(function (x) { return x.generacja + ' (' + x.rok_od + '–' + x.rok_do + ')'; })
+          .map(function (x) { return x.generacja + ' (' + x.rok_od + '-' + x.rok_do + ')'; })
     );
-    fillSelect(selRok, roks, '— wybierz —');
+    fillSelect(selRok, roks, 'wybierz rok');
   });
 
   selRok.addEventListener('change', function () {
     var m = selMarka.value, mo = selModel.value, r = selRok.value;
     btnGo.disabled = true;
     if (resultBox) { resultBox.hidden = true; resultBox.innerHTML = ''; }
-    if (!r) { reset(selSilnik, '—'); return; }
+    if (!r) { reset(selSilnik, 'wybierz silnik'); return; }
     var silniki = uniqSorted(
       DATA.filter(function (x) {
         return x.marka === m && x.model === mo &&
-               (x.generacja + ' (' + x.rok_od + '–' + x.rok_do + ')') === r;
+               (x.generacja + ' (' + x.rok_od + '-' + x.rok_do + ')') === r;
       }).map(function (x) { return x.silnik; })
     );
-    fillSelect(selSilnik, silniki, '— wybierz silnik —');
+    fillSelect(selSilnik, silniki, 'wybierz silnik');
   });
 
   selSilnik.addEventListener('change', function () {
@@ -94,7 +93,7 @@
     var m = selMarka.value, mo = selModel.value, r = selRok.value, s = selSilnik.value;
     var match = DATA.filter(function (x) {
       return x.marka === m && x.model === mo &&
-             (x.generacja + ' (' + x.rok_od + '–' + x.rok_do + ')') === r &&
+             (x.generacja + ' (' + x.rok_od + '-' + x.rok_do + ')') === r &&
              x.silnik === s;
     })[0];
     if (!match) {
@@ -104,7 +103,6 @@
       }
       return;
     }
-    // Defense-in-depth: only allow safe slug characters before navigating.
     if (typeof match.slug !== 'string' || !/^[a-z0-9-]{1,120}$/.test(match.slug)) {
       if (resultBox) {
         resultBox.hidden = false;

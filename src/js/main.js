@@ -1,8 +1,6 @@
-// G-Lab Chip Tuning – frontend script
 (function () {
   'use strict';
 
-  // ---------- Mobile nav toggle ----------
   function initNav() {
     var btn = document.querySelector('.nav-toggle');
     var nav = document.querySelector('.main-nav');
@@ -11,7 +9,6 @@
       var open = nav.classList.toggle('open');
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
-    // close on nav link click (mobile)
     nav.querySelectorAll('a').forEach(function (a) {
       a.addEventListener('click', function () {
         if (nav.classList.contains('open')) {
@@ -22,11 +19,9 @@
     });
   }
 
-  // ---------- Scroll reveal animations ----------
   function initReveal() {
     var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Auto-tag common content elements so animations work on every subpage
     var autoSelectors = [
       'main .hero > .container > *',
       'main .section > .container > *',
@@ -44,7 +39,6 @@
       document.querySelectorAll(sel).forEach(function (el, i) {
         if (el.classList.contains('reveal') || el.closest('.no-reveal')) return;
         el.classList.add('reveal');
-        // Staggered delay for grid/list children
         var parent = el.parentElement;
         if (parent && (parent.classList.contains('cards-grid') ||
                        parent.classList.contains('cars-grid') ||
@@ -54,7 +48,6 @@
           var delay = Math.min(i * 80, 480);
           el.style.setProperty('--reveal-delay', delay + 'ms');
         } else if (el.parentElement && el.parentElement.matches('.hero > .container, .section > .container')) {
-          // gentle stagger for direct children of containers
           var d = Math.min(i * 90, 360);
           el.style.setProperty('--reveal-delay', d + 'ms');
         }
@@ -78,12 +71,10 @@
     elements.forEach(function (el) { observer.observe(el); });
   }
 
-  // ---------- Page load fade-in ----------
   function initPageLoad() {
     document.body.classList.add('page-loaded');
   }
 
-  // ---------- Header scroll state ----------
   function initHeaderScroll() {
     var header = document.querySelector('.site-header');
     if (!header) return;
@@ -99,7 +90,6 @@
     update();
   }
 
-  // ---------- Hero parallax ----------
   function initParallax() {
     var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return;
@@ -109,7 +99,6 @@
     function update() {
       heroes.forEach(function (hero) {
         var rect = hero.getBoundingClientRect();
-        // Only animate while hero is reasonably in view
         if (rect.bottom < -100 || rect.top > window.innerHeight) return;
         var offset = Math.max(-120, Math.min(120, window.scrollY * 0.25));
         hero.style.setProperty('--parallax-y', offset + 'px');
@@ -122,7 +111,6 @@
     update();
   }
 
-  // ---------- Cookie consent ----------
   function initCookieConsent() {
     var consent = document.getElementById('cookieConsent');
     if (!consent) return;
@@ -155,14 +143,12 @@
       setCookie(STORAGE_KEY, payload, 365);
       if (prefs.analytics) setCookie('glab_analytics', '1', 365); else deleteCookie('glab_analytics');
       if (prefs.marketing) setCookie('glab_marketing', '1', 365); else deleteCookie('glab_marketing');
-      // dispatch event so future analytics scripts can hook in
       try {
         document.dispatchEvent(new CustomEvent('cookieconsent', { detail: prefs }));
       } catch (e) {}
     }
     function show() {
       consent.hidden = false;
-      // force reflow then show with animation
       void consent.offsetWidth;
       consent.classList.add('show');
       consent.setAttribute('aria-modal', 'false');
@@ -212,7 +198,6 @@
       hide();
     });
 
-    // Re-open from footer link
     var openLink = document.getElementById('cookieSettingsLink');
     if (openLink) {
       openLink.addEventListener('click', function (e) {
