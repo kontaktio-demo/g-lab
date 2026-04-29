@@ -96,8 +96,8 @@ function loadCatalog() {
 }
 
 function renderCarPage(car) {
-  const title = `Chiptuning ${car.marka} ${car.model} ${car.generacja} ${car.silnik} - ${car.moc_km_seryjna} → ${car.moc_km_tuning} KM`;
-  const description = `Chiptuning ${car.marka} ${car.model} ${car.generacja} ${car.silnik} (${car.rok_od}-${car.rok_do}). Moc seryjna ${car.moc_km_seryjna} KM (${car.moc_kw_seryjna} kW), moc po tuningu ${car.moc_km_tuning} KM (${car.moc_kw_tuning} kW). Moment ${car.moment_seryjny} → ${car.moment_tuning} Nm. Sterownik ${car.sterownik}.`;
+  const title = `Chiptuning ${car.marka} ${car.model} ${car.generacja} ${car.silnik} - ${car.moc_km_seryjna} -> ${car.moc_km_tuning} KM`;
+  const description = `Chiptuning ${car.marka} ${car.model} ${car.generacja} ${car.silnik} (${car.rok_od}-${car.rok_do}). Moc seryjna ${car.moc_km_seryjna} KM (${car.moc_kw_seryjna} kW), moc po tuningu ${car.moc_km_tuning} KM (${car.moc_kw_tuning} kW). Moment ${car.moment_seryjny} -> ${car.moment_tuning} Nm. Sterownik ${car.sterownik}.`;
 
   const jsonld = JSON.stringify({
     '@context': 'https://schema.org',
@@ -143,7 +143,7 @@ function carCard(car) {
     <div class="car-meta">${esc(car.silnik)} | ${esc(car.rok_od)}-${esc(car.rok_do)}</div>
     <div class="car-power">
       <span class="from">${esc(car.moc_km_seryjna)} KM</span>
-      <span class="arrow">→</span>
+      <span class="arrow">-></span>
       <span class="to">${esc(car.moc_km_tuning)} KM</span>
     </div>
   </a>`;
@@ -434,43 +434,43 @@ collections:
 }
 
 function main() {
-  console.log('• Cleaning public/');
+  console.log('- Cleaning public/');
   rmrf(OUT);
   ensureDir(OUT);
 
-  console.log('• Copying assets');
+  console.log('- Copying assets');
   copyDir(path.join(SRC, 'css'), path.join(OUT, 'css'));
   copyDir(path.join(SRC, 'js'), path.join(OUT, 'js'));
   copyDir(path.join(SRC, 'img'), path.join(OUT, 'img'));
 
   let urls = [];
 
-  console.log('• Building home');
+  console.log('- Building home');
   urls = urls.concat(buildHome());
 
-  console.log('• Building catalog (CSV → pages)');
+  console.log('- Building catalog (CSV -> pages)');
   const cars = loadCatalog();
   console.log(`  loaded ${cars.length} cars`);
   urls = urls.concat(buildCatalog(cars));
 
-  console.log('• Building static pages');
+  console.log('- Building static pages');
   urls = urls.concat(buildStaticPages());
 
-  console.log('• Building realizations');
+  console.log('- Building realizations');
   const realizations = loadRealizations();
   console.log(`  loaded ${realizations.length} realizations`);
   urls = urls.concat(buildRealizations(realizations));
 
-  console.log('• Writing sitemap.xml & robots.txt');
+  console.log('- Writing sitemap.xml & robots.txt');
   buildSitemap(urls);
 
-  console.log('• Writing /admin (Decap CMS)');
+  console.log('- Writing /admin (Decap CMS)');
   buildAdmin();
 
   writeFile(path.join(OUT, '_redirects'),
     '/katalog /katalog/ 301\n/realizacje /realizacje/ 301\n');
 
-  console.log(`✓ Build done: ${urls.length} pages → ${OUT}`);
+  console.log(`Build done: ${urls.length} pages -> ${OUT}`);
 }
 
 main();

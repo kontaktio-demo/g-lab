@@ -1,7 +1,7 @@
 {
   "name": "g-lab",
   "version": "1.0.0",
-  "description": "Strona G-Lab Chip Tuning – statyczny generator (Node.js + vanilla HTML/CSS/JS) z katalogiem tuningu z CSV i sekcją realizacji edytowalną przez Decap CMS.",
+  "description": "Strona G-Lab Chip Tuning - statyczny generator (Node.js + vanilla HTML/CSS/JS) z katalogiem tuningu z CSV i sekcją realizacji edytowalną przez Decap CMS.",
   "private": true,
   "type": "commonjs",
   "scripts": {
