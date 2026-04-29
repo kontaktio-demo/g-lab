@@ -215,6 +215,19 @@ p { margin: 0 0 1em; }
 .hero-home .lead { margin: 1.25rem auto 2rem; }
 .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 .hero-page { padding: 3.5rem 0 2rem; }
+/* Subpage hero: shift the orange glow + vignette to sit behind the
+   left-aligned title. The container is centered at max-width 1200px,
+   so calc(50% - 360px) tracks roughly the left third of the container
+   across viewport sizes; max() clamps it on narrow screens. */
+.hero-page::before {
+  background-image:
+    radial-gradient(ellipse 38% 70% at max(20%, calc(50% - 360px)) 50%, rgba(255, 90, 31, 0.22), transparent 70%),
+    repeating-linear-gradient(45deg, #14181d 0 6px, #1a1f25 6px 12px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.025) 0 6px, transparent 6px 12px);
+}
+.hero-page::after {
+  background: radial-gradient(ellipse 80% 75% at max(20%, calc(50% - 360px)) 50%, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
+}
 .hero > .container { position: relative; z-index: 1; }
 .hero::before {
   content: "";
@@ -484,24 +497,24 @@ p { margin: 0 0 1em; }
   background:
     linear-gradient(180deg, var(--bg-elev) 0%, #0f1318 100%);
   border-top: 1px solid var(--border);
-  padding: 3rem 0 1.5rem; margin-top: 4rem;
+  padding: 1.25rem 0; margin-top: 4rem;
 }
-.footer-grid {
-  display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2rem;
-  padding-bottom: 2rem;
+.footer-row {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.75rem 1.5rem;
 }
-@media (max-width: 800px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
-.footer-grid h4 { color: var(--text); text-transform: none; letter-spacing: 0; font-size: 1rem; margin-bottom: 0.85rem; }
-.footer-grid ul { list-style: none; padding: 0; margin: 0; }
-.footer-grid li { padding: 0.25rem 0; }
-.footer-grid a { color: var(--text-muted); transition: color 0.15s var(--ease-out); }
-.footer-grid a:hover { color: var(--accent); }
-.footer-grid p { color: var(--text-muted); margin: 0; }
-.logo-footer { margin-bottom: 1rem; }
-.footer-bottom {
-  border-top: 1px solid var(--border); padding-top: 1.25rem;
-  color: var(--text-muted); font-size: 0.875rem; text-align: center;
+.footer-brand { display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap; }
+.logo-footer { margin: 0; }
+.footer-copy { color: var(--text-muted); font-size: 0.85rem; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; justify-content: center; flex: 1 1 auto; }
+.footer-links a { color: var(--text-muted); font-size: 0.9rem; transition: color 0.15s var(--ease-out); }
+.footer-links a:hover { color: var(--accent); }
+.footer-contact { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; align-items: center; color: var(--text-muted); font-size: 0.85rem; justify-content: flex-end; }
+.footer-contact a { color: var(--text-muted); transition: color 0.15s var(--ease-out); }
+.footer-contact a:hover { color: var(--accent); }
+@media (max-width: 1024px) {
+  .footer-row { flex-direction: column; text-align: center; }
+  .footer-brand, .footer-contact { justify-content: center; }
 }
 
 .skip-link {
@@ -709,7 +722,6 @@ body.nav-open { overflow: hidden; }
   .hero-page { padding: 2.75rem 0 1.5rem; }
   .cards-grid { gap: 1rem; }
   .cars-grid { gap: 1rem; }
-  .footer-grid { gap: 1.5rem; padding-bottom: 1.5rem; }
 }
 
 /* Phones */
@@ -804,12 +816,9 @@ body.nav-open { overflow: hidden; }
   .btn { padding: 0.85rem 1.25rem; min-height: 46px; display: inline-flex; align-items: center; justify-content: center; }
 
   /* Footer — center on mobile */
-  .site-footer { padding: 2.5rem 0 1.25rem; margin-top: 2.5rem; }
-  .footer-grid { grid-template-columns: 1fr; gap: 1.75rem; text-align: center; }
-  .footer-grid h4 { margin-bottom: 0.5rem; }
-  .footer-grid ul { display: inline-block; text-align: left; }
-  .logo-footer { display: inline-flex; }
-  .footer-bottom { padding-top: 1rem; font-size: 0.8rem; }
+  .site-footer { padding: 1.25rem 0; margin-top: 2.5rem; }
+  .footer-copy { font-size: 0.78rem; }
+  .footer-links a, .footer-contact { font-size: 0.85rem; }
 }
 
 /* Very small phones */
