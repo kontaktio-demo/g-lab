@@ -745,25 +745,23 @@ body.nav-open { overflow: hidden; }
   opacity: 0.85;
 }
 
-/* Big decorative SVG blueprints in the home hero */
+/* Big decorative SVG blueprint in the home hero */
 .hero-blueprint {
   position: absolute;
   z-index: 0;
   pointer-events: none;
   color: var(--accent);
   opacity: 0.16;
-  width: 480px;
-  max-width: 42vw;
+  width: 100%;
+  max-width: none;
   height: auto;
   filter: drop-shadow(0 0 1px rgba(255, 90, 31, 0.25));
   animation: blueprintFadeIn 1.4s var(--ease-out-soft) both;
 }
-.hero-blueprint-left  { top: 50%; left: -2%;  transform: translateY(-50%); }
-.hero-blueprint-right { top: 50%; right: -2%; transform: translateY(-50%); opacity: 0.14; }
+.hero-blueprint-right { top: 50%; left: 0; right: 0; transform: translateY(-50%); opacity: 0.14; }
 @keyframes blueprintFadeIn {
   from { opacity: 0; transform: translateY(-50%) scale(0.97); }
 }
-.hero-blueprint-left  { animation-delay: 0.05s; }
 .hero-blueprint-right { animation-delay: 0.20s; }
 
 .hero > .container.hero-inner { z-index: 2; }
@@ -957,9 +955,8 @@ body.nav-open { overflow: hidden; }
   .cars-grid { gap: 1rem; }
   .footer-grid { gap: 1.5rem; padding-bottom: 1.5rem; }
 
-  /* Hide oversized hero blueprints on tablets & below to avoid clutter */
-  .hero-blueprint-left  { width: 360px; opacity: 0.10; left: -8%; }
-  .hero-blueprint-right { width: 360px; opacity: 0.09; right: -8%; }
+  /* Hero blueprint stays full-width, slightly more transparent */
+  .hero-blueprint-right { opacity: 0.10; }
 
   /* Page hero stacks: text on top, art below */
   .hero-page-inner { grid-template-columns: 1fr; gap: 1.25rem; }
