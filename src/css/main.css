@@ -221,18 +221,16 @@ p { margin: 0 0 1em; }
   position: absolute; inset: 0;
   background-color: #101317;
   background-image:
-    radial-gradient(ellipse 55% 45% at 50% 30%, rgba(255, 90, 31, 0.18), transparent 70%),
-    repeating-linear-gradient(45deg, #14181d 0 6px, #1a1f25 6px 12px),
-    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.025) 0 6px, transparent 6px 12px);
-  background-blend-mode: normal, normal, overlay;
+    radial-gradient(ellipse 60% 50% at 50% 30%, rgba(255, 90, 31, 0.20), transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255, 90, 31, 0.05), transparent 75%);
   z-index: 0;
   pointer-events: none;
 }
 .hero-home::after {
   content: "";
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse 80% 75% at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
-  z-index: 0;
+  background: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.78) 100%);
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -726,8 +724,228 @@ body.nav-open { overflow: hidden; }
 }
 
 /* =========================================================
-   Responsive polish — tablet & mobile (focus: phones)
+   Technical / blueprint decorations
    ========================================================= */
+
+/* Subtle blueprint grid backdrop placed inside hero sections */
+.blueprint-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(rgba(255, 90, 31, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 90, 31, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
+  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, #000 40%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, #000 40%, transparent 95%);
+  opacity: 0.85;
+}
+
+/* Big decorative SVG blueprints in the home hero */
+.hero-blueprint {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  color: var(--accent);
+  opacity: 0.16;
+  width: 480px;
+  max-width: 42vw;
+  height: auto;
+  filter: drop-shadow(0 0 1px rgba(255, 90, 31, 0.25));
+  animation: blueprintFadeIn 1.4s var(--ease-out-soft) both;
+}
+.hero-blueprint-left  { top: 50%; left: -2%;  transform: translateY(-50%); }
+.hero-blueprint-right { top: 50%; right: -2%; transform: translateY(-50%); opacity: 0.14; }
+@keyframes blueprintFadeIn {
+  from { opacity: 0; transform: translateY(-50%) scale(0.97); }
+}
+.hero-blueprint-left  { animation-delay: 0.05s; }
+.hero-blueprint-right { animation-delay: 0.20s; }
+
+.hero > .container.hero-inner { z-index: 2; }
+
+/* Page hero (services / kontakt) - text + decorative drawing */
+.hero-page { position: relative; overflow: hidden; }
+.hero-page .blueprint-grid {
+  mask-image: radial-gradient(ellipse 100% 90% at 70% 50%, #000 30%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 90% at 70% 50%, #000 30%, transparent 95%);
+  opacity: 0.7;
+}
+.hero-page-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 2rem;
+}
+.hero-page-inner:not(:has(.page-hero-art)) {
+  grid-template-columns: 1fr;
+}
+.hero-page-text { min-width: 0; }
+.page-hero-art {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  margin-left: auto;
+  color: var(--accent);
+  opacity: 0.85;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45));
+  animation: blueprintFadeIn 1.1s var(--ease-out-soft) both;
+}
+
+/* Service cards (home) - icon at top */
+.cards-grid-services .service-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+.service-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+  border-radius: 14px;
+  color: var(--accent);
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 90, 31, 0.18), transparent 65%),
+    rgba(255, 90, 31, 0.06);
+  border: 1px solid rgba(255, 90, 31, 0.35);
+  box-shadow: inset 0 0 0 1px rgba(255, 90, 31, 0.05),
+              0 6px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.35s var(--ease-out-soft),
+              border-color 0.25s var(--ease-out),
+              background 0.25s var(--ease-out);
+}
+.service-icon svg { width: 38px; height: 38px; display: block; }
+.service-card:hover .service-icon {
+  transform: rotate(-4deg) scale(1.05);
+  border-color: var(--accent);
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 90, 31, 0.32), transparent 70%),
+    rgba(255, 90, 31, 0.10);
+}
+
+/* Process steps section */
+.process-section { position: relative; }
+.process-section::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, #000 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, #000 0%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+}
+.process-section > .container { position: relative; z-index: 1; }
+.process-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+  counter-reset: step;
+}
+.process-steps li {
+  position: relative;
+  padding: 1.6rem 1.4rem 1.4rem;
+  background: var(--grad-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color 0.25s var(--ease-out),
+              transform 0.35s var(--ease-out-soft),
+              box-shadow 0.35s var(--ease-out-soft);
+}
+.process-steps li::after {
+  /* tiny corner blueprint mark */
+  content: "";
+  position: absolute;
+  bottom: 8px; right: 8px;
+  width: 10px; height: 10px;
+  border-right: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border-strong);
+  opacity: 0.7;
+}
+.process-steps li:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+}
+.process-steps .step-num {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.9rem;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 90, 31, 0.45);
+  pointer-events: none;
+}
+.process-steps .step-icon {
+  display: block;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 0.85rem;
+  color: var(--accent);
+}
+.process-steps h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+}
+.process-steps p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.process-steps li:not(:last-child)::before {
+  /* connector line (desktop only) */
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -1rem;
+  width: 1rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-strong), transparent);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Section-alt - add subtle blueprint texture */
+.section-alt {
+  position: relative;
+  overflow: hidden;
+}
+.section-alt::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+.section-alt > .container { position: relative; z-index: 1; }
+
+
 
 /* Tablets and small laptops */
 @media (max-width: 960px) {
@@ -739,6 +957,18 @@ body.nav-open { overflow: hidden; }
   .cards-grid { gap: 1rem; }
   .cars-grid { gap: 1rem; }
   .footer-grid { gap: 1.5rem; padding-bottom: 1.5rem; }
+
+  /* Hide oversized hero blueprints on tablets & below to avoid clutter */
+  .hero-blueprint-left  { width: 360px; opacity: 0.10; left: -8%; }
+  .hero-blueprint-right { width: 360px; opacity: 0.09; right: -8%; }
+
+  /* Page hero stacks: text on top, art below */
+  .hero-page-inner { grid-template-columns: 1fr; gap: 1.25rem; }
+  .page-hero-art { max-width: 360px; margin: 0 auto; opacity: 0.55; }
+
+  /* Process steps -> 2 cols */
+  .process-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .process-steps li:nth-child(2n)::before { display: none; }
 }
 
 /* Phones */
@@ -772,6 +1002,24 @@ body.nav-open { overflow: hidden; }
   .card-link { padding: 1.4rem 1.25rem; border-radius: 14px; }
   .card-link h3 { font-size: 1.15rem; margin-bottom: 0.4rem; }
   .card-link p { font-size: 0.95rem; }
+
+  /* Hide hero blueprints on phones - they only get in the way */
+  .hero-blueprint { display: none; }
+  .blueprint-grid { opacity: 0.5; }
+
+  /* Page hero art - smaller, more transparent on phones */
+  .page-hero-art { max-width: 280px; opacity: 0.45; margin-top: 0.5rem; }
+
+  /* Service cards: center icon when single column */
+  .cards-grid-services .service-card { align-items: center; text-align: center; }
+  .service-icon { width: 56px; height: 56px; margin-bottom: 0.85rem; }
+  .service-icon svg { width: 32px; height: 32px; }
+
+  /* Process steps: single column */
+  .process-steps { grid-template-columns: 1fr; gap: 0.85rem; }
+  .process-steps li::before { display: none; }
+  .process-steps li { padding: 1.25rem 1.1rem; }
+  .process-steps .step-num { font-size: 2rem; top: 0.5rem; right: 0.75rem; }
 
   /* CTA band stacks nicely */
   .cta-band { flex-direction: column; text-align: center; gap: 1.25rem; }
