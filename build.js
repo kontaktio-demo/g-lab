@@ -215,7 +215,7 @@ function wrapLayout({
 function detectFuel() { return 'diesel'; }
 
 function detectCapacity(silnik) {
-  const m = String(silnik || '').match(/(\d\.\d)/);
+  const m = String(silnik || '').match(/(\d+\.\d+)/);
   return m ? Number(m[1]) : null;
 }
 
