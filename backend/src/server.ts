@@ -28,6 +28,7 @@ import catalogRoutes from './routes/catalog.js';
 import leadsRoutes from './routes/leads.js';
 import uploadsRoutes from './routes/uploads.js';
 import statsRoutes from './routes/stats.js';
+import revalidateRoutes from './routes/revalidate.js';
 
 export function buildApp(): Express {
   const app = express();
@@ -38,10 +39,30 @@ export function buildApp(): Express {
   app.disable('x-powered-by');
 
   // ── Security & infra ──
+  // CSP dopasowany do dwóch faktycznych konsumentów:
+  //   - JSON API (większość ruchu) — tu CSP nie ma wpływu, bo to nie jest dokument HTML,
+  //   - Swagger UI na /api/docs (HTML + bundled JS/CSS z swagger-ui-express).
+  // Bez wykluczeń Swagger UI nie odpalał się (inline script + style), dlatego pozwalamy
+  // na 'unsafe-inline' w skryptach/stylach TYLKO dla tego endpointu wewnątrz naszego origin.
   app.use(
     helmet({
       crossOriginResourcePolicy: { policy: 'cross-origin' }, // pliki z Supabase muszą być osadzane z innego origin
-      contentSecurityPolicy: false, // API; CSP jest zadaniem strony i panelu
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          defaultSrc: ["'self'"],
+          baseUri: ["'self'"],
+          frameAncestors: ["'none'"],
+          imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
+          // Swagger UI ładuje runtime config inline
+          scriptSrc: ["'self'", "'unsafe-inline'"],
+          styleSrc: ["'self'", "'unsafe-inline'", 'https:'],
+          connectSrc: ["'self'", 'https:'],
+          fontSrc: ["'self'", 'https:', 'data:'],
+          objectSrc: ["'none'"],
+          upgradeInsecureRequests: [],
+        },
+      },
     }),
   );
   app.use(compression());
@@ -75,6 +96,7 @@ export function buildApp(): Express {
   app.use('/api/leads', leadsRoutes);
   app.use('/api/uploads', uploadsRoutes);
   app.use('/api/stats', statsRoutes);
+  app.use('/api/revalidate', revalidateRoutes);
 
   // OpenAPI — JSON spec + Swagger UI.
   app.get('/api/openapi.json', (_req, res) => res.json(openapi));

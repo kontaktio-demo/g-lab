@@ -208,8 +208,10 @@ export async function processImage(
   // 2) Warianty: dla każdej szerokości × 3 formaty.
   // Foreach width → uruchom 3 enkodowania równolegle, ale szerokości po kolei (CPU-bound).
   const formats: ImageFormat[] = ['avif', 'webp', 'jpeg'];
-  const widths = env.IMAGE_WIDTHS.filter((w) => w <= Math.max(origW, 1));
-  if (widths.length === 0) widths.push(Math.min(origW, env.IMAGE_WIDTHS[0]!));
+  // Zod gwarantuje min 1 element w env.IMAGE_WIDTHS, ale walidujemy defensywnie.
+  const baseWidths = env.IMAGE_WIDTHS.length > 0 ? env.IMAGE_WIDTHS : [1280];
+  const widths = baseWidths.filter((w) => w <= Math.max(origW, 1));
+  if (widths.length === 0) widths.push(Math.min(origW, baseWidths[0] ?? 1280));
 
   const variants: ImageVariant[] = [];
   for (const w of widths) {

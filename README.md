@@ -1,8 +1,150 @@
-# G-Lab Chip Tuning Łódź - strona publiczna
+# G-Lab — kompletny system: strona + panel + backend
+
+> Statyczna strona warsztatu chiptuningowego G-Lab (Łódź) **plus** zarządzający nią **panel admina** (Next.js, Vercel) i **backend API** (Node + sharp, Render). Wszystko spięte przez **Supabase** (baza + auth + storage). Możesz hostować każdą część osobno, w dowolnej kolejności.
+
+---
+
+## 🏗 Architektura całego systemu
+
+```
+                                 ┌─────────────────────────────┐
+                                 │        SUPABASE             │
+                                 │  PostgreSQL · Auth · Storage│
+                                 │  (RLS · bucket "realizacje")│
+                                 └──────────────┬──────────────┘
+                                                │
+            ┌───────────────────────────────────┼───────────────────────────────────┐
+            │                                   │                                   │
+            ▼                                   ▼                                   ▼
+   ┌──────────────────┐              ┌────────────────────┐              ┌──────────────────┐
+   │  STRONA          │   fetch JSON │  BACKEND  (Render) │  SDK + RLS  │  ADMIN PANEL     │
+   │  PUBLICZNA       │ ────────────>│  Node + Express    │<────────────│  (Vercel)        │
+   │  (Netlify/Vercel)│              │  TypeScript + Zod  │             │  Next.js 15      │
+   │  HTML+CSS+JS     │              │  sharp + Pino      │             │  React 19        │
+   │  static          │   POST /leads│  Helmet + RateLimit│   POST img  │  upload→backend  │
+   │                  │ ────────────>│                    │<────────────│  /leads, /CRUD   │
+   └──────────────────┘              │  AVIF/WebP/JPG ×3  │             └──────────────────┘
+            ▲                        │  LQIP + blurhash   │                       │
+            │ revalidate (HMAC)      │  SMTP (nodemailer) │                       │
+            └────────────────────────┤  Swagger /api/docs ├───────────────────────┘
+                                     └────────────────────┘
+```
+
+**Trzy osobne wdrożenia, jedno źródło prawdy (Supabase). Każde może być w osobnym repo.**
+
+| Komponent | Folder w tym repo | Stack | Hosting | Co robi |
+|---|---|---|---|---|
+| 🌐 **Strona publiczna** | `/` (root) | własny generator Node (`build.js`) → 662 statycznych stron | Netlify · Vercel · GitHub Pages | SEO, katalog, realizacje, formularze |
+| 🛠 **Backend API** | `backend/` | Node 20 + Express + TS + Zod + Pino + sharp + Supabase + nodemailer | **Render** | REST API, konwersja obrazów AVIF/WebP, leady, auth, OpenAPI |
+| 🧑‍💼 **Panel admina** | `admin-panel/` | Next.js 15 + React 19 + Tailwind + Supabase SSR | **Vercel** | CRUD realizacji, upload, skrzynka zapytań, import CSV katalogu |
+| 🗄 **Baza** | `supabase/schema.sql` | PostgreSQL + RLS + Storage | **Supabase** | Realizacje, katalog, leady, pliki |
+
+> 🔁 `supabase/schema.sql` jest **zsynchronizowany** w trzech miejscach (`/`, `admin-panel/supabase/`, `backend/supabase/`) — wystarczy wkleić jeden raz w SQL Editor Supabase.
+
+---
+
+## 🚀 Setup całego systemu — krok po kroku
+
+> Pierwszy raz robisz to ~30 minut. Każdy krok zostawia działający kawałek; możesz przerwać i wrócić.
+
+### 1. Supabase — baza, auth, storage  *(5 min)*
+
+1. Załóż projekt na [supabase.com](https://supabase.com) (free tier wystarczy).
+2. Otwórz **SQL Editor** → wklej zawartość `supabase/schema.sql` → **Run**.
+3. **Storage** → bucket `realizacje` jest już utworzony przez SQL (publiczny CDN dla obrazów).
+4. **Authentication → Users** → **Add user** (e-mail + hasło) — to konto admina do logowania w panelu.
+5. Zapisz z **Settings → API**:
+   - `Project URL` → `SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_URL`,
+   - `anon public key` → `SUPABASE_ANON_KEY` / `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+   - `service_role key` → `SUPABASE_SERVICE_ROLE_KEY` *(server-only, nigdy nie commituj!)*.
+
+### 2. Backend → Render  *(10 min)*
+
+Folder `backend/` możesz **wyjąć do osobnego repo** i wdrożyć z Blueprintu (`render.yaml`) — albo trzymać tu.
+
+1. Render → **New → Blueprint** → wskaż repo → potwierdź `backend/render.yaml`.
+2. Ustaw zmienne (Render dashboard → Environment):
+   - `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (z kroku 1)
+   - `ALLOWED_ORIGINS=https://twoja-strona.pl,https://twoj-panel.vercel.app`
+   - `REVALIDATE_SECRET=…losowy 32-znakowy ciąg…` *(współdzielony z panelem)*
+   - **opcjonalnie** SMTP do powiadomień o leadach: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `MAIL_TO`
+   - **opcjonalnie** rebuild strony po zmianie: `BUILD_HOOK_URL` (z Netlify/Vercel)
+3. Deploy — backend wstaje pod `https://g-lab-backend.onrender.com`. Sprawdź `https://…/health` i `https://…/api/docs` (Swagger UI).
+4. Pełna instrukcja, lista endpointów i troubleshooting → **[`backend/README.md`](backend/README.md)**.
+
+### 3. Panel admina → Vercel  *(5 min)*
+
+Folder `admin-panel/` także możesz wyjąć do osobnego repo.
+
+1. Vercel → **Add New → Project** → wskaż repo + root `admin-panel/`.
+2. Ustaw zmienne środowiskowe (Project Settings → Environment Variables):
+   - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`,
+   - `NEXT_PUBLIC_BACKEND_URL=https://g-lab-backend.onrender.com` *(z kroku 2)*,
+   - `NEXT_PUBLIC_SITE_URL=https://twoja-strona.pl` *(z kroku 4)*,
+   - `REVALIDATE_SECRET=…ten sam co na backendzie…`,
+   - `NEXT_PUBLIC_SUPABASE_BUCKET=realizacje`.
+3. Deploy. Logowanie kontem z kroku 1.4 — i panel działa.
+4. Pełny opis → **[`admin-panel/README.md`](admin-panel/README.md)**.
+
+### 4. Strona publiczna → Netlify (lub Vercel)  *(5 min)*
+
+1. Netlify → **Add new site** → z repo (główne, root).
+2. Build command: `npm run build`, publish dir: `public`.
+3. Zmienne środowiskowe:
+   - `GLAB_API_URL=https://g-lab-backend.onrender.com` *(włącza dynamiczne realizacje + formularze leadów)*,
+   - `GLAB_CONTACT_EMAIL=biuro@twojadomena.pl` *(fallback dla `mailto:`)*.
+4. **Build hook** (Netlify → Site settings → Build & deploy → Build hooks) → URL skopiuj do `BUILD_HOOK_URL` na backendzie. Po każdym zapisie realizacji w panelu strona przebuduje się automatycznie.
+
+### 5. Test end-to-end  *(2 min)*
+
+- Zaloguj się do panelu → **Realizacje → Nowa** → wgraj zdjęcie → zapisz.  
+  ✓ Plik trafił do Supabase Storage z wariantami AVIF/WebP/JPG (sprawdź w Supabase → Storage).  
+  ✓ Po ~1 min Netlify zrobił rebuild (jeśli ustawiony `BUILD_HOOK_URL`); na stronie `/realizacje/` widać kartę.  
+  ✓ Przed rebuildem karta i tak pojawia się natychmiast (runtime-fetch z backendu).
+- Wyślij formularz wyceny na stronie publicznej → w panelu **Skrzynka** zobacz nowy lead, zmień status, zaznacz kilka i wyeksportuj CSV.
+
+---
+
+## 📋 Referencja zmiennych środowiskowych
+
+| Komponent | Zmienna | Wymagana | Opis |
+|---|---|---|---|
+| **Backend** | `SUPABASE_URL` | ✓ | URL projektu Supabase |
+| | `SUPABASE_ANON_KEY` | ✓ | klucz anon (do walidacji JWT od panelu) |
+| | `SUPABASE_SERVICE_ROLE_KEY` | ✓ | klucz service-role (omija RLS — TYLKO server) |
+| | `SUPABASE_BUCKET` | – | nazwa bucketa, domyślnie `realizacje` |
+| | `ALLOWED_ORIGINS` | ✓ | CSV originów dopuszczonych do CORS |
+| | `PORT` | – | port HTTP (Render ustawia automatycznie) |
+| | `REVALIDATE_SECRET` | – | sekret HMAC do triggerów rebuildu |
+| | `BUILD_HOOK_URL` | – | URL build-hooka Netlify/Vercel |
+| | `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | – | powiadomienia e-mail o leadach |
+| | `MAIL_FROM` / `MAIL_TO` | – | adres nadawcy / odbiorcy powiadomień |
+| | `RATE_LIMIT_*` | – | dostrojenie limitów (mają sensowne defaulty) |
+| **Panel admina** | `NEXT_PUBLIC_SUPABASE_URL` | ✓ | URL Supabase |
+| | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✓ | klucz anon |
+| | `SUPABASE_SERVICE_ROLE_KEY` | ✓ | używany tylko przez Server Actions importu CSV |
+| | `NEXT_PUBLIC_SUPABASE_BUCKET` | – | bucket Storage |
+| | `NEXT_PUBLIC_BACKEND_URL` | – | bez tego: brak skrzynki zapytań i upload bez konwersji |
+| | `NEXT_PUBLIC_SITE_URL` | – | linki „Otwórz na stronie ↗" |
+| | `REVALIDATE_SECRET` | – | trigger rebuildu po zapisie |
+| **Strona** | `GLAB_API_URL` | – | bez tego: realizacje tylko z markdown, formularz leadów otwiera mailto |
+| | `GLAB_CONTACT_EMAIL` | – | fallback `mailto:` |
+
+---
+
+## 📚 Dokumentacja szczegółowa
+
+- 🛠 **Backend (REST API + image pipeline + Render):** [`backend/README.md`](backend/README.md)
+- 🧑‍💼 **Panel admina (Next.js + Vercel + skrzynka zapytań):** [`admin-panel/README.md`](admin-panel/README.md)
+- 🗄 **Schemat bazy:** [`supabase/schema.sql`](supabase/schema.sql) *(jeden plik do wklejenia w Supabase SQL Editor)*
+
+---
+
+# Strona publiczna — szczegóły
 
 > Statyczna strona warsztatu chiptuningowego G-Lab (Łódź, Rokicińska 266) specjalizującego się w **chiptuningu diesli**, usuwaniu DPF/EGR/AdBlue oraz pomiarach na własnej hamowni podwoziowej.
 
-Strona jest generowana statycznie przez własny generator napisany w czystym Node.js (bez frameworków typu Next/Astro). Wszystkie dane katalogowe pochodzą z jednego pliku `katalog.csv`, treści edytowalne (realizacje, statyczne strony, opinie) - z plików Markdown w `content/`. Edycja przez przeglądarkę odbywa się przez wbudowany Decap CMS w `/admin/`.
+Strona jest generowana statycznie przez własny generator napisany w czystym Node.js (bez frameworków typu Next/Astro). Wszystkie dane katalogowe pochodzą z jednego pliku `katalog.csv`, treści edytowalne (realizacje, statyczne strony, opinie) - z plików Markdown w `content/`. Edycja przez przeglądarkę odbywa się przez wbudowany Decap CMS w `/admin/` **lub przez nowy panel admina (`admin-panel/`) — patrz wyżej**.
 
 ---
 

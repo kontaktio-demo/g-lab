@@ -63,3 +63,9 @@ export class TooManyRequestsError extends AppError {
     super(429, 'TOO_MANY_REQUESTS', message);
   }
 }
+
+export class ServiceUnavailableError extends AppError {
+  constructor(message = 'Usługa tymczasowo niedostępna.') {
+    super(503, 'SERVICE_UNAVAILABLE', message);
+  }
+}

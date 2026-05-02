@@ -1,24 +1,42 @@
 # G-Lab CMS — panel admina
 
 Samodzielna aplikacja Next.js 15 (App Router) + Supabase, gotowa do wdrożenia na Vercelu.
-Pozwala zarządzać **realizacjami** warsztatu (CRUD: dodawanie, edycja, usuwanie, publikacja, zdjęcia)
-oraz importować **katalog aut** z pliku CSV (taki jak `katalog.csv` ze strony G-Lab).
+Pozwala zarządzać **realizacjami** warsztatu (CRUD + zdjęcia z konwersją AVIF/WebP),
+**skrzynką zapytań** z formularzy oraz importować **katalog aut** z pliku CSV.
 
 > Ten folder jest niezależny — możesz go skopiować do osobnego repo, podlinkować pod
 > Vercela i działa od razu po ustawieniu zmiennych środowiskowych.
+>
+> Współpracuje z **backendem G-Lab** (`backend/` w repo głównym, deploy na Render) — backend
+> obsługuje konwersję obrazów do AVIF/WebP/JPG, magazynuje leady i wystawia API dla strony
+> publicznej. Bez backendu panel działa w trybie ograniczonym (upload bez konwersji,
+> brak skrzynki).
 
 ---
 
 ## ✨ Co dostajesz
 
 - 🔐 **Logowanie** przez Supabase Auth (e-mail + hasło).
-- 🖼️ **CRUD realizacji** — formularz, okładka + galeria (upload do Supabase Storage),
-  Markdown w opisie, status „Opublikowana / Szkic", **podgląd kafelka 1:1 jak na stronie**.
+- 🖼️ **CRUD realizacji** z pełnym zestawem pól:
+  - tytuł, slug, samochód, data, krótki + pełny opis (Markdown),
+  - **dane techniczne**: marka (z autouzupełnianiem), usługa (chiptuning / dpf-egr / hamownia / inne),
+    stage, silnik, sterownik,
+  - **pomiar dyno** — moc i moment seryjne vs po tuningu, live-podsumowanie +KM/+Nm,
+  - **narzędzia** jako tag input (KESS V3, Alientech, …),
+  - **okładka + galeria** uploadowane przez backend → konwersja **AVIF + WebP + JPG**
+    × 3 szerokości (480 / 1280 / 2400 px) + LQIP + blurhash,
+  - status publikacji + przycisk **„Otwórz na stronie ↗"**,
+  - **podgląd kafelka 1:1** jak na stronie publicznej.
+- ✉️ **Skrzynka zapytań** (`/leads`) — wszystkie zapytania z formularzy ze strony:
+  filtry po statusie, wyszukiwarka, bulk actions, eksport CSV, auto-refresh co 60 s,
+  rozwijany pełny `payload` formularza.
+- 📊 **Pulpit** — kafelki ze statystykami: realizacje (+ liczba szkiców), katalog,
+  **liczba nowych zapytań**, ostatnia zmiana.
 - 📥 **Import CSV katalogu** — drag & drop, tryb „Zastąp całość" lub „Aktualizuj (upsert)",
   walidacja nagłówków, historia importów.
-- 🎨 **Wygląd spójny ze stroną G-Lab** — ten sam ciemny motyw (`#0b0d10`),
-  pomarańczowy akcent (`#ff5a1f`), font **Inter**, identyczna stylizacja kafelków
-  realizacji (16:10, hover, scale).
+- 🔁 **Auto-trigger rebuildu** strony statycznej po zapisie realizacji
+  (POST do `BUILD_HOOK_URL` Netlify/Vercel z HMAC).
+- 🎨 **Wygląd spójny ze stroną G-Lab** — ten sam ciemny motyw, pomarańczowy akcent, Inter.
 - 🛡️ **RLS** w Supabase: publiczny odczyt opublikowanych realizacji i katalogu
   (żeby strona statyczna mogła je pobierać), zapis tylko dla zalogowanych.
 
