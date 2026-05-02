@@ -10,11 +10,14 @@
   var pre = new URLSearchParams(location.search).get('slug');
   var preCar = pre ? CARS.find(function (c) { return c.slug === pre; }) : null;
 
+  function escHtml(s) { return String(s).replace(/[&<>"']/g, function (c) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+
   var dl = document.getElementById('quiz-cars');
   if (dl) {
     var html = '';
     for (var i = 0; i < CARS.length; i++) {
-      html += '<option value="' + CARS[i].marka + ' ' + CARS[i].model + ' ' + CARS[i].generacja + ' ' + CARS[i].silnik + '"></option>';
+      var lab = CARS[i].marka + ' ' + CARS[i].model + ' ' + CARS[i].generacja + ' ' + CARS[i].silnik;
+      html += '<option value="' + escHtml(lab) + '"></option>';
     }
     dl.innerHTML = html;
   }

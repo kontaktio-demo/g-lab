@@ -123,14 +123,14 @@
   var fSter = document.getElementById('filter-sterownik');
   var fSort = document.getElementById('filter-sort');
 
+  function escHtml(s) { return String(s).replace(/[&<>"']/g, function (c) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+
   if (fSter) {
     var sterUniq = uniqSorted(DATA.map(function (x) { return x.sterownik; }));
     var html = '<option value="">dowolny</option>';
-    for (var i = 0; i < sterUniq.length; i++) html += '<option>' + sterUniq[i] + '</option>';
+    for (var i = 0; i < sterUniq.length; i++) html += '<option>' + escHtml(sterUniq[i]) + '</option>';
     fSter.innerHTML = html;
   }
-
-  function escHtml(s) { return String(s).replace(/[&<>"']/g, function (c) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
 
   function pojRange(v) {
     if (!v) return null;
@@ -174,7 +174,7 @@
       return '<a class="car-card" href="/tuning/' + escHtml(c.slug) + '">' +
         '<div class="car-title">' + escHtml(c.marka) + ' ' + escHtml(c.model) + ' ' + escHtml(c.generacja) + '</div>' +
         '<div class="car-meta">' + escHtml(c.silnik) + ' | ' + escHtml(c.sterownik) + '</div>' +
-        '<div class="car-power"><span class="from">' + (c.km0||'?') + ' KM</span><span class="arrow">→</span><span class="to">' + (c.km1||'?') + ' KM</span><span class="diff">+' + (c.diff_km||0) + '</span></div>' +
+        '<div class="car-power"><span class="from">' + (+c.km0||'?') + ' KM</span><span class="arrow">→</span><span class="to">' + (+c.km1||'?') + ' KM</span><span class="diff">+' + (+c.diff_km||0) + '</span></div>' +
       '</a>';
     }).join('') + '</div>';
     resultsBox.innerHTML = grid;

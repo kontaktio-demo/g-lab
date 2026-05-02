@@ -20,6 +20,8 @@
     });
   });
 
+  function escHtml(s) { return String(s).replace(/[&<>"']/g, function (c) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  function escAttr(s) { return escHtml(s); }
   function fmtZl(v) {
     return new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN', maximumFractionDigits: 0 }).format(v);
   }
@@ -54,7 +56,7 @@
   var dl = document.getElementById('cars-datalist');
   if (dl) {
     var html = '';
-    for (var i = 0; i < CARS.length; i++) html += '<option value="' + CARS[i].label + '"></option>';
+    for (var i = 0; i < CARS.length; i++) html += '<option value="' + escAttr(CARS[i].label) + '"></option>';
     dl.innerHTML = html;
   }
   function findCar(q) {
@@ -86,15 +88,15 @@
         desc: 'Hybrydowa turbo, wtryskiwacze, mocowane sprzęgło.' },
     ];
     var html =
-      '<p class="kalk-hint">Bazowe wartości seryjne: <strong>' + c.km0 + ' KM / ' + c.nm0 + ' Nm</strong></p>' +
+      '<p class="kalk-hint">Bazowe wartości seryjne: <strong>' + (+c.km0) + ' KM / ' + (+c.nm0) + ' Nm</strong></p>' +
       '<div class="stages-grid">' +
         rows.map(function (r, i) {
           return '<article class="stage-card stage-' + (i+1) + '">' +
-            '<header><h3>' + r.name + '</h3><span class="stage-badge">' + r.risk + '</span></header>' +
-            '<div class="stage-power"><strong>' + r.km + '</strong> KM <span>+' + (r.km - c.km0) + '</span></div>' +
-            '<div class="stage-torque"><strong>' + r.nm + '</strong> Nm <span>+' + (r.nm - c.nm0) + '</span></div>' +
-            '<p class="stage-desc">' + r.desc + '</p>' +
-            '<div class="stage-cost">' + r.cost + '</div>' +
+            '<header><h3>' + escHtml(r.name) + '</h3><span class="stage-badge">' + escHtml(r.risk) + '</span></header>' +
+            '<div class="stage-power"><strong>' + (+r.km) + '</strong> KM <span>+' + ((+r.km) - (+c.km0)) + '</span></div>' +
+            '<div class="stage-torque"><strong>' + (+r.nm) + '</strong> Nm <span>+' + ((+r.nm) - (+c.nm0)) + '</span></div>' +
+            '<p class="stage-desc">' + escHtml(r.desc) + '</p>' +
+            '<div class="stage-cost">' + escHtml(r.cost) + '</div>' +
           '</article>';
         }).join('') +
       '</div>' +
