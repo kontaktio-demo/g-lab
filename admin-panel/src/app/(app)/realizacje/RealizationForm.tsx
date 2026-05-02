@@ -4,7 +4,8 @@ import { useEffect, useId, useRef, useState, useTransition, useActionState } fro
 import { useFormStatus } from 'react-dom';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import type { Realization, GalleryItem } from '@/lib/types';
+import type { GalleryItem, Realization, RealizationUsluga } from '@/lib/types';
+import { isBackendConfigured, uploadImage } from '@/lib/backend';
 import {
   createRealization,
   updateRealization,
@@ -14,6 +15,15 @@ import {
 import { slugify } from '@/lib/utils';
 
 const BUCKET = process.env.NEXT_PUBLIC_SUPABASE_BUCKET || 'realizacje';
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || '').replace(/\/$/, '');
+
+const USLUGI: { value: RealizationUsluga | ''; label: string }[] = [
+  { value: '',           label: '— wybierz —' },
+  { value: 'chiptuning', label: 'Chiptuning' },
+  { value: 'dpf-egr',    label: 'DPF / EGR' },
+  { value: 'hamownia',   label: 'Hamownia' },
+  { value: 'inne',       label: 'Inne' },
+];
 
 type Props = { initial?: Realization };
 
@@ -37,9 +47,26 @@ export default function RealizationForm({ initial }: Props) {
   const [data, setData]               = useState(initial?.data ?? new Date().toISOString().slice(0, 10));
   const [krotki, setKrotki]           = useState(initial?.krotki_opis ?? '');
   const [body, setBody]               = useState(initial?.body ?? '');
-  const [coverUrl, setCoverUrl]       = useState(initial?.cover_url ?? '');
+
+  // Cover - obiekt (z wariantami) ALBO sam URL (legacy).
+  const initialCover: GalleryItem | null =
+    initial?.cover ?? (initial?.cover_url ? { url: initial.cover_url } : null);
+  const [cover, setCover] = useState<GalleryItem | null>(initialCover);
+
   const [gallery, setGallery]         = useState<GalleryItem[]>(initial?.gallery ?? []);
   const [published, setPublished]     = useState(initial?.published ?? true);
+
+  // Nowe pola
+  const [marka, setMarka]         = useState(initial?.marka ?? '');
+  const [usluga, setUsluga]       = useState<RealizationUsluga | ''>(initial?.usluga ?? '');
+  const [stage, setStage]         = useState(initial?.stage ?? '');
+  const [silnik, setSilnik]       = useState(initial?.silnik ?? '');
+  const [sterownik, setSterownik] = useState(initial?.sterownik ?? '');
+  const [km0, setKm0]             = useState<string>(initial?.km0 != null ? String(initial.km0) : '');
+  const [km1, setKm1]             = useState<string>(initial?.km1 != null ? String(initial.km1) : '');
+  const [nm0, setNm0]             = useState<string>(initial?.nm0 != null ? String(initial.nm0) : '');
+  const [nm1, setNm1]             = useState<string>(initial?.nm1 != null ? String(initial.nm1) : '');
+  const [narzedzia, setNarzedzia] = useState<string>((initial?.narzedzia ?? []).join(', '));
 
   const [savedToast, setSavedToast] = useState<string | null>(null);
 
@@ -60,6 +87,9 @@ export default function RealizationForm({ initial }: Props) {
     if (!window.confirm(`Usunąć realizację "${initial!.title}"? Operacji nie można cofnąć.`)) return;
     startDelete(async () => { await deleteRealization(initial!.id); });
   };
+
+  const kmGain = km0 && km1 ? Number(km1) - Number(km0) : null;
+  const nmGain = nm0 && nm1 ? Number(nm1) - Number(nm0) : null;
 
   return (
     <form action={formAction} className="grid gap-6 lg:grid-cols-[1fr_360px]">
@@ -99,7 +129,7 @@ export default function RealizationForm({ initial }: Props) {
           </div>
 
           <div>
-            <label htmlFor="samochod" className="field-label">Samochód</label>
+            <label htmlFor="samochod" className="field-label">Samochód (pełna nazwa)</label>
             <input
               id="samochod" name="samochod"
               value={samochod} onChange={(e) => setSamochod(e.target.value)}
@@ -122,11 +152,110 @@ export default function RealizationForm({ initial }: Props) {
           <div>
             <label htmlFor="body" className="field-label">Pełny opis (Markdown)</label>
             <textarea
-              id="body" name="body" rows={14}
+              id="body" name="body" rows={12}
               value={body} onChange={(e) => setBody(e.target.value)}
               className="field-textarea font-mono text-sm leading-relaxed"
               placeholder="## Co zostało wykonane&#10;- Stage 1&#10;- Wyłączenie EGR&#10;..."
             />
+          </div>
+        </div>
+
+        {/* Dane techniczne */}
+        <div className="card p-5 space-y-4">
+          <div>
+            <h3 className="font-semibold">Dane techniczne i klasyfikacja</h3>
+            <p className="text-xs text-text-muted">Używane przez filtry na stronie publicznej.</p>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="marka" className="field-label">Marka</label>
+              <input id="marka" name="marka" value={marka} onChange={(e) => setMarka(e.target.value)}
+                className="field-input" placeholder="BMW" list="lst-marki" />
+              <datalist id="lst-marki">
+                {['Audi','BMW','Ford','Hyundai','Kia','Mercedes-Benz','Opel','Renault','Seat','Škoda','Toyota','Volkswagen','Volvo'].map(m => (
+                  <option key={m} value={m} />
+                ))}
+              </datalist>
+            </div>
+            <div>
+              <label htmlFor="usluga" className="field-label">Usługa</label>
+              <select id="usluga" name="usluga" value={usluga} onChange={(e) => setUsluga(e.target.value as RealizationUsluga | '')} className="field-input">
+                {USLUGI.map((u) => <option key={u.value} value={u.value}>{u.label}</option>)}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="stage" className="field-label">Stage / zakres</label>
+              <input id="stage" name="stage" value={stage} onChange={(e) => setStage(e.target.value)}
+                className="field-input" placeholder="Stage 1" list="lst-stage" />
+              <datalist id="lst-stage">
+                <option value="Stage 1" /><option value="Stage 2" /><option value="Stage 3" />
+                <option value="DPF off" /><option value="EGR off" /><option value="AdBlue off" /><option value="Hamownia" />
+              </datalist>
+            </div>
+            <div>
+              <label htmlFor="silnik" className="field-label">Silnik</label>
+              <input id="silnik" name="silnik" value={silnik} onChange={(e) => setSilnik(e.target.value)}
+                className="field-input" placeholder="2.0 TDI 184 KM" />
+            </div>
+            <div className="sm:col-span-2">
+              <label htmlFor="sterownik" className="field-label">Sterownik / ECU</label>
+              <input id="sterownik" name="sterownik" value={sterownik} onChange={(e) => setSterownik(e.target.value)}
+                className="field-input" placeholder="Bosch EDC17C46" />
+            </div>
+          </div>
+
+          {/* Pomiar dyno */}
+          <div className="pt-2 border-t border-border">
+            <h4 className="font-medium mb-2">Pomiar na hamowni (opcjonalny)</h4>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div>
+                <label htmlFor="km0" className="field-label">Moc seryjna [KM]</label>
+                <input id="km0" name="km0" type="number" inputMode="numeric" min={0} step={1}
+                  value={km0} onChange={(e) => setKm0(e.target.value)} className="field-input" placeholder="184" />
+              </div>
+              <div>
+                <label htmlFor="km1" className="field-label">Moc po tuningu [KM]</label>
+                <input id="km1" name="km1" type="number" inputMode="numeric" min={0} step={1}
+                  value={km1} onChange={(e) => setKm1(e.target.value)} className="field-input" placeholder="225" />
+              </div>
+              <div>
+                <label htmlFor="nm0" className="field-label">Moment seryjny [Nm]</label>
+                <input id="nm0" name="nm0" type="number" inputMode="numeric" min={0} step={1}
+                  value={nm0} onChange={(e) => setNm0(e.target.value)} className="field-input" placeholder="380" />
+              </div>
+              <div>
+                <label htmlFor="nm1" className="field-label">Moment po tuningu [Nm]</label>
+                <input id="nm1" name="nm1" type="number" inputMode="numeric" min={0} step={1}
+                  value={nm1} onChange={(e) => setNm1(e.target.value)} className="field-input" placeholder="450" />
+              </div>
+            </div>
+            {(kmGain != null || nmGain != null) && (
+              <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
+                {kmGain != null && (
+                  <div className="px-3 py-2 rounded-md bg-bg-elev-2 border border-border">
+                    Moc: <strong>{km0} → {km1} KM</strong>{' '}
+                    <span className={kmGain >= 0 ? 'text-success' : 'text-danger'}>
+                      ({kmGain >= 0 ? '+' : ''}{kmGain} KM)
+                    </span>
+                  </div>
+                )}
+                {nmGain != null && (
+                  <div className="px-3 py-2 rounded-md bg-bg-elev-2 border border-border">
+                    Moment: <strong>{nm0} → {nm1} Nm</strong>{' '}
+                    <span className={nmGain >= 0 ? 'text-success' : 'text-danger'}>
+                      ({nmGain >= 0 ? '+' : ''}{nmGain} Nm)
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="narzedzia" className="field-label">Użyte narzędzia (oddzielone przecinkiem)</label>
+            <input id="narzedzia" name="narzedzia" value={narzedzia} onChange={(e) => setNarzedzia(e.target.value)}
+              className="field-input" placeholder="KESS V3, Alientech, MPPS, hamownia MAHA" />
+            <p className="field-hint">Każde narzędzie pojawi się jako osobny tag pod realizacją.</p>
           </div>
         </div>
 
@@ -135,7 +264,11 @@ export default function RealizationForm({ initial }: Props) {
           <div className="flex items-center justify-between mb-3">
             <div>
               <h3 className="font-semibold">Galeria</h3>
-              <p className="text-xs text-text-muted">Dodatkowe zdjęcia widoczne na podstronie realizacji.</p>
+              <p className="text-xs text-text-muted">
+                {isBackendConfigured()
+                  ? 'Wgrane zdjęcia są automatycznie konwertowane na AVIF + WebP (3 szerokości) - szybciej się ładują na telefonach.'
+                  : 'Backend nie skonfigurowany - obrazy zapisywane bez optymalizacji.'}
+              </p>
             </div>
           </div>
           <GalleryEditor items={gallery} onChange={setGallery} />
@@ -159,6 +292,15 @@ export default function RealizationForm({ initial }: Props) {
 
           <div className="flex flex-col gap-2 pt-2">
             <SubmitButton isEdit={isEdit} />
+            {isEdit && SITE_URL && published && (
+              <a
+                href={`${SITE_URL}/realizacje/podglad/?slug=${encodeURIComponent(slug)}`}
+                target="_blank" rel="noreferrer"
+                className="btn-secondary w-full text-center"
+              >
+                Otwórz na stronie ↗
+              </a>
+            )}
             {isEdit && (
               <button
                 type="button"
@@ -177,8 +319,9 @@ export default function RealizationForm({ initial }: Props) {
 
         <div className="card p-5">
           <h3 className="font-semibold mb-3">Zdjęcie główne (okładka)</h3>
-          <CoverUploader value={coverUrl} onChange={setCoverUrl} />
-          <input type="hidden" name="cover_url" value={coverUrl} />
+          <CoverUploader value={cover} onChange={setCover} />
+          <input type="hidden" name="cover_json" value={cover ? JSON.stringify(cover) : ''} />
+          <input type="hidden" name="cover_url" value={cover?.url ?? ''} />
         </div>
 
         {/* Podgląd kafelka 1:1 jak na stronie */}
@@ -191,7 +334,7 @@ export default function RealizationForm({ initial }: Props) {
             samochod={samochod}
             data={data}
             krotki={krotki || 'Krótki opis pojawi się tutaj…'}
-            cover={coverUrl}
+            cover={cover?.url ?? ''}
           />
         </div>
       </aside>
@@ -222,43 +365,60 @@ function SubmitButton({ isEdit }: { isEdit: boolean }) {
 
 /* ---------------- Cover uploader ---------------- */
 
-function CoverUploader({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+/**
+ * Próbuje wgrywać przez backend (image pipeline → AVIF/WebP/JPG warianty).
+ * Jeśli backend nie skonfigurowany lub padnie - fallback na bezpośredni upload do Supabase Storage.
+ */
+async function uploadFile(file: File, folder: 'cover' | 'gallery'): Promise<GalleryItem> {
+  if (isBackendConfigured()) {
+    try {
+      return await uploadImage(file, { folder });
+    } catch (e) {
+      // Loguje błąd - admin zobaczy w consoli, jeśli backend zwrócił coś specyficznego.
+      console.warn('Backend upload failed, fallback to direct Supabase:', e);
+    }
+  }
+  const sb = createClient();
+  const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+  const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+  const { error: upErr } = await sb.storage.from(BUCKET).upload(path, file, {
+    cacheControl: '31536000', upsert: false, contentType: file.type,
+  });
+  if (upErr) throw upErr;
+  const { data } = sb.storage.from(BUCKET).getPublicUrl(path);
+  return { url: data.publicUrl, path, size: file.size, mime: file.type };
+}
+
+function CoverUploader({ value, onChange }: { value: GalleryItem | null; onChange: (v: GalleryItem | null) => void }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function upload(file: File) {
     setError(null); setUploading(true);
-    try {
-      const sb = createClient();
-      const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
-      const path = `cover/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-      const { error: upErr } = await sb.storage.from(BUCKET).upload(path, file, {
-        cacheControl: '3600', upsert: false, contentType: file.type,
-      });
-      if (upErr) throw upErr;
-      const { data } = sb.storage.from(BUCKET).getPublicUrl(path);
-      onChange(data.publicUrl);
-    } catch (e) {
-      setError((e as Error).message);
-    } finally {
-      setUploading(false);
-    }
+    try { onChange(await uploadFile(file, 'cover')); }
+    catch (e) { setError((e as Error).message); }
+    finally { setUploading(false); }
   }
 
   return (
     <div>
-      {value ? (
+      {value?.url ? (
         <div className="relative group rounded-[10px] overflow-hidden border border-border">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={value} alt="Okładka" className="w-full aspect-[16/10] object-cover" />
+          <img src={value.url} alt="Okładka" className="w-full aspect-[16/10] object-cover" />
           <button
             type="button"
-            onClick={() => onChange('')}
+            onClick={() => onChange(null)}
             className="absolute top-2 right-2 text-xs px-2 py-1 rounded-md bg-bg/80 backdrop-blur border border-border hover:border-danger hover:text-danger"
           >
             Usuń
           </button>
+          {value.variants && value.variants.length > 0 && (
+            <span className="absolute bottom-2 left-2 text-[10px] px-1.5 py-0.5 rounded bg-success/20 border border-success/40 text-success">
+              ✓ {value.variants.length} wariantów
+            </span>
+          )}
         </div>
       ) : (
         <button
@@ -272,7 +432,7 @@ function CoverUploader({ value, onChange }: { value: string; onChange: (v: strin
             <>
               <span className="text-2xl mb-1">＋</span>
               Wgraj zdjęcie
-              <span className="text-xs text-text-muted/80 mt-0.5">JPG / PNG / WebP</span>
+              <span className="text-xs text-text-muted/80 mt-0.5">JPG / PNG / WebP / HEIC</span>
             </>
           )}
         </button>
@@ -299,17 +459,9 @@ function GalleryEditor({ items, onChange }: {
   async function uploadMany(files: FileList) {
     setError(null); setUploading(true);
     try {
-      const sb = createClient();
       const next = [...items];
       for (const file of Array.from(files)) {
-        const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
-        const path = `gallery/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-        const { error: upErr } = await sb.storage.from(BUCKET).upload(path, file, {
-          cacheControl: '3600', upsert: false, contentType: file.type,
-        });
-        if (upErr) throw upErr;
-        const { data } = sb.storage.from(BUCKET).getPublicUrl(path);
-        next.push({ url: data.publicUrl, alt: '' });
+        next.push(await uploadFile(file, 'gallery'));
       }
       onChange(next);
     } catch (e) {
@@ -343,6 +495,11 @@ function GalleryEditor({ items, onChange }: {
             >
               ✕
             </button>
+            {g.variants && g.variants.length > 0 && (
+              <span className="absolute top-1.5 left-1.5 text-[10px] px-1 py-0.5 rounded bg-success/20 border border-success/40 text-success">
+                AVIF
+              </span>
+            )}
           </div>
         ))}
         <button

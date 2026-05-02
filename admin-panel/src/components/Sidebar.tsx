@@ -4,10 +4,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const items = [
-  { href: '/',           label: 'Pulpit',       icon: '◧' },
-  { href: '/realizacje', label: 'Realizacje',   icon: '★' },
+  { href: '/',           label: 'Pulpit',        icon: '◧' },
+  { href: '/realizacje', label: 'Realizacje',    icon: '★' },
+  { href: '/leads',      label: 'Skrzynka',      icon: '✉' },
   { href: '/katalog',    label: 'Katalog (CSV)', icon: '⊞' },
 ];
+
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || '').replace(/\/$/, '');
 
 export default function Sidebar() {
   const path = usePathname();
@@ -46,11 +49,23 @@ export default function Sidebar() {
             </Link>
           );
         })}
+        {SITE_URL && (
+          <a
+            href={SITE_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-sm font-medium transition-colors
+                       text-text-muted hover:text-text hover:bg-bg-elev-2 border border-transparent"
+          >
+            <span className="w-5 text-center text-base">↗</span>
+            Strona publiczna
+          </a>
+        )}
       </nav>
 
       <div className="p-3 border-t border-border text-[11px] text-text-muted">
         <div className="px-3 py-2">
-          v1.0 · <a className="hover:text-accent" href="https://supabase.com" target="_blank" rel="noreferrer">Supabase</a>
+          v1.1 · <a className="hover:text-accent" href="https://supabase.com" target="_blank" rel="noreferrer">Supabase</a> · <a className="hover:text-accent" href="https://render.com" target="_blank" rel="noreferrer">Render</a>
         </div>
       </div>
     </aside>
