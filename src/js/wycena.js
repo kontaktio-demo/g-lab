@@ -118,10 +118,25 @@
     });
     if (window.gtag) window.gtag('event', 'generate_lead', { method: 'quiz_wyceny' });
 
+    // Wyślij do backendu (jeśli skonfigurowany). Niezależnie od wyniku otwieramy mailto jako backup.
+    if (window.GLab && typeof window.GLab.postLead === 'function') {
+      window.GLab.postLead({
+        source: 'wycena',
+        name: imie,
+        email: email || undefined,
+        phone: telefon,
+        message: body,
+        payload: {
+          auto: auto, rok: rok, przebieg: przebieg, stage: stage,
+          extras: extras, termin: termin,
+        },
+      });
+    }
+
     form.hidden = true;
     success.hidden = false;
     window.scrollTo({ top: success.offsetTop - 80, behavior: 'smooth' });
-    // open mail client
+    // open mail client (fallback / dodatkowa kopia)
     setTimeout(function () { window.location.href = mailto; }, 200);
   });
 

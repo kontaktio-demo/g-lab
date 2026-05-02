@@ -4,7 +4,11 @@
   var form = document.getElementById('realizacje-filters');
   var grid = document.getElementById('realizacje-grid');
   if (!form || !grid) return;
-  var cards = Array.prototype.slice.call(grid.querySelectorAll('.realization-card'));
+
+  function readCards() {
+    return Array.prototype.slice.call(grid.querySelectorAll('.realization-card'));
+  }
+  var cards = readCards();
 
   function apply() {
     var f = new FormData(form);
@@ -34,6 +38,13 @@
   form.addEventListener('change', apply);
   form.addEventListener('reset', function () { setTimeout(apply, 0); });
   apply();
+
+  // Hook dla realizacje-runtime.js — gdy domieszka ma nowe karty z backendu,
+  // odświeżamy cache + ponownie aplikujemy filtry.
+  window.GLabRefilter = function () {
+    cards = readCards();
+    apply();
+  };
 
   // Before/after slider activation
   document.querySelectorAll('.ba-slider').forEach(function (slider) {

@@ -1,0 +1,74 @@
+# ──────────────────────────────────────────────────────────────────────
+#  Render Blueprint — jednoplikowa konfiguracja deploymentu na Render.
+#  Po commicie tego pliku w nowym repo: render.com → New → Blueprint
+#  → wskaż repo → Render utworzy serwis automatycznie.
+# ──────────────────────────────────────────────────────────────────────
+services:
+  - type: web
+    name: g-lab-backend
+    runtime: node
+    plan: free          # zmień na "starter"+ jeśli chcesz no-cold-start
+    region: frankfurt   # najbliżej Polski
+    autoDeploy: true
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      # PORT jest ustawiany przez Render automatycznie; aplikacja go uszanuje.
+
+      - key: SUPABASE_URL
+        sync: false      # uzupełnij w Render Dashboard → Environment
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_BUCKET
+        value: realizacje
+
+      - key: ALLOWED_ORIGINS
+        sync: false      # np. "https://g-lab.pl,https://g-lab-cms.vercel.app"
+
+      - key: LOG_LEVEL
+        value: info
+
+      - key: MAX_UPLOAD_BYTES
+        value: "15728640"
+      - key: IMAGE_WIDTHS
+        value: "480,1280,2400"
+      - key: AVIF_QUALITY
+        value: "50"
+      - key: WEBP_QUALITY
+        value: "80"
+      - key: JPEG_QUALITY
+        value: "82"
+
+      - key: RATE_LIMIT_WINDOW_MS
+        value: "60000"
+      - key: RATE_LIMIT_MAX
+        value: "120"
+      - key: LEADS_RATE_LIMIT_MAX
+        value: "5"
+
+      # Opcjonalne — SMTP (powiadomienia o nowych leadach):
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      - key: SMTP_TO
+        sync: false
+
+      # Opcjonalne — webhook do rebuildu strony statycznej:
+      - key: REVALIDATE_HOOK_URL
+        sync: false
+      - key: REVALIDATE_SECRET
+        sync: false

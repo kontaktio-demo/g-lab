@@ -1345,7 +1345,7 @@ body.nav-open { overflow: hidden; }
   border-radius: 6px; color: var(--text); font: inherit; }
 .quiz-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.8rem; }
 .quiz-options-row { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
-.quiz-card { display: flex; flex-direction: column; gap: 0.3rem; padding: 1rem; background: rgba(255,255,255,0.03); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; transition: border-color .15s, background-color .15s; }
+.quiz-card { position: relative; display: flex; flex-direction: column; gap: 0.3rem; padding: 1rem; background: rgba(255,255,255,0.03); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; transition: border-color .15s, background-color .15s; }
 .quiz-card:hover { border-color: rgba(255,90,31,0.5); }
 .quiz-card.is-checked { border-color: #ff5a1f; background: rgba(255,90,31,0.08); }
 .quiz-card input { position: absolute; opacity: 0; pointer-events: none; }
@@ -1382,9 +1382,24 @@ body.nav-open { overflow: hidden; }
 
 /* Lightbox */
 .lightbox { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; padding: 2rem; }
-.lightbox-inner { max-width: 1100px; width: 100%; }
-.lightbox-inner svg { width: 100%; height: auto; max-height: 80vh; }
-.lightbox-close { position: absolute; top: 1rem; right: 1rem; background: transparent; color: #fff; border: 0; font-size: 2.5rem; line-height: 1; cursor: pointer; }
+.lightbox[hidden] { display: none; } /* HTML [hidden] is overridden by display:flex above without this rule */
+.lightbox-inner { max-width: 1100px; width: 100%; max-height: 90vh; overflow: auto; }
+.lightbox-inner svg, .lightbox-inner img { width: 100%; height: auto; max-height: 80vh; display: block; margin: 0 auto; }
+.lightbox-close {
+  position: absolute; top: 0.75rem; right: 0.75rem;
+  background: rgba(0,0,0,0.55); color: #fff; border: 1px solid rgba(255,255,255,0.2);
+  width: 44px; height: 44px; border-radius: 50%;
+  font-size: 1.6rem; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background-color .15s, border-color .15s, transform .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.lightbox-close:hover, .lightbox-close:focus-visible { background: rgba(255,90,31,0.85); border-color: #ff5a1f; outline: none; transform: scale(1.05); }
+@media (max-width: 600px) {
+  .lightbox { padding: 0.6rem; }
+  .lightbox-close { top: 0.6rem; right: 0.6rem; width: 48px; height: 48px; font-size: 1.8rem; }
+  .lightbox-inner svg, .lightbox-inner img { max-height: 75vh; }
+}
 
 /* Realizacje filters + cards */
 .realizacje-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.8rem; margin-bottom: 1.5rem; align-items: end; }
@@ -1419,3 +1434,44 @@ body.nav-open { overflow: hidden; }
 .search-meta { font-size: 0.9rem; opacity: 0.8; margin: 0.5rem 0; }
 .search-results { margin-top: 1rem; }
 .car-card .diff { display: inline-block; margin-left: 0.4rem; padding: 0.1rem 0.4rem; background: rgba(109, 212, 120, 0.2); color: #6dd478; border-radius: 4px; font-size: 0.8rem; font-weight: 700; }
+
+/* ─────── Responsywne poprawki dla bardzo wąskich ekranów (≤ 420px) ─────── */
+@media (max-width: 420px) {
+  /* Filtry: jedna kolumna na bardzo wąskich, żeby nie wybierać z mikro-selektów */
+  .realizacje-filters,
+  .dyno-filters,
+  .filters-grid { grid-template-columns: 1fr; }
+  /* Kalkulator: kafelki w 2 kolumnach max */
+  .kalk-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Quiz: cardy w 1 kolumnie - łatwiej kliknąć kciukiem */
+  .quiz-options,
+  .quiz-options-row,
+  .quiz-checks { grid-template-columns: 1fr; }
+  /* Akcje quizu: pełna szerokość, nie wciskamy się w róg */
+  .quiz-actions { flex-direction: column-reverse; align-items: stretch; }
+  .quiz-actions .btn-ghost { margin-right: 0; }
+  .quiz-actions .btn { width: 100%; }
+  /* Sticky CTA - mniejszy padding, żeby się zmieściło na małym ekranie */
+  .sticky-cta { padding: 0.5rem 0.75rem; }
+  .sticky-cta .btn { padding: 0.6rem 0.9rem; font-size: 0.85rem; }
+  /* CTA band - mniej zbity wokół */
+  .cta-band { gap: 1rem; }
+  .cta-band .btn { width: 100%; }
+}
+
+/* Dynamic realization preview (/realizacje/podglad/) - skeleton + helper styles */
+#realizacja-dyn .meta-row { font-size: 0.95rem; opacity: 0.85; margin: 0.5rem 0 1rem; }
+#realizacja-dyn .dyno-mini { display: grid; gap: 0.4rem; padding: 1rem; background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; margin: 1rem 0; }
+#realizacja-dyn .dyno-row { display: flex; gap: 0.6rem; align-items: baseline; flex-wrap: wrap; }
+#realizacja-dyn .dyno-row span { min-width: 70px; opacity: 0.75; font-size: 0.9rem; }
+#realizacja-dyn .dyno-row .gain { color: #6dd478; font-weight: 700; font-style: normal; }
+#realizacja-dyn .breadcrumbs { font-size: 0.85rem; opacity: 0.75; margin-bottom: 0.6rem; }
+#realizacja-dyn .breadcrumbs a { color: inherit; }
+#realizacja-dyn .realization-cover,
+#realizacja-dyn picture.realization-cover img { width: 100%; height: auto; border-radius: 10px; margin-bottom: 1rem; }
+#realizacja-dyn .realization-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.8rem; margin-top: 1.5rem; }
+#realizacja-dyn .realization-gallery figure { margin: 0; }
+#realizacja-dyn .realization-gallery img,
+#realizacja-dyn .realization-gallery picture img { width: 100%; height: auto; border-radius: 6px; display: block; }
+#realizacja-dyn .realization-gallery figcaption { font-size: 0.8rem; opacity: 0.7; margin-top: 0.25rem; }
