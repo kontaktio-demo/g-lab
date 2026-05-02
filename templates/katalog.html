@@ -1,7 +1,7 @@
 <section class="hero hero-page">
   <div class="container">
     <h1>Katalog tuningu</h1>
-    <p class="lead">Sprawdź, ile mocy i momentu może uzyskać Twoje auto po chiptuningu. Wybierz markę, model, rok i silnik.</p>
+    <p class="lead">Sprawdź, ile mocy i momentu może uzyskać Twoje auto po chiptuningu. Wybierz markę, model, rok i silnik - lub skorzystaj z wyszukiwarki.</p>
   </div>
 </section>
 
@@ -36,8 +36,52 @@
     </form>
 
     <div id="catalog-result" class="catalog-result" hidden></div>
+  </div>
+</section>
 
-    <h2 class="section-title" style="margin-top:4rem;">Przeglądaj według marki</h2>
+<section class="section section-tight section-alt">
+  <div class="container">
+    <h2 class="section-title">Wyszukiwarka full-text</h2>
+    <p>Szukaj po marce, modelu, silniku, sterowniku ECU lub numerze VIN (po WMI - 3 pierwsze znaki).</p>
+    <form id="catalog-search-form" class="search-bar" autocomplete="off" onsubmit="return false;">
+      <input type="search" id="catalog-search" placeholder="np. EDC17, 320d, WBA, 2.0 TDI..." aria-label="Wyszukiwarka katalogu">
+    </form>
+
+    <details class="filters-advanced">
+      <summary>Filtry zaawansowane</summary>
+      <div class="filters-grid">
+        <label>Pojemność
+          <select id="filter-pojemnosc">
+            <option value="">dowolna</option>
+            <option value="1.4">do 1.5 l</option>
+            <option value="1.6">1.6 - 1.9 l</option>
+            <option value="2.0">2.0 l</option>
+            <option value="2.2">2.2 - 2.5 l</option>
+            <option value="3.0">3.0 l +</option>
+          </select>
+        </label>
+        <label>Sterownik (ECU)
+          <select id="filter-sterownik">
+            <option value="">dowolny</option>
+          </select>
+        </label>
+        <label>Sortuj
+          <select id="filter-sort">
+            <option value="brand">wg marki</option>
+            <option value="gain">największy przyrost KM</option>
+            <option value="km">najwyższa moc po tuningu</option>
+          </select>
+        </label>
+      </div>
+    </details>
+
+    <div id="search-results" class="search-results" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Przeglądaj według marki</h2>
     <div class="brand-cloud">
       {{BRAND_LINKS}}
     </div>

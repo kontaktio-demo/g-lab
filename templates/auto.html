@@ -21,7 +21,7 @@
           <span class="label">Moc po tuningu</span>
           <span class="value">{{MOC_KM_TUNING}} <small>KM</small></span>
           <span class="sub">{{MOC_KW_TUNING}} kW</span>
-          <span class="diff">+{{DIFF_KM}} KM</span>
+          <span class="diff">+{{DIFF_KM}} KM ({{DIFF_PCT}}%)</span>
         </div>
         <div class="power-cell">
           <span class="label">Moment seryjny</span>
@@ -34,21 +34,28 @@
         </div>
       </div>
 
+      {{DYNO_CHART}}
+
       <table class="spec-table">
         <tbody>
           <tr><th>Marka</th><td><a href="/marka/{{MARKA_SLUG}}">{{MARKA}}</a></td></tr>
           <tr><th>Model</th><td>{{MODEL}}</td></tr>
           <tr><th>Generacja</th><td>{{GENERACJA}}</td></tr>
           <tr><th>Lata produkcji</th><td>{{ROK_OD}} - {{ROK_DO}}</td></tr>
+          <tr><th>Paliwo</th><td>{{PALIWO}}</td></tr>
+          <tr><th>Pojemność</th><td>{{POJEMNOSC}}</td></tr>
           <tr><th>Silnik</th><td><a href="/silnik/{{SILNIK_SLUG}}">{{SILNIK}}</a></td></tr>
-          <tr><th>Sterownik</th><td><a href="/sterownik/{{STEROWNIK_SLUG}}">{{STEROWNIK}}</a></td></tr>
+          <tr><th>Sterownik (ECU)</th><td><a href="/sterownik/{{STEROWNIK_SLUG}}">{{STEROWNIK}}</a></td></tr>
         </tbody>
       </table>
 
       <div class="cta-box">
         <h3>Zainteresowany chiptuningiem tego auta?</h3>
         <p>Skontaktuj się z nami, doradzimy najlepsze rozwiązanie i umówimy termin.</p>
-        <a href="/kontakt" class="btn btn-primary">Umów wizytę</a>
+        <div class="cta-box-actions">
+          <a href="/wycena/?slug={{SLUG}}" class="btn btn-primary">Wyceń tuning</a>
+          <a href="/kontakt" class="btn btn-ghost">Umów wizytę</a>
+        </div>
       </div>
     </div>
     <aside class="car-detail-aside">
@@ -58,10 +65,18 @@
           <li><a href="/marka/{{MARKA_SLUG}}">Wszystkie {{MARKA}}</a></li>
           <li><a href="/silnik/{{SILNIK_SLUG}}">Inne auta z silnikiem {{SILNIK}}</a></li>
           <li><a href="/sterownik/{{STEROWNIK_SLUG}}">Inne auta ze sterownikiem {{STEROWNIK}}</a></li>
+          <li><a href="/porownaj/?cars={{SLUG}}">Porównaj z innym modelem</a></li>
         </ul>
+      </div>
+      <div class="aside-box aside-cta">
+        <strong>Działamy od 2006 roku</strong>
+        <p>Każda realizacja kończy się pomiarem na własnej hamowni. Plik oryginalny zachowujemy bezpłatnie.</p>
+        <a href="tel:+48508146945" class="btn btn-primary btn-block">Zadzwoń +48 508 146 945</a>
       </div>
     </aside>
   </div>
 </section>
 
-<script type="application/ld+json">{{JSONLD}}</script>
+{{STAGES_BLOCK}}
+
+{{RELATED_CARS}}

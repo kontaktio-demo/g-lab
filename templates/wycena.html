@@ -1,0 +1,129 @@
+<section class="hero hero-page hero-quiz">
+  <div class="container">
+    <h1>Wyceń tuning swojego auta</h1>
+    <p class="lead">5 prostych pytań - 2 minuty - oddzwaniamy z dokładną wyceną.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container quiz-container">
+    <div class="quiz-progress" aria-hidden="true">
+      <div class="quiz-progress-bar" id="quiz-bar" style="width:20%"></div>
+      <div class="quiz-progress-steps">
+        <span class="is-active">1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+      </div>
+    </div>
+
+    <form id="quiz-form" class="quiz-form" autocomplete="off" novalidate>
+      <!-- Step 1: auto -->
+      <fieldset class="quiz-step is-active" data-step="1">
+        <legend>Jakie masz auto?</legend>
+        <p class="quiz-help">Zacznij wpisywać - podpowiemy z naszej bazy.</p>
+        <label class="quiz-input-wide">
+          <span>Marka, model, silnik</span>
+          <input type="search" name="auto" id="quiz-auto" placeholder="np. BMW 320d F30" autocomplete="off" list="quiz-cars" required>
+          <datalist id="quiz-cars"></datalist>
+        </label>
+        <label class="quiz-input">
+          <span>Rok produkcji</span>
+          <input type="number" name="rok" min="1990" max="2030" placeholder="np. 2014" required>
+        </label>
+        <label class="quiz-input">
+          <span>Przebieg [tys. km]</span>
+          <input type="number" name="przebieg" min="0" max="900" placeholder="np. 180" required>
+        </label>
+      </fieldset>
+
+      <!-- Step 2: stage -->
+      <fieldset class="quiz-step" data-step="2" hidden>
+        <legend>Jaki tuning Cię interesuje?</legend>
+        <div class="quiz-options">
+          <label class="quiz-card">
+            <input type="radio" name="stage" value="Stage 1" required>
+            <strong>Stage 1</strong>
+            <span>Tylko software, fabryczny osprzęt. Typowo +25-35% mocy.</span>
+            <em>od 1500 zł</em>
+          </label>
+          <label class="quiz-card">
+            <input type="radio" name="stage" value="Stage 2">
+            <strong>Stage 2</strong>
+            <span>Software + downpipe / intercooler. +35-45% mocy.</span>
+            <em>od 4000 zł</em>
+          </label>
+          <label class="quiz-card">
+            <input type="radio" name="stage" value="Stage 3">
+            <strong>Stage 3</strong>
+            <span>Hybrydowa turbo, wtryski. +50% i więcej.</span>
+            <em>od 12 000 zł</em>
+          </label>
+          <label class="quiz-card">
+            <input type="radio" name="stage" value="Doradźcie">
+            <strong>Doradźcie</strong>
+            <span>Nie wiem co wybrać - chcę porozmawiać ze specjalistą.</span>
+            <em>bezpłatna konsultacja</em>
+          </label>
+        </div>
+      </fieldset>
+
+      <!-- Step 3: dodatki -->
+      <fieldset class="quiz-step" data-step="3" hidden>
+        <legend>Co dodatkowo? (możesz zaznaczyć kilka)</legend>
+        <div class="quiz-checks">
+          <label class="quiz-check"><input type="checkbox" name="extras" value="dpf"><span>Usunięcie DPF (poza ruchem publ.)</span></label>
+          <label class="quiz-check"><input type="checkbox" name="extras" value="egr"><span>Wyłączenie EGR</span></label>
+          <label class="quiz-check"><input type="checkbox" name="extras" value="adblue"><span>AdBlue / SCR off</span></label>
+          <label class="quiz-check"><input type="checkbox" name="extras" value="hamownia"><span>Pomiar przed/po na hamowni</span></label>
+          <label class="quiz-check"><input type="checkbox" name="extras" value="raport"><span>Pełny raport diagnostyczny</span></label>
+        </div>
+      </fieldset>
+
+      <!-- Step 4: termin -->
+      <fieldset class="quiz-step" data-step="4" hidden>
+        <legend>Kiedy chciałbyś przyjechać?</legend>
+        <div class="quiz-options quiz-options-row">
+          <label class="quiz-card quiz-card-sm"><input type="radio" name="termin" value="Jak najszybciej" required><strong>Jak najszybciej</strong></label>
+          <label class="quiz-card quiz-card-sm"><input type="radio" name="termin" value="W tym tygodniu"><strong>W tym tygodniu</strong></label>
+          <label class="quiz-card quiz-card-sm"><input type="radio" name="termin" value="W ciągu miesiąca"><strong>W ciągu miesiąca</strong></label>
+          <label class="quiz-card quiz-card-sm"><input type="radio" name="termin" value="Jeszcze planuję"><strong>Jeszcze planuję</strong></label>
+        </div>
+      </fieldset>
+
+      <!-- Step 5: kontakt -->
+      <fieldset class="quiz-step" data-step="5" hidden>
+        <legend>Jak się z Tobą skontaktować?</legend>
+        <p class="quiz-help">Twoje dane wykorzystamy <strong>tylko</strong> do skontaktowania się w sprawie wyceny.</p>
+        <label class="quiz-input">
+          <span>Imię</span>
+          <input type="text" name="imie" required>
+        </label>
+        <label class="quiz-input">
+          <span>Telefon</span>
+          <input type="tel" name="telefon" pattern="[0-9 +()-]{9,}" placeholder="np. 500 100 200" required>
+        </label>
+        <label class="quiz-input quiz-input-wide">
+          <span>E-mail (opcjonalnie)</span>
+          <input type="email" name="email">
+        </label>
+        <label class="quiz-check quiz-rodo">
+          <input type="checkbox" name="rodo" required>
+          <span>Wyrażam zgodę na kontakt w sprawie wyceny i akceptuję <a href="/polityka-prywatnosci">politykę prywatności</a>.</span>
+        </label>
+      </fieldset>
+
+      <div class="quiz-actions">
+        <button type="button" class="btn btn-ghost" id="quiz-prev" hidden>← Wstecz</button>
+        <button type="button" class="btn btn-primary" id="quiz-next">Dalej →</button>
+        <button type="submit" class="btn btn-primary" id="quiz-submit" hidden>Wyślij zapytanie</button>
+      </div>
+    </form>
+
+    <div class="quiz-success" id="quiz-success" hidden>
+      <h2>Dziękujemy!</h2>
+      <p>Twoje zapytanie zostało zarejestrowane. Otworzyliśmy domyślny program pocztowy z gotową wiadomością do nas - wystarczy ją wysłać. Oddzwonimy w ciągu 24h roboczych.</p>
+      <p>Jeśli okno nie otworzyło się automatycznie, zadzwoń: <a href="tel:+48508146945">+48 508 146 945</a>.</p>
+    </div>
+  </div>
+</section>
+
+<script id="quiz-data" type="application/json">{{CARS_JSON}}</script>
+<script>window.GLAB_EMAIL = "{{EMAIL}}";</script>
