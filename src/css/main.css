@@ -1382,9 +1382,24 @@ body.nav-open { overflow: hidden; }
 
 /* Lightbox */
 .lightbox { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; padding: 2rem; }
-.lightbox-inner { max-width: 1100px; width: 100%; }
-.lightbox-inner svg { width: 100%; height: auto; max-height: 80vh; }
-.lightbox-close { position: absolute; top: 1rem; right: 1rem; background: transparent; color: #fff; border: 0; font-size: 2.5rem; line-height: 1; cursor: pointer; }
+.lightbox[hidden] { display: none; } /* HTML [hidden] is overridden by display:flex above without this rule */
+.lightbox-inner { max-width: 1100px; width: 100%; max-height: 90vh; overflow: auto; }
+.lightbox-inner svg, .lightbox-inner img { width: 100%; height: auto; max-height: 80vh; display: block; margin: 0 auto; }
+.lightbox-close {
+  position: absolute; top: 0.75rem; right: 0.75rem;
+  background: rgba(0,0,0,0.55); color: #fff; border: 1px solid rgba(255,255,255,0.2);
+  width: 44px; height: 44px; border-radius: 50%;
+  font-size: 1.6rem; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background-color .15s, border-color .15s, transform .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.lightbox-close:hover, .lightbox-close:focus-visible { background: rgba(255,90,31,0.85); border-color: #ff5a1f; outline: none; transform: scale(1.05); }
+@media (max-width: 600px) {
+  .lightbox { padding: 0.6rem; }
+  .lightbox-close { top: 0.6rem; right: 0.6rem; width: 48px; height: 48px; font-size: 1.8rem; }
+  .lightbox-inner svg, .lightbox-inner img { max-height: 75vh; }
+}
 
 /* Realizacje filters + cards */
 .realizacje-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.8rem; margin-bottom: 1.5rem; align-items: end; }
