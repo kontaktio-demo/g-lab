@@ -1,0 +1,40 @@
+<section class="hero hero-page">
+  <div class="container">
+    <h1>Porównaj modele</h1>
+    <p class="lead">Zestaw 2 lub 3 silniki diesla obok siebie. Sprawdź który zyska najwięcej, który ma lepszy stosunek przyrostu mocy do pojemności.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="compare-pickers">
+      <label class="compare-picker">
+        <span>Auto 1</span>
+        <input type="search" data-slot="0" placeholder="Wpisz markę / model / silnik" autocomplete="off" list="cars-datalist">
+      </label>
+      <label class="compare-picker">
+        <span>Auto 2</span>
+        <input type="search" data-slot="1" placeholder="Wpisz markę / model / silnik" autocomplete="off" list="cars-datalist">
+      </label>
+      <label class="compare-picker">
+        <span>Auto 3 (opcjonalnie)</span>
+        <input type="search" data-slot="2" placeholder="Wpisz markę / model / silnik" autocomplete="off" list="cars-datalist">
+      </label>
+      <datalist id="cars-datalist"></datalist>
+    </div>
+
+    <div id="compare-result" class="compare-result" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container cta-band">
+    <div>
+      <h2>Wybrałeś auto?</h2>
+      <p>Zrób kolejny krok - wypełnij quiz wyceny tuningu.</p>
+    </div>
+    <a href="/wycena/" class="btn btn-primary">Wyceń tuning</a>
+  </div>
+</section>
+
+<script id="compare-data" type="application/json">{{CARS_JSON}}</script>

@@ -1,0 +1,108 @@
+<section class="hero hero-page">
+  <div class="container">
+    <h1>Kalkulatory chiptuningu</h1>
+    <p class="lead">Cztery proste narzędzia, które pokażą Ci ile możesz zyskać po tuningu Twojego diesla. Liczone lokalnie, w przeglądarce - dane nie opuszczają Twojego komputera.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <nav class="kalk-tabs" role="tablist" aria-label="Wybierz kalkulator">
+      <button type="button" class="kalk-tab is-active" data-tab="paliwo" role="tab" aria-selected="true">Oszczędność paliwa</button>
+      <button type="button" class="kalk-tab" data-tab="stages" role="tab" aria-selected="false">Stage 1 / 2 / 3</button>
+      <button type="button" class="kalk-tab" data-tab="roi" role="tab" aria-selected="false">ROI tuningu</button>
+      <button type="button" class="kalk-tab" data-tab="dpf" role="tab" aria-selected="false">DPF / AdBlue</button>
+    </nav>
+
+    <!-- Tab: paliwo -->
+    <section class="kalk-panel is-active" data-panel="paliwo" role="tabpanel">
+      <h2>Kalkulator oszczędności paliwa</h2>
+      <p>Po Stage 1 spalanie diesla typowo spada o 0,5-1,2 l/100 km dzięki wyższemu momentowi przy niższych obrotach. Sprawdź, ile to rocznie w złotówkach.</p>
+      <form class="kalk-form" id="form-paliwo" autocomplete="off">
+        <label>Roczny przebieg [km]
+          <input type="number" name="km" min="1000" step="1000" value="20000" required>
+        </label>
+        <label>Spalanie obecne [l/100 km]
+          <input type="number" name="spalanie" min="3" max="20" step="0.1" value="6.5" required>
+        </label>
+        <label>Spadek po tuningu [l/100 km]
+          <input type="number" name="spadek" min="0" max="3" step="0.1" value="0.8" required>
+        </label>
+        <label>Cena oleju napędowego [zł/l]
+          <input type="number" name="cena" min="3" max="15" step="0.01" value="6.79" required>
+        </label>
+      </form>
+      <div class="kalk-result" id="result-paliwo" aria-live="polite"></div>
+    </section>
+
+    <!-- Tab: stages -->
+    <section class="kalk-panel" data-panel="stages" role="tabpanel" hidden>
+      <h2>Porównaj Stage 1 / 2 / 3</h2>
+      <p>Wybierz auto z katalogu - pokażemy szacunkowe wartości, koszt i ryzyka każdego stopnia.</p>
+      <form class="kalk-form" id="form-stages" autocomplete="off">
+        <label class="kalk-form-wide">Auto
+          <input type="search" name="q" id="stages-search" placeholder="Wpisz markę lub silnik, np. BMW 320d" autocomplete="off" list="cars-datalist">
+          <datalist id="cars-datalist"></datalist>
+        </label>
+      </form>
+      <div class="kalk-result" id="result-stages" aria-live="polite"></div>
+    </section>
+
+    <!-- Tab: ROI -->
+    <section class="kalk-panel" data-panel="roi" role="tabpanel" hidden>
+      <h2>ROI tuningu - po ilu kilometrach się zwraca</h2>
+      <p>Zakładamy zysk z mniejszego spalania jako jedyny przepływ pieniężny (pomijamy komfort, dynamikę, mniejsze obciążenie skrzyni).</p>
+      <form class="kalk-form" id="form-roi" autocomplete="off">
+        <label>Koszt chiptuningu [zł]
+          <input type="number" name="koszt" min="500" step="100" value="1800" required>
+        </label>
+        <label>Spadek spalania [l/100 km]
+          <input type="number" name="spadek" min="0.1" max="3" step="0.1" value="0.8" required>
+        </label>
+        <label>Cena ON [zł/l]
+          <input type="number" name="cena" min="3" max="15" step="0.01" value="6.79" required>
+        </label>
+        <label>Roczny przebieg [km]
+          <input type="number" name="km" min="1000" step="1000" value="25000" required>
+        </label>
+      </form>
+      <div class="kalk-result" id="result-roi" aria-live="polite"></div>
+    </section>
+
+    <!-- Tab: DPF -->
+    <section class="kalk-panel" data-panel="dpf" role="tabpanel" hidden>
+      <h2>Oszczędności po usunięciu DPF / AdBlue</h2>
+      <p class="kalk-warning">Modyfikacje układu wydechowego są dopuszczone tylko poza ruchem publicznym (off-road, sport, eksport). Decyzję o ich wykonaniu podejmuje świadomie właściciel pojazdu.</p>
+      <form class="kalk-form" id="form-dpf" autocomplete="off">
+        <label>Roczny przebieg [km]
+          <input type="number" name="km" min="1000" step="1000" value="40000" required>
+        </label>
+        <label>Cena AdBlue [zł/l]
+          <input type="number" name="cena_adblue" min="2" max="20" step="0.01" value="6.50" required>
+        </label>
+        <label>Zużycie AdBlue [l/1000 km]
+          <input type="number" name="zuzycie_adblue" min="0.1" max="5" step="0.1" value="1.4" required>
+        </label>
+        <label>Wymiana DPF u dealera [zł]
+          <input type="number" name="dpf_cost" min="1000" step="100" value="9000" required>
+        </label>
+        <label>Życie DPF [tys. km]
+          <input type="number" name="dpf_lifespan" min="50" max="400" step="10" value="180" required>
+        </label>
+      </form>
+      <div class="kalk-result" id="result-dpf" aria-live="polite"></div>
+    </section>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container cta-band">
+    <div>
+      <h2>Chcesz dokładną wycenę dla swojego auta?</h2>
+      <p>W 2 minuty wypełnij quiz, oddzwonimy z konkretną ofertą.</p>
+    </div>
+    <a href="/wycena/" class="btn btn-primary">Wyceń tuning</a>
+  </div>
+</section>
+
+<script id="kalk-data" type="application/json">{{CARS_JSON}}</script>

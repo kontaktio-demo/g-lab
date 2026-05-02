@@ -1,0 +1,48 @@
+<section class="hero hero-page">
+  <div class="container">
+    <h1>Galeria hamowni</h1>
+    <p class="lead">Łącznie <strong>{{TOTAL}}</strong> wykresów dyno w bazie. Średni przyrost mocy: <strong>{{AVG_GAIN}} KM</strong>. Filtruj po marce, stage i mocy końcowej.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <form id="dyno-filters" class="dyno-filters" autocomplete="off">
+      <label>Marka
+        <select name="marka">
+          <option value="">wszystkie</option>
+          {{MARKA_OPTIONS}}
+        </select>
+      </label>
+      <label>Stage
+        <select name="stage">
+          <option value="">wszystkie</option>
+          {{STAGE_OPTIONS}}
+        </select>
+      </label>
+      <label>Min. moc po tuningu [KM]
+        <input type="number" name="km1" min="0" step="10" placeholder="np. 200">
+      </label>
+      <label>Sortuj
+        <select name="sort">
+          <option value="gain-desc">największy przyrost</option>
+          <option value="km1-desc">najwyższa moc</option>
+          <option value="km1-asc">najniższa moc</option>
+        </select>
+      </label>
+      <button type="reset" class="btn-link">Wyczyść</button>
+    </form>
+
+    <div class="dyno-grid" id="dyno-grid">
+      {{CARDS}}
+    </div>
+
+    <div id="dyno-empty" class="dyno-empty" hidden>Brak wykresów spełniających wybrane kryteria.</div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="dyno-lightbox" class="lightbox" hidden role="dialog" aria-modal="true" aria-label="Powiększenie wykresu">
+  <button type="button" class="lightbox-close" aria-label="Zamknij">×</button>
+  <div class="lightbox-inner"></div>
+</div>
