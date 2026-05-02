@@ -38,6 +38,12 @@ const GA4_ID = process.env.GA4_ID || '';        // np. G-XXXXXXX
 const GTM_ID = process.env.GTM_ID || '';        // np. GTM-XXXXXXX
 const CLARITY_ID = process.env.CLARITY_ID || ''; // np. abcdefgh12
 
+// Backend (Render) - jeśli ustawione, strona będzie:
+//   1) dociągać realizacje runtime'em (auto-update bez rebuildu),
+//   2) wysyłać formularze (kontakt, wycena) do /api/leads.
+// Pozostawienie pustego = pełny tryb statyczny (build-time only).
+const GLAB_API_URL = (process.env.GLAB_API_URL || '').replace(/\/$/, '');
+
 const escMap = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => escMap[c]);
 const slugify = (s) =>
@@ -194,6 +200,8 @@ function wrapLayout({
     `<meta name="theme-color" content="#0a0a0a">` +
     `<link rel="manifest" href="/manifest.webmanifest">` +
     `<link rel="apple-touch-icon" href="/img/favicon.svg">` +
+    // Konfiguracja runtime - backend (Render). Jeśli pusta, JS po stronie klienta przejdzie w tryb static-only.
+    `<script>window.GLAB_CFG=${JSON.stringify({ api: GLAB_API_URL, email: BUSINESS.email })};</script>` +
     analyticsHead() +
     (breadcrumbs ? breadcrumbsJsonLd(breadcrumbs) : '') +
     jsonld.map(jsonldScript).join('') +
@@ -702,10 +710,28 @@ function buildRealizations(items) {
       { name: 'Strona główna', url: '/' },
       { name: 'Realizacje', url: '/realizacje/' },
     ],
-    extraScripts: '<script src="/js/realizacje-filter.js" defer></script>',
+    extraScripts: '<script src="/js/realizacje-filter.js" defer></script>\n    <script src="/js/realizacje-runtime.js" defer></script>',
   });
   writeFile(path.join(OUT, 'realizacje', 'index.html'), listHtml);
   written.push('/realizacje/');
+
+  // Dynamiczna podstrona podglądu realizacji z backendu (slug w query string).
+  // Realizacje statyczne (z Markdown) zachowują pretty URL /realizacje/<slug>/.
+  // Realizacje dodane w panelu (Supabase) linkują pod /realizacje/podglad/?slug=<slug>.
+  const previewHtml = wrapLayout({
+    title: 'Realizacja — G-Lab Chip Tuning',
+    description: 'Szczegóły wybranej realizacji. Zobacz pomiar, użyte narzędzia i galerię.',
+    canonicalPath: '/realizacje/podglad/',
+    content: '<div id="realizacja-dyn"></div>',
+    breadcrumbs: [
+      { name: 'Strona główna', url: '/' },
+      { name: 'Realizacje', url: '/realizacje/' },
+    ],
+    extraScripts: '<script src="/js/realizacja-runtime.js" defer></script>',
+    extraHead: '<meta name="robots" content="noindex,follow">',
+  });
+  writeFile(path.join(OUT, 'realizacje', 'podglad', 'index.html'), previewHtml);
+  written.push('/realizacje/podglad/');
 
   for (const r of items) {
     const cover = r.cover
