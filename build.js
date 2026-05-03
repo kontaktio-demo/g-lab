@@ -671,7 +671,6 @@ function buildCatalog(cars) {
     BRAND_LINKS: brandLinks,
     BRAND_OPTIONS: brandOptions,
     CATALOG_COUNT: String(cars.length),
-    VERIFIED_COUNT: String(cars.length),
   });
   const html = wrapLayout({
     title: 'Katalog chiptuningu - sprawdź swoje auto',
