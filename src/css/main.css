@@ -221,16 +221,18 @@ p { margin: 0 0 1em; }
   position: absolute; inset: 0;
   background-color: #101317;
   background-image:
-    radial-gradient(ellipse 60% 50% at 50% 30%, rgba(255, 90, 31, 0.20), transparent 70%),
-    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255, 90, 31, 0.05), transparent 75%);
+    radial-gradient(ellipse 55% 45% at 50% 30%, rgba(255, 90, 31, 0.18), transparent 70%),
+    repeating-linear-gradient(45deg, #14181d 0 6px, #1a1f25 6px 12px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.025) 0 6px, transparent 6px 12px);
+  background-blend-mode: normal, normal, overlay;
   z-index: 0;
   pointer-events: none;
 }
 .hero-home::after {
   content: "";
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.78) 100%);
-  z-index: 1;
+  background: radial-gradient(ellipse 80% 75% at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
+  z-index: 0;
   pointer-events: none;
 }
 
