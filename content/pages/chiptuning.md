@@ -12,13 +12,15 @@ G-Lab to warsztat specjalizujący się w modyfikacjach oprogramowania sterownik�
 
 ## Czym jest chiptuning?
 
-Chiptuning to precyzyjna modyfikacja oprogramowania sterującego pracą silnika diesla, której celem jest zwiększenie mocy, momentu obrotowego oraz poprawa dynamiki - często przy jednoczesnym obniżeniu zużycia paliwa przy spokojnej jeździe. **G-Lab specjalizuje się wyłącznie w silnikach wysokoprężnych** - to nasza świadoma decyzja, dzięki której rozumiemy specyfikę common-rail, turbosprężarek o zmiennej geometrii, układów DPF/EGR i SCR/AdBlue lepiej niż warsztaty "od wszystkiego".
+Chiptuning to precyzyjna modyfikacja oprogramowania sterującego pracą silnika - diesla lub benzynowego - której celem jest zwiększenie mocy, momentu obrotowego oraz poprawa dynamiki, często przy jednoczesnym obniżeniu zużycia paliwa przy spokojnej jeździe.
+
+**G-Lab specjalizuje się w nowoczesnych silnikach diesla, ale z powodzeniem tuningujemy też silniki benzynowe (głównie turbodoładowane: TSI, TFSI, TGDI, EcoBoost, THP).** Dzięki wieloletniemu doświadczeniu rozumiemy specyfikę common-rail, turbosprężarek o zmiennej geometrii oraz układów DPF/EGR/SCR. Równie dobrze znamy zachowanie sterownika przy bezpośrednim wtrysku benzyny i pracy pod wysokim doładowaniem - lepiej niż warsztaty "od wszystkiego".
 
 Kluczowym elementem każdego chiptuningu jest jednostka sterująca silnikiem - **Engine Control Unit (ECU)**. To ona w czasie rzeczywistym zarządza dawkowaniem paliwa, kątem wtrysku, ciśnieniem doładowania i innymi parametrami, na podstawie danych z sondy lambda, czujników temperatury, obrotów silnika oraz ciśnienia w kolektorze ssącym. Modyfikując mapy w ECU w sposób przemyślany, jesteśmy w stanie odblokować potencjał, który fabryka pozostawiła w tzw. zapasie - nie wykraczając przy tym poza bezpieczne dla podzespołów wartości.
 
 ## Co zyskujesz
 
-- **Więcej mocy i momentu obrotowego** - typowo +25-35% w nowoczesnych dieslach.
+- **Więcej mocy i momentu obrotowego** - typowo +25-35% w nowoczesnych dieslach i +20-30% w turbodoładowanych benzyniakach.
 - **Lepsza dynamika** - szybsza reakcja na pedał gazu i płynniejsza praca w całym zakresie obrotów.
 - **Niższe spalanie przy spokojnej jeździe** - typowo o 0,5-1 l/100 km dzięki większej efektywności pracy silnika.
 - **Lepsza kultura pracy silnika** - stabilniejsze parametry, mniej szarpnięć przy zmianach biegów.

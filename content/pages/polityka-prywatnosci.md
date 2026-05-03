@@ -2,19 +2,19 @@
 title: "Polityka prywatności"
 subtitle: "Informacje o przetwarzaniu danych osobowych zgodnie z RODO."
 slug: "polityka-prywatnosci"
-description: "Polityka prywatności G-Lab Diesel Tuning. Informacje o przetwarzaniu danych osobowych zgodnie z RODO."
+description: "Polityka prywatności G-Lab Chip Tuning. Informacje o przetwarzaniu danych osobowych zgodnie z RODO."
 ---
 
 <div class="info-box">
 <strong>Administrator danych osobowych</strong>
-G-Lab Diesel Tuning<br>
+G-Lab Chip Tuning<br>
 Rokicińska 266, 92-620 Łódź<br>
 E-mail: <a href="mailto:kontakt@g-lab.pl">kontakt@g-lab.pl</a> | Tel.: <a href="tel:+48508146945">+48 508 146 945</a>
 </div>
 
 ## 1. Postanowienia ogólne
 
-Niniejsza Polityka Prywatności opisuje zasady przetwarzania danych osobowych przez G-Lab Diesel Tuning (dalej: "Administrator") w związku z korzystaniem z serwisu internetowego dostępnego pod adresem [www.g-lab.pl](https://g-lab.pl) oraz świadczeniem usług chiptuningu, usuwania DPF/EGR i pomiarów na hamowni podwoziowej.
+Niniejsza Polityka Prywatności opisuje zasady przetwarzania danych osobowych przez G-Lab Chip Tuning (dalej: "Administrator") w związku z korzystaniem z serwisu internetowego dostępnego pod adresem [www.g-lab.pl](https://g-lab.pl) oraz świadczeniem usług chiptuningu, usuwania DPF/EGR i pomiarów na hamowni podwoziowej.
 
 Administrator przetwarza dane osobowe zgodnie z obowiązującymi przepisami prawa, w szczególności z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. (RODO) oraz ustawą z dnia 10 maja 2018 r. o ochronie danych osobowych.
 
@@ -118,6 +118,6 @@ W sprawach dotyczących ochrony danych osobowych prosimy o kontakt:
 
 - E-mail: [kontakt@g-lab.pl](mailto:kontakt@g-lab.pl)
 - Telefon: [+48 508 146 945](tel:+48508146945)
-- Adres korespondencyjny: G-Lab Diesel Tuning, Rokicińska 266, 92-620 Łódź
+- Adres korespondencyjny: G-Lab Chip Tuning, Rokicińska 266, 92-620 Łódź
 
 <p class="updated">Niniejsza Polityka Prywatności obowiązuje od dnia 1 stycznia 2026 r.</p>

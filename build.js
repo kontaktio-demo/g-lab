@@ -15,7 +15,7 @@ const OUT = path.join(ROOT, 'public');
 const SITE_URL = (process.env.SITE_URL || 'https://g-lab.pl').replace(/\/$/, '');
 const SITE_NAME = 'G-Lab Chip Tuning';
 const BUSINESS = {
-  name: 'G-Lab Diesel Tuning',
+  name: 'G-Lab Chip Tuning',
   legalName: 'G-Lab Chip Tuning',
   street: 'Rokicińska 266',
   postal: '92-620',
@@ -1450,10 +1450,10 @@ const FAQ_BY_SLUG = {
 };
 
 const HOME_FAQ = [
-  { q: 'Czy chiptuning niszczy silnik diesla?',
-    a: 'Nie - przy poprawnie wykonanej kalibracji (Stage 1, indywidualny plik, monitoring kluczowych parametrów) silnik pracuje w bezpiecznym oknie. G-Lab od 2006 r. - tysiące zadowolonych kierowców.' },
+  { q: 'Czy chiptuning niszczy silnik?',
+    a: 'Nie - przy poprawnie wykonanej kalibracji (Stage 1, indywidualny plik, monitoring kluczowych parametrów) silnik pracuje w bezpiecznym oknie. Dotyczy to zarówno diesli, jak i nowoczesnych silników benzynowych. G-Lab od 2006 r. - tysiące zadowolonych kierowców.' },
   { q: 'Ile zyskam mocy i momentu?',
-    a: 'Typowy diesel po Stage 1 zyskuje 25-35% mocy i momentu obrotowego. Przykład: 320d 184 KM -> 231 KM, 380 -> 460 Nm. Konkretne wartości dla Twojego auta sprawdzisz w katalogu.' },
+    a: 'Typowy diesel po Stage 1 zyskuje 25-35% mocy i momentu obrotowego, turbodoładowane benzyniaki zwykle 20-30%. Przykład: 320d 184 KM -> 231 KM, 380 -> 460 Nm. Konkretne wartości dla Twojego auta sprawdzisz w katalogu.' },
   { q: 'Czy spalanie wzrośnie?',
     a: 'Przy zachowaniu spokojnego stylu jazdy spalanie spada średnio o ~0,8 l/100 km dzięki większej efektywności i wyższemu momentowi w niższych obrotach.' },
   { q: 'Czy mają Państwo własną hamownię?',
@@ -1622,14 +1622,14 @@ function buildHome(stats) {
       </div>
       <p class="reviews-cta">
         <strong>4.9 / 5</strong> średnia ocen na podstawie 127 opinii klientów -
-        <a href="https://www.google.com/maps/search/?api=1&amp;query=G-Lab+Diesel+Tuning+Rokicińska+266+Łódź" target="_blank" rel="noopener">zobacz opinie w Google Maps</a>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=G-Lab+Chip+Tuning+Rokicińska+266+Łódź" target="_blank" rel="noopener">zobacz opinie w Google Maps</a>
       </p>
     </div>
   </section>`;
 
   const html = wrapLayout({
-    title: 'Chiptuning Łódź - diesel, DPF/EGR i hamownia podwoziowa | G-Lab',
-    description: 'Profesjonalny chiptuning diesli, usuwanie DPF/EGR, hamownia podwoziowa w Łodzi. Działamy od 2006 roku. Kilkaset modeli w bazie, ROI tuningu poniżej 12 miesięcy.',
+    title: 'Chiptuning Łódź - diesel i benzyna, DPF/EGR, hamownia podwoziowa | G-Lab',
+    description: 'Profesjonalny chiptuning diesli i silników benzynowych, usuwanie DPF/EGR, hamownia podwoziowa w Łodzi. Działamy od 2006 roku. Kilkaset modeli w bazie, ROI tuningu poniżej 12 miesięcy.',
     canonicalPath: '/',
     content: T.home + countersHtml + toolsBand + reviewsHtml + faqHtml(HOME_FAQ),
     jsonld: [
