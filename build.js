@@ -548,7 +548,7 @@ function renderCarPage(car, allCars, brandIndex) {
     breadcrumbs: [
       { name: 'Strona główna', url: '/' },
       { name: 'Katalog', url: '/katalog/' },
-      { name: car.marka, url: `/marka/${car.marka_slug}` },
+      { name: car.marka, url: `/marka/${car.marka_slug}/` },
       { name: `${car.model} ${car.generacja} ${car.silnik}`, url: `/tuning/${car.slug}` },
     ],
     jsonld: [productSchema],
@@ -585,15 +585,18 @@ function renderArchive({ label, name, intro, slug, dirSegment, cars, extra }) {
   const html = wrapLayout({
     title: `${label}: ${name} - chiptuning`,
     description: `${intro} ${cars.length} ${cars.length === 1 ? 'pozycja' : 'pozycji'} w katalogu.`,
-    canonicalPath: `/${dirSegment}/${slug}`,
+    canonicalPath: `/${dirSegment}/${slug}/`,
     content: inner,
     breadcrumbs: [
       { name: 'Strona główna', url: '/' },
       { name: 'Katalog', url: '/katalog/' },
-      { name: `${label}: ${name}`, url: `/${dirSegment}/${slug}` },
+      { name: `${label}: ${name}`, url: `/${dirSegment}/${slug}/` },
     ],
   });
-  writeFile(path.join(OUT, dirSegment, `${slug}.html`), html);
+  // Pages written as dir/slug/index.html (not dir/slug.html) so they resolve
+  // under both Netlify pretty URLs and Vercel `trailingSlash: true`, which
+  // 308-redirects /dir/slug -> /dir/slug/ and then needs an index.html.
+  writeFile(path.join(OUT, dirSegment, slug, 'index.html'), html);
 }
 
 function buildCatalog(cars) {
@@ -643,7 +646,7 @@ function buildCatalog(cars) {
         ? `<p class="archive-more">Pokazujemy ${capped.length} z ${list.length} pozycji. Pozostałe znajdziesz w <a href="/katalog/?q=${encodeURIComponent(name)}">wyszukiwarce katalogu</a>.</p>`
         : '';
       renderArchive({ label: g.label, name, intro: g.intro(name), slug, dirSegment: g.dir, cars: capped, extra: moreNote });
-      written.push(`/${g.dir}/${slug}`);
+      written.push(`/${g.dir}/${slug}/`);
     }
   }
 
@@ -655,7 +658,7 @@ function buildCatalog(cars) {
   const brandsSorted = [...new Set(cars.map((c) => c.marka))]
     .sort((a, b) => a.localeCompare(b, 'pl'));
   const brandLinks = brandsSorted
-    .map((m) => `<a href="/marka/${slugify(m)}">${esc(m)}</a>`)
+    .map((m) => `<a href="/marka/${slugify(m)}/">${esc(m)}</a>`)
     .join('\n');
   const brandOptions = brandsSorted
     .map((m) => `<option value="${esc(m)}" data-slug="${esc(slugify(m))}">${esc(m)}</option>`)
