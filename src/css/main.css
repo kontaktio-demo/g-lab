@@ -82,11 +82,17 @@ p { margin: 0 0 1em; }
   color: var(--text); text-decoration: none;
   display: inline-flex; align-items: center;
 }
-.logo span {
-  background: var(--grad-accent-strong);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.logo img {
+  display: block;
+  height: 40px;
+  width: auto;
+  max-width: 100%;
+}
+.logo-footer img {
+  height: 48px;
+}
+@media (max-width: 480px) {
+  .logo img { height: 34px; }
 }
 .main-nav { display: flex; gap: 1.25rem; align-items: center; }
 .main-nav a {
@@ -568,7 +574,7 @@ html {
 body.nav-open { overflow: hidden; }
 
 .logo:hover { text-decoration: none; }
-.logo:hover span { filter: brightness(1.1); }
+.logo:hover img { filter: brightness(1.1); }
 
 @media (prefers-reduced-motion: reduce) {
   body, .reveal, .card-link, .car-card, .realization-card, .gallery img,
