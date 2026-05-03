@@ -1272,6 +1272,7 @@ body.nav-open { overflow: hidden; }
 .sticky-cta-btn { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
   padding: 0.85rem 0.5rem; border-radius: 6px; font-weight: 700; text-decoration: none; }
 .sticky-cta-call { background: rgba(255,255,255,0.08); color: var(--text); }
+.sticky-cta-wa { background: #25D366; color: #fff; }
 .sticky-cta-quote { background: #ff5a1f; color: #fff; }
 @media (max-width: 720px) {
   .sticky-cta { display: flex; }
@@ -1475,3 +1476,21 @@ body.nav-open { overflow: hidden; }
 #realizacja-dyn .realization-gallery img,
 #realizacja-dyn .realization-gallery picture img { width: 100%; height: auto; border-radius: 6px; display: block; }
 #realizacja-dyn .realization-gallery figcaption { font-size: 0.8rem; opacity: 0.7; margin-top: 0.25rem; }
+
+/* Kontakt: mapa, formularz, godziny w stopce */
+.map-embed { margin: 1.5rem 0; }
+.map-embed iframe { display: block; width: 100%; max-width: 100%; }
+.map-actions { margin-top: 0.6rem; }
+
+.contact-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem 1rem; margin: 1rem 0 1.5rem; }
+.contact-form .quiz-input-wide { grid-column: 1 / -1; }
+.contact-form .quiz-rodo { grid-column: 1 / -1; }
+.contact-form .quiz-actions { grid-column: 1 / -1; }
+@media (max-width: 600px) {
+  .contact-form { grid-template-columns: 1fr; }
+}
+
+.footer-hours { margin-top: 1rem; font-size: 0.9rem; line-height: 1.55; opacity: 0.85; }
+.footer-hours strong { display: inline-block; margin-bottom: 0.25rem; color: var(--text); }
+.footer-whatsapp { color: #25D366; }
+.footer-whatsapp:hover { color: #1ebe57; }

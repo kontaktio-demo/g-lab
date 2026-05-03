@@ -11,7 +11,7 @@
 [build.processing.html]
   pretty_urls = true
 
-# Pretty URLs / 301s
+# Pretty URLs / 301s — wszystkie podstrony używają trailing slash
 [[redirects]]
   from = "/katalog"
   to = "/katalog/"
@@ -20,6 +20,36 @@
 [[redirects]]
   from = "/realizacje"
   to = "/realizacje/"
+  status = 301
+
+[[redirects]]
+  from = "/chiptuning"
+  to = "/chiptuning/"
+  status = 301
+
+[[redirects]]
+  from = "/dpf-egr"
+  to = "/dpf-egr/"
+  status = 301
+
+[[redirects]]
+  from = "/hamownia"
+  to = "/hamownia/"
+  status = 301
+
+[[redirects]]
+  from = "/kontakt"
+  to = "/kontakt/"
+  status = 301
+
+[[redirects]]
+  from = "/polityka-prywatnosci"
+  to = "/polityka-prywatnosci/"
+  status = 301
+
+[[redirects]]
+  from = "/regulamin"
+  to = "/regulamin/"
   status = 301
 
 # Security & cache headers

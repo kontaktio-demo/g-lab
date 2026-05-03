@@ -212,6 +212,7 @@ function wrapLayout({
     CANONICAL: SITE_URL + canonicalPath,
     CONTENT: gtmNoScript() + content,
     YEAR: new Date().getFullYear(),
+    FOUNDED: BUSINESS.founded,
     EXTRA_HEAD: head,
     EXTRA_SCRIPTS: extraScripts,
     PHONE_HREF: BUSINESS.phone.replace(/\s/g, ''),
@@ -352,7 +353,7 @@ function dynoChartSvg(car, opts) {
   <g class="dyno-axis-text" font-family="Inter, system-ui, sans-serif" font-size="10" fill="currentColor" fill-opacity="0.65">
     ${xLabels}${yLabels}
     <text x="${padL + innerW / 2}" y="${h - 8}" text-anchor="middle" fill-opacity="0.55">obr/min</text>
-    <text x="14" y="${padT + innerH / 2}" text-anchor="middle" transform="rotate(-90 14 ${padT + innerH / 2})" fill-opacity="0.55">KM / Nm</text>
+    <text x="14" y="${padT + innerH / 2}" text-anchor="middle" transform="rotate(-90 14 ${padT + innerH / 2})" fill-opacity="0.55">Moc [KM] / Moment [Nm]</text>
   </g>
 
   <!-- area under tuned power -->
@@ -1481,10 +1482,13 @@ function buildStaticPages() {
       });
     }
     if (slug === 'kontakt') jsonld.push(localBusinessSchema());
+    const extraScripts = (slug === 'kontakt')
+      ? '<script src="/js/kontakt.js" defer></script>'
+      : '';
     const html = wrapLayout({
       title: `${data.title || slug} - G-Lab Chip Tuning`,
       description: data.description || data.subtitle || `${data.title} - G-Lab Chip Tuning`,
-      canonicalPath: `/${slug}`,
+      canonicalPath: `/${slug}/`,
       content: render(T.page, {
         TITLE: esc(data.title || slug),
         SUBTITLE: data.subtitle ? `<p class="lead">${esc(data.subtitle)}</p>` : '',
@@ -1493,12 +1497,13 @@ function buildStaticPages() {
       }) + extraSections.join(''),
       breadcrumbs: [
         { name: 'Strona główna', url: '/' },
-        { name: data.title || slug, url: `/${slug}` },
+        { name: data.title || slug, url: `/${slug}/` },
       ],
       jsonld,
+      extraScripts,
     });
-    writeFile(path.join(OUT, `${slug}.html`), html);
-    written.push(`/${slug}`);
+    writeFile(path.join(OUT, slug, 'index.html'), html);
+    written.push(`/${slug}/`);
   }
   return written;
 }
@@ -1563,7 +1568,7 @@ function buildHome(stats) {
   </section>`;
 
   const html = wrapLayout({
-    title: 'G-Lab Chip Tuning Łódź - chiptuning diesla, DPF/EGR, hamownia',
+    title: 'Chiptuning Łódź — diesel, DPF/EGR i hamownia podwoziowa | G-Lab',
     description: 'Profesjonalny chiptuning diesli, usuwanie DPF/EGR, hamownia podwoziowa w Łodzi. Działamy od 2006 roku. Kilkaset modeli w bazie, ROI tuningu poniżej 12 miesięcy.',
     canonicalPath: '/',
     content: T.home + countersHtml + toolsBand + reviewsHtml + faqHtml(HOME_FAQ),
@@ -1772,7 +1777,7 @@ function buildPWA(urls) {
     shortcuts: [
       { name: 'Katalog', url: '/katalog/' },
       { name: 'Wyceń tuning', url: '/wycena/' },
-      { name: 'Kontakt', url: '/kontakt' },
+      { name: 'Kontakt', url: '/kontakt/' },
     ],
   };
   writeFile(path.join(OUT, 'manifest.webmanifest'), JSON.stringify(manifest, null, 2));
@@ -1780,7 +1785,7 @@ function buildPWA(urls) {
   // Pre-cache shell + first ~50 pages (more would bust cache budget on mobile)
   const precache = [
     '/', '/katalog/', '/realizacje/', '/kalkulatory/', '/porownaj/', '/wycena/',
-    '/galeria-hamowni/', '/chiptuning', '/dpf-egr', '/hamownia', '/kontakt',
+    '/galeria-hamowni/', '/chiptuning/', '/dpf-egr/', '/hamownia/', '/kontakt/',
     '/css/main.css', '/js/main.js', '/img/favicon.svg', '/img/og-default.svg',
     '/manifest.webmanifest',
   ].concat(urls.filter((u) => u.startsWith('/tuning/')).slice(0, 24));
@@ -1853,7 +1858,7 @@ function buildSitemap(urls) {
   const priority = (u) => {
     if (u === '/') return '1.0';
     if (/^\/(katalog|realizacje|kalkulatory|porownaj|wycena|galeria-hamowni)\/?$/.test(u)) return '0.9';
-    if (/^\/(chiptuning|dpf-egr|hamownia|kontakt)$/.test(u)) return '0.8';
+    if (/^\/(chiptuning|dpf-egr|hamownia|kontakt)\/?$/.test(u)) return '0.8';
     if (u.startsWith('/tuning/')) return '0.7';
     return '0.5';
   };
@@ -2025,7 +2030,18 @@ function main() {
   buildAdmin();
 
   writeFile(path.join(OUT, '_redirects'),
-    '/katalog /katalog/ 301\n/realizacje /realizacje/ 301\n/kalkulator /kalkulatory/ 301\n');
+    [
+      '/katalog /katalog/ 301',
+      '/realizacje /realizacje/ 301',
+      '/kalkulator /kalkulatory/ 301',
+      '/chiptuning /chiptuning/ 301',
+      '/dpf-egr /dpf-egr/ 301',
+      '/hamownia /hamownia/ 301',
+      '/kontakt /kontakt/ 301',
+      '/polityka-prywatnosci /polityka-prywatnosci/ 301',
+      '/regulamin /regulamin/ 301',
+      '',
+    ].join('\n'));
 
   console.log(`Build done: ${urls.length} pages -> ${OUT}`);
 }

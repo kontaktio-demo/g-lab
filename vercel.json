@@ -1,7 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "cleanUrls": true,
-  "trailingSlash": false,
+  "cleanUrls": false,
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/chiptuning", "destination": "/chiptuning/", "permanent": true },
+    { "source": "/dpf-egr", "destination": "/dpf-egr/", "permanent": true },
+    { "source": "/hamownia", "destination": "/hamownia/", "permanent": true },
+    { "source": "/kontakt", "destination": "/kontakt/", "permanent": true },
+    { "source": "/polityka-prywatnosci", "destination": "/polityka-prywatnosci/", "permanent": true },
+    { "source": "/regulamin", "destination": "/regulamin/", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",

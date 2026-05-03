@@ -118,8 +118,14 @@
     });
     if (window.gtag) window.gtag('event', 'generate_lead', { method: 'quiz_wyceny' });
 
-    // Wyślij do backendu (jeśli skonfigurowany). Niezależnie od wyniku otwieramy mailto jako backup.
-    if (window.GLab && typeof window.GLab.postLead === 'function') {
+    // Loading state na przycisku
+    if (submit) { submit.disabled = true; submit.textContent = 'Wysyłanie...'; }
+
+    // Wyślij do backendu (jeśli skonfigurowany). Jeśli backend nie jest dostępny,
+    // jako fallback otwieramy mailto - tak, żeby zapytanie nie zginęło.
+    var hasBackend = !!(window.GLab && typeof window.GLab.postLead === 'function' &&
+                       window.GLAB_CFG && window.GLAB_CFG.api);
+    if (hasBackend) {
       window.GLab.postLead({
         source: 'wycena',
         name: imie,
@@ -136,8 +142,10 @@
     form.hidden = true;
     success.hidden = false;
     window.scrollTo({ top: success.offsetTop - 80, behavior: 'smooth' });
-    // open mail client (fallback / dodatkowa kopia)
-    setTimeout(function () { window.location.href = mailto; }, 200);
+    // mailto tylko gdy nie ma backendu - inaczej dane idą bezpośrednio do nas.
+    if (!hasBackend) {
+      setTimeout(function () { window.location.href = mailto; }, 200);
+    }
   });
 
   // wstępne wypełnienie -> przejdź do kroku 2
