@@ -7,7 +7,7 @@ export const metadata = { title: 'Logowanie · G-Lab CMS' };
 export default function LoginPage() {
   return (
     <main className="min-h-screen flex items-center justify-center px-4 bg-bg
-                     bg-[radial-gradient(ellipse_at_top,_rgba(255,90,31,0.10),transparent_55%)]">
+                     bg-[radial-gradient(ellipse_at_top,_rgba(255, 0, 30,0.10),transparent_55%)]">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex w-12 h-12 rounded-[12px] bg-grad-accent items-center justify-center font-bold text-white text-xl shadow-elev mb-4">

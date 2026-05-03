@@ -24,7 +24,9 @@
 <a class="skip-link" href="#main-content">Przejdź do treści</a>
 <header class="site-header">
   <div class="container header-inner">
-    <a class="logo" href="/">G-<span>Lab</span></a>
+    <a class="logo" href="/" aria-label="G-Lab — strona główna">
+      <img src="/img/logo.png" alt="G-Lab" width="593" height="265" decoding="async" fetchpriority="high">
+    </a>
     <a class="header-phone" href="tel:{{PHONE_HREF}}" aria-label="Zadzwoń">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
       <span>{{PHONE_DISPLAY}}</span>
@@ -35,7 +37,7 @@
     <nav class="main-nav" aria-label="Menu główne">
       <a href="/katalog/">Katalog</a>
       <a href="/chiptuning/">Chiptuning</a>
-      <a href="/dpf-egr/">DPF/EGR</a>
+      <a href="/dpf-egr/">DPF/EGR/AdBlue</a>
       <a href="/hamownia/">Hamownia</a>
       <a href="/realizacje/">Realizacje</a>
       <a href="/kontakt/">Kontakt</a>
@@ -49,7 +51,9 @@
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-brand">
-      <div class="logo logo-footer">G-<span>Lab</span></div>
+      <div class="logo logo-footer">
+        <img src="/img/logo.png" alt="G-Lab" width="593" height="265" loading="lazy" decoding="async">
+      </div>
       <p>Profesjonalny chiptuning diesli, usuwanie DPF/EGR oraz hamownia podwoziowa. Działamy od {{FOUNDED}} roku.</p>
       <p class="footer-contact-info">
         G-Lab Diesel Tuning, Rokicińska 266, 92-620 Łódź<br>
@@ -60,6 +64,14 @@
       <p class="footer-hours">
         <strong>Godziny otwarcia:</strong>
         Pon.–Pt. 9:00–18:00 · Sob. 9:00–14:00 · Niedz. zamknięte
+      </p>
+      <p class="footer-social">
+        <a href="https://www.facebook.com/glabpl" target="_blank" rel="noopener" aria-label="Facebook G-Lab" class="footer-social-link">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.51 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/channel/UC_SQgcCUMsSrnBptbObPt-Q" target="_blank" rel="noopener" aria-label="YouTube G-Lab" class="footer-social-link">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+        </a>
       </p>
     </div>
     <details class="footer-collapsible" open>
@@ -79,7 +91,8 @@
       <summary><h4>Usługi</h4></summary>
       <ul>
         <li><a href="/chiptuning/">Chiptuning</a></li>
-        <li><a href="/dpf-egr/">DPF/EGR</a></li>
+        <li><a href="/dpf-egr/">DPF/EGR/AdBlue</a></li>
+        <li><a href="/chiptuning/#modyfikacje-mechaniczne">Modyfikacje mechaniczne</a></li>
         <li><a href="/hamownia/">Hamownia</a></li>
       </ul>
     </details>
