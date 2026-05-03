@@ -85,7 +85,6 @@ const T = {
   home: readFile(path.join(TEMPLATES, 'home.html')),
   katalog: readFile(path.join(TEMPLATES, 'katalog.html')),
   auto: readFile(path.join(TEMPLATES, 'auto.html')),
-  autoDyn: readFile(path.join(TEMPLATES, 'auto-dyn.html')),
   archiwum: readFile(path.join(TEMPLATES, 'archiwum.html')),
   page: readFile(path.join(TEMPLATES, 'page.html')),
   realizacjeList: readFile(path.join(TEMPLATES, 'realizacje-list.html')),
