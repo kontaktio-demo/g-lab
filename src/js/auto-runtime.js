@@ -157,7 +157,7 @@
     document.title = fullName + ' - chiptuning - G-Lab';
 
     $('auto-bc-marka').innerHTML =
-      '<a href="/marka/' + esc(car.marka_slug || slug(car.marka)) + '">' + esc(car.marka) + '</a> / ' +
+      '<a href="/marka/' + esc(car.marka_slug || slug(car.marka)) + '/">' + esc(car.marka) + '</a> / ' +
       '<span>' + esc(car.model) + ' ' + esc(car.generacja) + ' ' + esc(car.silnik) + '</span>';
 
     $('auto-title').textContent = fullName;
@@ -179,7 +179,7 @@
 
     // Tabela
     var lnkMarka = $('lnk-marka');
-    lnkMarka.href = '/marka/' + (car.marka_slug || slug(car.marka));
+    lnkMarka.href = '/marka/' + (car.marka_slug || slug(car.marka)) + '/';
     lnkMarka.textContent = car.marka;
     $('td-model').textContent = car.model;
     $('td-gen').textContent = car.generacja;
@@ -187,10 +187,10 @@
     $('td-paliwo').textContent = car.paliwo === 'diesel' ? 'Diesel' : 'Benzyna';
     $('td-poj').textContent = car.pojemnosc != null ? (car.pojemnosc + ' l') : '-';
     var lnkSilnik = $('lnk-silnik');
-    lnkSilnik.href = '/silnik/' + (car.silnik_slug || slug(car.marka + ' ' + car.silnik));
+    lnkSilnik.href = '/silnik/' + (car.silnik_slug || slug(car.marka + ' ' + car.silnik)) + '/';
     lnkSilnik.textContent = car.silnik;
     var lnkSter = $('lnk-ster');
-    lnkSter.href = '/sterownik/' + (car.sterownik_slug || slug(car.sterownik));
+    lnkSter.href = '/sterownik/' + (car.sterownik_slug || slug(car.sterownik)) + '/';
     lnkSter.textContent = car.sterownik;
     $('lnk-wycena').href = '/wycena/?slug=' + encodeURIComponent(car.slug);
 
@@ -198,9 +198,9 @@
     if (km0 && km1) $('auto-dyno').innerHTML = dynoSvg(km0, km1, nm0, nm1);
 
     // Aside links
-    var asideHtml = '<li><a href="/marka/' + esc(car.marka_slug || slug(car.marka)) + '">Wszystkie ' + esc(car.marka) + '</a></li>';
-    if (car.silnik_slug) asideHtml += '<li><a href="/silnik/' + esc(car.silnik_slug) + '">Inne auta z silnikiem ' + esc(car.silnik) + '</a></li>';
-    if (car.sterownik_slug) asideHtml += '<li><a href="/sterownik/' + esc(car.sterownik_slug) + '">Inne auta ze sterownikiem ' + esc(car.sterownik) + '</a></li>';
+    var asideHtml = '<li><a href="/marka/' + esc(car.marka_slug || slug(car.marka)) + '/">Wszystkie ' + esc(car.marka) + '</a></li>';
+    if (car.silnik_slug) asideHtml += '<li><a href="/silnik/' + esc(car.silnik_slug) + '/">Inne auta z silnikiem ' + esc(car.silnik) + '</a></li>';
+    if (car.sterownik_slug) asideHtml += '<li><a href="/sterownik/' + esc(car.sterownik_slug) + '/">Inne auta ze sterownikiem ' + esc(car.sterownik) + '</a></li>';
     asideHtml += '<li><a href="/porownaj/?cars=' + esc(car.slug) + '">Porównaj z innym modelem</a></li>';
     $('aside-links').innerHTML = asideHtml;
 
