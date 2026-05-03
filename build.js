@@ -1115,7 +1115,9 @@ function pageArtForSlug(slug) {
       <text x="368" y="304" font-family="Inter, sans-serif" font-size="7.5" fill="currentColor" opacity="0.7" letter-spacing="2">DRG-201/A</text>
     </svg>`,
 
-    hamownia: `<svg class="page-hero-art" viewBox="0 0 460 320" aria-hidden="true" focusable="false">
+    // Blueprint hero (rzut boczny auta na hamowni) został usunięty na życzenie - strona /hamownia/ nie potrzebuje tego obrazka.
+    hamownia: '',
+    _hamownia_disabled: `<svg class="page-hero-art" viewBox="0 0 460 320" aria-hidden="true" focusable="false">
       <defs>
         <pattern id="hatch-h" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
           <line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="0.5" opacity="0.35"/>
