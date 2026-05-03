@@ -640,7 +640,11 @@ function buildCatalog(cars) {
     }
     for (const [slug, { name, cars: list }] of map) {
       // Cap dużych archiwów - link do wyszukiwarki dla pozostałych.
-      const ARCHIVE_CAP = 80;
+      // Note: this used to cap at 80 which hid most of a brand's range
+      // (e.g. only 80/396 BMW visible to crawlers). We raise the cap so
+      // brand pages list every model whose data we have, while keeping
+      // a sane safety ceiling.
+      const ARCHIVE_CAP = 500;
       const capped = list.slice(0, ARCHIVE_CAP);
       const moreNote = list.length > capped.length
         ? `<p class="archive-more">Pokazujemy ${capped.length} z ${list.length} pozycji. Pozostałe znajdziesz w <a href="/katalog/?q=${encodeURIComponent(name)}">wyszukiwarce katalogu</a>.</p>`
@@ -710,6 +714,15 @@ function buildCatalog(cars) {
   }
   for (const [slug, list] of shardsByBrand) {
     writeFile(path.join(OUT, 'data', 'katalog', `${slug}.json`), JSON.stringify(list));
+  }
+
+  // Add per-car URLs to the sitemap. We do NOT write a static HTML for
+  // each of the 4127 cars (that would exceed our hosting page limit), but
+  // vercel.json rewrites `/tuning/:slug/` -> `/tuning/?slug=:slug`, so
+  // these URLs return real content. Listing them in the sitemap is what
+  // gives Google a crawl path to every model.
+  for (const c of cars) {
+    if (c.slug) written.push(`/tuning/${c.slug}/`);
   }
 
   return written;
@@ -1468,13 +1481,18 @@ function buildStaticPages() {
 
 function buildHome(stats) {
   // counters band
+  // The initial textContent is the formatted final value so that users
+  // without JS (and crawlers that don't run our scripts) see real numbers
+  // instead of "0". counters.js resets to 0 and animates up only when it
+  // actually runs in a browser.
+  const fmt = (n) => Number(n || 0).toLocaleString('pl-PL');
   const countersHtml = `<section class="section section-counters">
     <div class="container">
       <div class="counters-grid">
-        <div class="counter"><span class="counter-num" data-count="${stats.years}">0</span><span class="counter-label">lat doświadczenia</span></div>
-        <div class="counter"><span class="counter-num" data-count="${stats.cars}">0</span><span class="counter-label">modeli w katalogu</span></div>
-        <div class="counter"><span class="counter-num" data-count="${stats.dynoCount}">0</span><span class="counter-label">pomiarów na hamowni</span></div>
-        <div class="counter"><span class="counter-num" data-count="${stats.avgGain}" data-suffix=" KM">0</span><span class="counter-label">średni przyrost mocy</span></div>
+        <div class="counter"><span class="counter-num" data-count="${stats.years}">${fmt(stats.years)}</span><span class="counter-label">lat doświadczenia</span></div>
+        <div class="counter"><span class="counter-num" data-count="${stats.cars}">${fmt(stats.cars)}</span><span class="counter-label">modeli w katalogu</span></div>
+        <div class="counter"><span class="counter-num" data-count="${stats.dynoCount}">${fmt(stats.dynoCount)}</span><span class="counter-label">pomiarów na hamowni</span></div>
+        <div class="counter"><span class="counter-num" data-count="${stats.avgGain}" data-suffix=" KM">${fmt(stats.avgGain)} KM</span><span class="counter-label">średni przyrost mocy</span></div>
       </div>
     </div>
   </section>`;
@@ -1643,8 +1661,44 @@ function buildDynoGallery(realizations, cars) {
       });
     }
   }
-  // Add catalog entries so gallery isn't empty
-  for (const c of cars.slice(0, 30)) {
+  // Add catalog entries so gallery isn't empty.
+  // Diversify across brands instead of taking the first 30 cars from CSV
+  // (which were all VW Polo and made the gallery look like a single-brand
+  // demo). We pick up to N per brand, preferring higher-power tuned values
+  // so the curves are visually impressive, then cap the total.
+  const PER_BRAND_LIMIT = 4;
+  const TOTAL_LIMIT = 80;
+  const byBrand = new Map();
+  for (const c of cars) {
+    if (!c.moc_km_seryjna || !c.moc_km_tuning) continue;
+    let arr = byBrand.get(c.marka);
+    if (!arr) { arr = []; byBrand.set(c.marka, arr); }
+    arr.push(c);
+  }
+  // Sort each brand's cars by tuned power desc, then take top per brand.
+  const diversifiedCars = [];
+  for (const [, arr] of byBrand) {
+    arr.sort((a, b) => (b.moc_km_tuning || 0) - (a.moc_km_tuning || 0));
+    diversifiedCars.push(...arr.slice(0, PER_BRAND_LIMIT));
+  }
+  // Round-robin by brand so the rendered order alternates (BMW, Audi, MB...
+  // instead of all-BMW then all-Audi). Stable across builds.
+  diversifiedCars.sort((a, b) => {
+    if (a.marka === b.marka) return (b.moc_km_tuning || 0) - (a.moc_km_tuning || 0);
+    return a.marka.localeCompare(b.marka, 'pl');
+  });
+  const interleaved = [];
+  const buckets = new Map();
+  for (const c of diversifiedCars) {
+    if (!buckets.has(c.marka)) buckets.set(c.marka, []);
+    buckets.get(c.marka).push(c);
+  }
+  while (interleaved.length < diversifiedCars.length) {
+    for (const [, arr] of buckets) {
+      if (arr.length) interleaved.push(arr.shift());
+    }
+  }
+  for (const c of interleaved.slice(0, TOTAL_LIMIT)) {
     dynoEntries.push({
       id: 'c-' + c.slug,
       title: `${c.marka} ${c.model} ${c.silnik}`,
@@ -1978,7 +2032,7 @@ function main() {
 
   console.log('- Building home');
   // Statystyki na stronie głównej liczone z całego katalogu.
-  const dynoCount = realizations.filter((r) => r.km0 && r.km1).length + Math.min(30, cars.length);
+  const dynoCount = realizations.filter((r) => r.km0 && r.km1).length + Math.min(80, cars.length);
   const avgGain = Math.round(cars.reduce((s, c) => s + (c.diff_km || 0), 0) / Math.max(1, cars.length));
   urls = urls.concat(buildHome({
     years: new Date().getFullYear() - BUSINESS.founded,

@@ -13,6 +13,9 @@
     var suffix = el.dataset.suffix || '';
     var dur = 1400;
     var t0 = null;
+    // Reset to 0 only now (when JS will actually animate); otherwise the
+    // server-rendered final value stays visible for users without JS / bots.
+    el.textContent = '0' + suffix;
     function step(t) {
       if (!t0) t0 = t;
       var p = Math.min(1, (t - t0) / dur);
