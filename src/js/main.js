@@ -86,6 +86,24 @@
       elements.forEach(function (el) { el.classList.add('visible'); });
       return;
     }
+    // Immediately reveal anything that is already in (or above) the initial
+    // viewport so the page never appears blank before the user scrolls.
+    // Only elements that start below the fold get the scroll-in animation.
+    var vh = window.innerHeight || document.documentElement.clientHeight || 0;
+    var deferred = [];
+    elements.forEach(function (el) {
+      var rect;
+      try { rect = el.getBoundingClientRect(); } catch (e) { rect = null; }
+      // If we cannot measure, fall back to revealing immediately.
+      if (!rect || rect.top < vh) {
+        // Skip the entry transition for above-the-fold content.
+        el.style.setProperty('--reveal-delay', '0ms');
+        el.classList.add('visible');
+      } else {
+        deferred.push(el);
+      }
+    });
+    if (!deferred.length) return;
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -94,7 +112,7 @@
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-    elements.forEach(function (el) { observer.observe(el); });
+    deferred.forEach(function (el) { observer.observe(el); });
   }
 
   function initParallax() {
