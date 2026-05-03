@@ -351,9 +351,8 @@
       var cards = '';
       for (var k = 0; k < top.length; k++) {
         var x = top[k];
-        var badge = x.s ? ' <span class="car-badge car-badge-est" title="Wartości szacunkowe - potwierdzane pomiarem na hamowni">szac.</span>' : '';
         cards += '<a class="car-card" href="' + escHtml(carUrl(x)) + '">' +
-          '<div class="car-title">' + escHtml(x.marka) + ' ' + escHtml(x.model) + ' ' + escHtml(x.generacja) + badge + '</div>' +
+          '<div class="car-title">' + escHtml(x.marka) + ' ' + escHtml(x.model) + ' ' + escHtml(x.generacja) + '</div>' +
           '<div class="car-meta">' + escHtml(x.silnik) + ' | ' + escHtml(x.sterownik) + '</div>' +
           '<div class="car-power"><span class="from">' + (+x.km0 || '?') + ' KM</span>' +
           '<span class="arrow">&rarr;</span><span class="to">' + (+x.km1 || '?') + ' KM</span>' +
