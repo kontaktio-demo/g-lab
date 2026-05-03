@@ -1,8 +1,12 @@
 // G-Lab catalog selector + full-text search.
 //
-// Loads /data/katalog.json (~3-4 MB uncompressed, ~500 KB gzip) once and
-// renders the marka -> model -> rok -> silnik dropdown chain plus a search
-// box that supports VIN (via WMI -> marka mapping), engine, ECU, brand etc.
+// The brand <select> is rendered server-side by build.js so the page is
+// interactive on first paint - no fetch, no "loading" placeholder.
+// Selecting a brand pulls only that brand's shard from
+// /data/katalog/<marka_slug>.json (typically a few-tens of KB gzipped).
+// The full /data/katalog.json (~430 KB gzip) is loaded lazily only when the
+// user actually engages with the full-text search box - and proactively
+// during the browser's idle time so it's usually warm by then.
 
 (function () {
   'use strict';
@@ -109,12 +113,61 @@
     return WMI[w] || null;
   }
 
-  function init(DATA) {
-    var loading = $('catalog-loading');
-    var form = $('catalog-selector');
-    if (loading) loading.hidden = true;
-    if (form) form.hidden = false;
+  // ---------- Per-brand shard loader (for the marka -> model cascade) ----------
 
+  // marka_slug accepted by the build is [a-z0-9-]{1,80}; reject anything else
+  // to avoid building odd URLs.
+  var SLUG_RE = /^[a-z0-9-]{1,80}$/;
+  var brandShardCache = Object.create(null);
+  var brandShardInflight = Object.create(null);
+
+  function loadBrandShard(slug) {
+    if (!slug || !SLUG_RE.test(slug)) {
+      return Promise.reject(new Error('bad brand slug'));
+    }
+    if (brandShardCache[slug]) return Promise.resolve(brandShardCache[slug]);
+    if (brandShardInflight[slug]) return brandShardInflight[slug];
+    var p = fetch('/data/katalog/' + slug + '.json', { credentials: 'omit' })
+      .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+      .then(function (data) {
+        var arr = Array.isArray(data) ? data : [];
+        brandShardCache[slug] = arr;
+        delete brandShardInflight[slug];
+        return arr;
+      })
+      .catch(function (err) {
+        delete brandShardInflight[slug];
+        throw err;
+      });
+    brandShardInflight[slug] = p;
+    return p;
+  }
+
+  // ---------- Full dataset loader (for full-text search) ----------
+
+  var fullData = null;
+  var fullDataPromise = null;
+
+  function loadFullData() {
+    if (fullData) return Promise.resolve(fullData);
+    if (fullDataPromise) return fullDataPromise;
+    fullDataPromise = fetch('/data/katalog.json', { credentials: 'omit' })
+      .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+      .then(function (data) {
+        fullData = Array.isArray(data) ? data : [];
+        return fullData;
+      })
+      .catch(function (err) {
+        fullDataPromise = null;
+        throw err;
+      });
+    return fullDataPromise;
+  }
+
+  // ---------- Selector cascade ----------
+
+  function initSelector() {
+    var form = $('catalog-selector');
     var selMarka = $('sel-marka');
     var selModel = $('sel-model');
     var selRok = $('sel-rok');
@@ -122,40 +175,61 @@
     var btnGo = $('catalog-go');
     var resultBox = $('catalog-result');
 
-    if (!selMarka || !form) return;
+    if (!form || !selMarka) return;
 
-    fillSelect(selMarka, uniqSorted(DATA.map(function (x) { return x.marka; })), 'wybierz markę');
+    // Brand shard relevant to the current selection.
+    var currentBrandData = [];
+    var currentBrandToken = 0;
 
     selMarka.addEventListener('change', function () {
+      var token = ++currentBrandToken;
       var v = selMarka.value;
-      reset(selRok, 'wybierz rok'); reset(selSilnik, 'wybierz silnik'); btnGo.disabled = true;
+      reset(selModel, 'najpierw wybierz markę');
+      reset(selRok, 'wybierz rok');
+      reset(selSilnik, 'wybierz silnik');
+      btnGo.disabled = true;
+      currentBrandData = [];
       if (resultBox) { resultBox.hidden = true; resultBox.innerHTML = ''; }
-      if (!v) { reset(selModel, 'najpierw wybierz markę'); return; }
-      var models = uniqSorted(DATA.filter(function (x) { return x.marka === v; }).map(function (x) { return x.model; }));
-      fillSelect(selModel, models, 'wybierz model');
+      if (!v) return;
+
+      var opt = selMarka.selectedOptions && selMarka.selectedOptions[0];
+      var slug = opt && opt.dataset ? opt.dataset.slug : '';
+      if (!slug) return;
+
+      reset(selModel, 'wczytuję modele...');
+      loadBrandShard(slug).then(function (data) {
+        if (token !== currentBrandToken) return; // brand changed meanwhile
+        currentBrandData = data;
+        var models = uniqSorted(data.map(function (x) { return x.model; }));
+        fillSelect(selModel, models, 'wybierz model');
+      }).catch(function (err) {
+        if (token !== currentBrandToken) return;
+        console.error('brand shard load failed', err);
+        reset(selModel, 'błąd ładowania - odśwież stronę');
+      });
     });
 
     selModel.addEventListener('change', function () {
-      var m = selMarka.value, mo = selModel.value;
+      var mo = selModel.value;
       reset(selSilnik, 'wybierz silnik'); btnGo.disabled = true;
       if (resultBox) { resultBox.hidden = true; resultBox.innerHTML = ''; }
       if (!mo) { reset(selRok, 'wybierz rok'); return; }
       var roks = uniqSorted(
-        DATA.filter(function (x) { return x.marka === m && x.model === mo; })
-            .map(function (x) { return x.generacja + ' (' + x.rok_od + '-' + x.rok_do + ')'; })
+        currentBrandData.filter(function (x) { return x.model === mo; })
+          .map(function (x) { return x.generacja + ' (' + x.rok_od + '-' + x.rok_do + ')'; })
       );
       fillSelect(selRok, roks, 'wybierz rok');
     });
 
     selRok.addEventListener('change', function () {
-      var m = selMarka.value, mo = selModel.value, r = selRok.value;
+      var mo = selModel.value, r = selRok.value;
       btnGo.disabled = true;
       if (resultBox) { resultBox.hidden = true; resultBox.innerHTML = ''; }
       if (!r) { reset(selSilnik, 'wybierz silnik'); return; }
       var silniki = uniqSorted(
-        DATA.filter(function (x) {
-          return x.marka === m && x.model === mo &&
-                 (x.generacja + ' (' + x.rok_od + '-' + x.rok_do + ')') === r;
+        currentBrandData.filter(function (x) {
+          return x.model === mo &&
+            (x.generacja + ' (' + x.rok_od + '-' + x.rok_do + ')') === r;
         }).map(function (x) { return x.silnik; })
       );
       fillSelect(selSilnik, silniki, 'wybierz silnik');
@@ -165,11 +239,11 @@
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var m = selMarka.value, mo = selModel.value, r = selRok.value, s = selSilnik.value;
+      var mo = selModel.value, r = selRok.value, s = selSilnik.value;
       var match;
-      for (var i = 0; i < DATA.length; i++) {
-        var x = DATA[i];
-        if (x.marka === m && x.model === mo &&
+      for (var i = 0; i < currentBrandData.length; i++) {
+        var x = currentBrandData[i];
+        if (x.model === mo &&
             (x.generacja + ' (' + x.rok_od + '-' + x.rok_do + ')') === r &&
             x.silnik === s) { match = x; break; }
       }
@@ -189,9 +263,11 @@
       }
       window.location.assign(carUrl(match));
     });
+  }
 
-    // ------- Full-text search + filters + VIN -------
+  // ---------- Full-text search + filters + VIN ----------
 
+  function initSearch() {
     var searchInput = $('catalog-search');
     var resultsBox = $('search-results');
     var fPoj = $('filter-pojemnosc');
@@ -199,7 +275,12 @@
     var fSort = $('filter-sort');
     var fPaliwo = $('filter-paliwo');
 
-    if (fSter) {
+    if (!searchInput && !fPoj && !fSter && !fSort && !fPaliwo) return;
+
+    var sterPopulated = false;
+    function populateSterownik(DATA) {
+      if (sterPopulated || !fSter) return;
+      sterPopulated = true;
       var sterUniq = uniqSorted(DATA.map(function (x) { return x.sterownik; }));
       var html = '<option value="">dowolny</option>';
       for (var i = 0; i < sterUniq.length; i++) html += '<option>' + escHtml(sterUniq[i]) + '</option>';
@@ -216,7 +297,7 @@
       return function (c) { return c.pojemnosc != null && c.pojemnosc >= 2.9; };
     }
 
-    function runSearch() {
+    function renderResults(DATA) {
       if (!resultsBox) return;
       var rawQ = (searchInput && searchInput.value || '').trim();
       var q = rawQ.toLowerCase();
@@ -225,8 +306,6 @@
       var paliwo = fPaliwo && fPaliwo.value;
       var sort = (fSort && fSort.value) || 'brand';
 
-      // VIN handling: if the query is a 17-char VIN, decode WMI -> marka and
-      // override the brand filter. Show a small note.
       var vin = maybeVin(rawQ);
       var vinBrand = vin ? wmiBrand(vin) : null;
       var vinNote = '';
@@ -284,30 +363,74 @@
       resultsBox.innerHTML = vinNote + meta + '<div class="cars-grid cars-grid-search">' + cards + '</div>';
     }
 
+    function runSearch() {
+      // If the user hasn't typed anything and no filter is active, no need
+      // to load anything - keep the page light.
+      var rawQ = (searchInput && searchInput.value || '').trim();
+      var anyFilter = (fPoj && fPoj.value) || (fSter && fSter.value) || (fPaliwo && fPaliwo.value);
+      if (!rawQ && !anyFilter) {
+        if (resultsBox) resultsBox.innerHTML = '';
+        return;
+      }
+      if (fullData) {
+        populateSterownik(fullData);
+        renderResults(fullData);
+        return;
+      }
+      if (resultsBox) {
+        resultsBox.innerHTML = '<p class="search-meta">Wczytuję bazę wyszukiwarki...</p>';
+      }
+      loadFullData().then(function (data) {
+        populateSterownik(data);
+        renderResults(data);
+      }).catch(function (err) {
+        console.error('full catalog load failed', err);
+        if (resultsBox) {
+          resultsBox.innerHTML = '<p class="lead">Nie udało się wczytać bazy wyszukiwarki. Odśwież stronę.</p>';
+        }
+      });
+    }
+
     var sTimer;
     function debSearch() { clearTimeout(sTimer); sTimer = setTimeout(runSearch, 100); }
 
-    if (searchInput) searchInput.addEventListener('input', debSearch);
+    if (searchInput) {
+      searchInput.addEventListener('input', debSearch);
+      // Warm up the dataset as soon as the user shows interest.
+      searchInput.addEventListener('focus', function () { loadFullData().catch(function () {}); }, { once: true });
+    }
     if (fPoj) fPoj.addEventListener('change', runSearch);
     if (fSter) fSter.addEventListener('change', runSearch);
     if (fSort) fSort.addEventListener('change', runSearch);
     if (fPaliwo) fPaliwo.addEventListener('change', runSearch);
+    // Eagerly populate the ECU dropdown / preload the dataset on first open
+    // of the "Filtry zaawansowane" <details> so it doesn't feel laggy.
+    var advanced = document.querySelector('.filters-advanced');
+    if (advanced) {
+      advanced.addEventListener('toggle', function () {
+        if (advanced.open) loadFullData().then(populateSterownik).catch(function () {});
+      });
+    }
 
     var initQ = new URLSearchParams(location.search).get('q');
     if (initQ && searchInput) { searchInput.value = initQ; runSearch(); }
+
+    // Idle preload: fetch the full dataset in the background once the page
+    // has settled, so by the time the user types into the search box it's
+    // already cached. Falls back to a setTimeout in browsers without
+    // requestIdleCallback.
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(function () { loadFullData().catch(function () {}); }, { timeout: 3000 });
+    } else {
+      setTimeout(function () { loadFullData().catch(function () {}); }, 1500);
+    }
   }
 
-  function loadData() {
-    fetch('/data/katalog.json', { credentials: 'omit' })
-      .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
-      .then(function (data) { init(Array.isArray(data) ? data : []); })
-      .catch(function (err) {
-        var loading = $('catalog-loading');
-        if (loading) loading.textContent = 'Nie udało się wczytać katalogu. Odśwież stronę lub skontaktuj się z nami.';
-        console.error('catalog load failed', err);
-      });
+  function init() {
+    initSelector();
+    initSearch();
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadData);
-  else loadData();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();

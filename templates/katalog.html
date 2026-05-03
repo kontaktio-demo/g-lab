@@ -10,12 +10,12 @@
 
 <section class="section">
   <div class="container">
-    <p class="lead lead-sm" id="catalog-loading">Wczytuję katalog...</p>
-    <form id="catalog-selector" class="selector-grid" autocomplete="off" hidden>
+    <form id="catalog-selector" class="selector-grid" autocomplete="off">
       <label>
         <span>Marka</span>
         <select id="sel-marka" name="marka" required>
           <option value="">wybierz markę</option>
+          {{BRAND_OPTIONS}}
         </select>
       </label>
       <label>
