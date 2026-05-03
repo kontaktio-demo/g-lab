@@ -1,13 +1,17 @@
 <section class="hero hero-page">
   <div class="container">
     <h1>Katalog tuningu</h1>
-    <p class="lead">Sprawdź, ile mocy i momentu może uzyskać Twoje auto po chiptuningu. Wybierz markę, model, rok i silnik - lub skorzystaj z wyszukiwarki.</p>
+    <p class="lead">Sprawdź, ile mocy i momentu może uzyskać Twoje auto po chiptuningu.
+      W bazie <strong>{{CATALOG_COUNT}}</strong> modeli ({{VERIFIED_COUNT}} zmierzonych
+      na własnej hamowni + warianty szacunkowe). Wybierz markę, model, rok i silnik -
+      lub skorzystaj z wyszukiwarki (działa też na numerze VIN).</p>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <form id="catalog-selector" class="selector-grid" autocomplete="off">
+    <p class="lead lead-sm" id="catalog-loading">Wczytuję katalog...</p>
+    <form id="catalog-selector" class="selector-grid" autocomplete="off" hidden>
       <label>
         <span>Marka</span>
         <select id="sel-marka" name="marka" required>
@@ -36,20 +40,30 @@
     </form>
 
     <div id="catalog-result" class="catalog-result" hidden></div>
+    <p class="catalog-hint">Wartości dla pozycji oznaczonych <span class="car-badge car-badge-est">szac.</span>
+      są bardzo zachowawcze i potwierdzane finalnie pomiarem na hamowni przed zleceniem.</p>
   </div>
 </section>
 
 <section class="section section-tight section-alt">
   <div class="container">
     <h2 class="section-title">Wyszukiwarka full-text</h2>
-    <p>Szukaj po marce, modelu, silniku, sterowniku ECU lub numerze VIN (po WMI - 3 pierwsze znaki).</p>
+    <p>Szukaj po marce, modelu, silniku, sterowniku ECU lub numerze VIN
+      (rozpoznajemy WMI - 3 pierwsze znaki - i automatycznie filtrujemy do marki).</p>
     <form id="catalog-search-form" class="search-bar" autocomplete="off" onsubmit="return false;">
-      <input type="search" id="catalog-search" placeholder="np. EDC17, 320d, WBA, 2.0 TDI..." aria-label="Wyszukiwarka katalogu">
+      <input type="search" id="catalog-search" placeholder="np. EDC17, 320d, WBA, 2.0 TDI, WAUZZZ..." aria-label="Wyszukiwarka katalogu">
     </form>
 
     <details class="filters-advanced">
       <summary>Filtry zaawansowane</summary>
       <div class="filters-grid">
+        <label>Paliwo
+          <select id="filter-paliwo">
+            <option value="">dowolne</option>
+            <option value="diesel">diesel</option>
+            <option value="benzyna">benzyna</option>
+          </select>
+        </label>
         <label>Pojemność
           <select id="filter-pojemnosc">
             <option value="">dowolna</option>
@@ -88,5 +102,5 @@
   </div>
 </section>
 
-<script id="catalog-data" type="application/json">{{CATALOG_JSON}}</script>
 <script src="/js/catalog.js" defer></script>
+

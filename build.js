@@ -223,8 +223,18 @@ function wrapLayout({
   });
 }
 
-// G-Lab specjalizuje się w dieslach - wszystkie pozycje katalogowe traktujemy jako diesel.
-function detectFuel() { return 'diesel'; }
+// Detekcja paliwa po nazwie silnika. G-Lab historycznie skupia się na
+// dieslach, ale od kiedy katalog rozszerzony jest też o pozycje syntetyczne
+// (benzyna turbo / wolnossąca), trzeba odróżniać paliwo dla wymagań SEO,
+// schema.org/Product i etykiety w UI.
+function detectFuel(silnik) {
+  const s = String(silnik || '');
+  if (/\b(?:tdi|hdi|cdi|cdti|crdi|dci|jtd|jtdm|multijet|d-?4d|d-cat|tddi|tdci|bluehdi|bluetec|sdi|i-dtec|i-ctdi|skyactiv-?d|hpi|xdi|e-xdi|d4d|sdv\d|sdv6|sdv8|d\d+|tdv\d|p-?d|pd\b)\b/i.test(s)) return 'diesel';
+  if (/\b\d+(?:\.\d+)?\s*d\b/i.test(s) && !/\b\d+(?:\.\d+)?\s*dit\b/i.test(s)) return 'diesel';
+  return 'benzyna';
+}
+
+function fuelLabel(p) { return p === 'diesel' ? 'Diesel' : 'Benzyna'; }
 
 function detectCapacity(silnik) {
   const m = String(silnik || '').match(/(\d+\.\d+)/);
@@ -243,6 +253,8 @@ function loadCatalog() {
     const moc_km_tuning = num('moc_km_tuning');
     const moment_seryjny = num('moment_seryjny');
     const moment_tuning = num('moment_tuning');
+    const paliwo = (r.paliwo && r.paliwo.trim()) || detectFuel(r.silnik);
+    const synthetic = String(r.synthetic || '').trim() === '1';
     return {
       marka: r.marka, model: r.model, generacja: r.generacja,
       rok_od: r.rok_od, rok_do: r.rok_do, silnik: r.silnik,
@@ -253,11 +265,12 @@ function loadCatalog() {
       marka_slug: slugify(r.marka),
       silnik_slug: slugify((r.marka || '') + ' ' + r.silnik),
       sterownik_slug: slugify(r.sterownik),
-      paliwo: detectFuel(r.silnik),
+      paliwo,
       pojemnosc: detectCapacity(r.silnik),
       diff_km: (moc_km_tuning || 0) - (moc_km_seryjna || 0),
       diff_nm: (moment_tuning || 0) - (moment_seryjny || 0),
       diff_pct: moc_km_seryjna ? Math.round(((moc_km_tuning - moc_km_seryjna) / moc_km_seryjna) * 100) : 0,
+      synthetic,
     };
   });
 }
@@ -386,22 +399,41 @@ function dynoChartSvg(car, opts) {
 </figure>`;
 }
 
-function relatedCarsHtml(car, allCars) {
-  // Same brand, similar power band, exclude self
-  const sameBrand = allCars.filter((c) => c.slug !== car.slug && c.marka === car.marka);
+function relatedCarsHtml(car, allCars, brandIndex) {
+  // Same brand, similar power band, exclude self. Uses pre-built brand index
+  // (Map<marka, Car[]>) so this is O(K) per page instead of O(N) - critical
+  // when generating ~20 000 detail pages.
+  const sameBrand = (brandIndex && brandIndex.get(car.marka)) || allCars.filter((c) => c.marka === car.marka);
   const target = car.moc_km_seryjna || 0;
-  const ranked = sameBrand
-    .map((c) => ({ c, d: Math.abs((c.moc_km_seryjna || 0) - target) }))
-    .sort((a, b) => a.d - b.d)
-    .slice(0, 3)
-    .map((x) => x.c);
-  if (!ranked.length) return '';
+  const ranked = [];
+  for (let i = 0; i < sameBrand.length; i++) {
+    const c = sameBrand[i];
+    if (c.slug === car.slug) continue;
+    ranked.push({ c, d: Math.abs((c.moc_km_seryjna || 0) - target) });
+  }
+  ranked.sort((a, b) => a.d - b.d);
+  const top = ranked.slice(0, 3).map((x) => x.c);
+  if (!top.length) return '';
   return `<section class="section section-tight">
     <div class="container">
       <h2 class="section-title section-title-sm">Inni wybierali także</h2>
-      <div class="cars-grid cars-grid-related">${ranked.map(carCard).join('\n')}</div>
+      <div class="cars-grid cars-grid-related">${top.map(carCard).join('\n')}</div>
     </div>
   </section>`;
+}
+
+// Stage multipliers tuned per engine character. Conservative values for
+// synthetic petrol entries so we don't promise unrealistic Stage 2/3 figures
+// for a naturally-aspirated petrol unit (where real-world Stage 1 itself is
+// only +5-10 %).
+function stageMultipliers(car) {
+  if (!car.synthetic) return { s2km: 1.10, s2nm: 1.07, s3km: 1.30, s3nm: 1.20 };
+  if (car.paliwo === 'diesel') return { s2km: 1.10, s2nm: 1.07, s3km: 1.25, s3nm: 1.18 };
+  // Naturally aspirated petrol: silnik nazwa nie zawiera turbo/TSI/TFSI/...
+  const isTurbo = /\b(?:tsi|tfsi|t-?gdi|ecoboost|thp|tce|turbo|t-?jet|biturbo|twinturbo|gdi-?t)\b/i.test(car.silnik || '');
+  return isTurbo
+    ? { s2km: 1.07, s2nm: 1.06, s3km: 1.18, s3nm: 1.14 }
+    : { s2km: 1.04, s2nm: 1.03, s3km: 1.08, s3nm: 1.06 };
 }
 
 function stagesForCar(car) {
@@ -410,15 +442,25 @@ function stagesForCar(car) {
   const nm1 = car.moment_tuning || 0;
   const km0 = car.moc_km_seryjna || 0;
   const nm0 = car.moment_seryjny || 0;
+  const m = stageMultipliers(car);
+  const isPetrolNa = car.paliwo === 'benzyna' && !/\b(?:tsi|tfsi|t-?gdi|ecoboost|thp|tce|turbo|t-?jet|biturbo|twinturbo|gdi-?t)\b/i.test(car.silnik || '');
   return [
     { name: 'Stage 1', km: km1, nm: nm1, dKm: km1 - km0, dNm: nm1 - nm0,
       cost: '1500 - 2200 zł', risk: 'minimalne', desc: 'Tylko software, fabryczny osprzęt. Najbezpieczniejszy wariant.' },
-    { name: 'Stage 2', km: Math.round(km1 * 1.10), nm: Math.round(nm1 * 1.07),
-      dKm: Math.round(km1 * 1.10) - km0, dNm: Math.round(nm1 * 1.07) - nm0,
-      cost: '4000 - 7000 zł', risk: 'umiarkowane', desc: 'Software + downpipe / intercooler / wkład filtra. Zalecany serwis sprzęgła.' },
-    { name: 'Stage 3', km: Math.round(km1 * 1.30), nm: Math.round(nm1 * 1.20),
-      dKm: Math.round(km1 * 1.30) - km0, dNm: Math.round(nm1 * 1.20) - nm0,
-      cost: '12 000 - 25 000 zł', risk: 'wysokie', desc: 'Hybrydowa turbo, wtryskiwacze, mocowane sprzęgło. Tylko z pomiarem na hamowni.' },
+    { name: 'Stage 2', km: Math.round(km1 * m.s2km), nm: Math.round(nm1 * m.s2nm),
+      dKm: Math.round(km1 * m.s2km) - km0, dNm: Math.round(nm1 * m.s2nm) - nm0,
+      cost: '4000 - 7000 zł', risk: 'umiarkowane',
+      desc: car.paliwo === 'diesel'
+        ? 'Software + downpipe / intercooler / wkład filtra. Zalecany serwis sprzęgła.'
+        : 'Software + intercooler / downpipe / wkład filtra. Zalecany serwis sprzęgła.' },
+    { name: 'Stage 3', km: Math.round(km1 * m.s3km), nm: Math.round(nm1 * m.s3nm),
+      dKm: Math.round(km1 * m.s3km) - km0, dNm: Math.round(nm1 * m.s3nm) - nm0,
+      cost: '12 000 - 25 000 zł', risk: 'wysokie',
+      desc: car.paliwo === 'diesel'
+        ? 'Hybrydowa turbo, wtryskiwacze, mocowane sprzęgło. Tylko z pomiarem na hamowni.'
+        : isPetrolNa
+          ? 'Wymaga doładowania (kompresor/turbo), wzmocnione tłoki. Tylko z pomiarem na hamowni.'
+          : 'Większa turbosprężarka, intercooler, wzmocnione tłoki. Tylko z pomiarem na hamowni.' },
   ];
 }
 
@@ -441,7 +483,7 @@ function stageBlockHtml(car) {
   </section>`;
 }
 
-function renderCarPage(car, allCars) {
+function renderCarPage(car, allCars, brandIndex) {
   const title = `Chiptuning ${car.marka} ${car.model} ${car.generacja} ${car.silnik} - ${car.moc_km_seryjna} -> ${car.moc_km_tuning} KM`;
   const description = `Chiptuning ${car.marka} ${car.model} ${car.generacja} ${car.silnik} (${car.rok_od}-${car.rok_do}). Moc seryjna ${car.moc_km_seryjna} KM (${car.moc_kw_seryjna} kW), moc po tuningu ${car.moc_km_tuning} KM (${car.moc_kw_tuning} kW). Moment ${car.moment_seryjny} -> ${car.moment_tuning} Nm. Sterownik ${car.sterownik}.`;
 
@@ -463,7 +505,6 @@ function renderCarPage(car, allCars) {
       url: SITE_URL + '/tuning/' + car.slug,
       seller: { '@type': 'Organization', name: BUSINESS.legalName },
     },
-    aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '127' },
     additionalProperty: [
       { '@type': 'PropertyValue', name: 'Moc seryjna', value: `${car.moc_km_seryjna} KM` },
       { '@type': 'PropertyValue', name: 'Moc po tuningu', value: `${car.moc_km_tuning} KM` },
@@ -471,9 +512,24 @@ function renderCarPage(car, allCars) {
       { '@type': 'PropertyValue', name: 'Moment po tuningu', value: `${car.moment_tuning} Nm` },
       { '@type': 'PropertyValue', name: 'Sterownik', value: car.sterownik },
       { '@type': 'PropertyValue', name: 'Pojemność', value: car.pojemnosc ? `${car.pojemnosc} l` : '-' },
-      { '@type': 'PropertyValue', name: 'Paliwo', value: 'Diesel' },
+      { '@type': 'PropertyValue', name: 'Paliwo', value: fuelLabel(car.paliwo) },
     ],
   };
+  // aggregateRating ma znaczenie tylko dla weryfikowanych pozycji - dla
+  // szacunkowych syntetyków nie wstrzykujemy reviewCount, żeby nie deklarować
+  // nieprawdziwych recenzji konkretnego silnika (Google penalty za fake reviews).
+  if (!car.synthetic) {
+    productSchema.aggregateRating = { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '127' };
+  }
+
+  const estimateBanner = car.synthetic
+    ? `<aside class="estimate-banner" role="note">
+        <strong>Wartości szacunkowe.</strong> Dla tej generacji silnika podajemy
+        bardzo zachowawcze przyrosty mocy i momentu, oddalone od realnego limitu.
+        Finalne wartości potwierdzamy zawsze pomiarem na własnej hamowni - zarówno
+        przed, jak i po chiptuningu. Skontaktuj się z nami po indywidualną wycenę.
+      </aside>`
+    : '';
 
   const inner = render(T.auto, {
     MARKA: esc(car.marka),
@@ -483,7 +539,7 @@ function renderCarPage(car, allCars) {
     ROK_DO: esc(car.rok_do),
     SILNIK: esc(car.silnik),
     STEROWNIK: esc(car.sterownik),
-    PALIWO: 'Diesel',
+    PALIWO: fuelLabel(car.paliwo),
     POJEMNOSC: esc(car.pojemnosc ? car.pojemnosc.toFixed(1) + ' l' : '-'),
     MOC_KW_SERYJNA: esc(car.moc_kw_seryjna),
     MOC_KM_SERYJNA: esc(car.moc_km_seryjna),
@@ -498,9 +554,10 @@ function renderCarPage(car, allCars) {
     SILNIK_SLUG: esc(car.silnik_slug),
     STEROWNIK_SLUG: esc(car.sterownik_slug),
     SLUG: esc(car.slug),
+    ESTIMATE_BANNER: estimateBanner,
     DYNO_CHART: dynoChartSvg(car),
     STAGES_BLOCK: stageBlockHtml(car),
-    RELATED_CARS: relatedCarsHtml(car, allCars || []),
+    RELATED_CARS: relatedCarsHtml(car, allCars || [], brandIndex),
   });
 
   return wrapLayout({
@@ -517,9 +574,18 @@ function renderCarPage(car, allCars) {
   });
 }
 
+// Każde auto - verified i syntetyczne - ma własną statyczną stronę
+// /tuning/{slug}.html, indeksowalną przez Google.
+function carUrl(car) {
+  return car ? `/tuning/${car.slug}` : '/tuning/';
+}
+
 function carCard(car) {
-  return `<a class="car-card" href="/tuning/${esc(car.slug)}">
-    <div class="car-title">${esc(car.marka)} ${esc(car.model)} ${esc(car.generacja)}</div>
+  const synthBadge = car.synthetic
+    ? `<span class="car-badge car-badge-est" title="Wartości szacunkowe - potwierdzane pomiarem na hamowni">szac.</span>`
+    : '';
+  return `<a class="car-card" href="${esc(carUrl(car))}">
+    <div class="car-title">${esc(car.marka)} ${esc(car.model)} ${esc(car.generacja)} ${synthBadge}</div>
     <div class="car-meta">${esc(car.silnik)} | ${esc(car.rok_od)}-${esc(car.rok_do)}</div>
     <div class="car-power">
       <span class="from">${esc(car.moc_km_seryjna)} KM</span>
@@ -529,12 +595,12 @@ function carCard(car) {
   </a>`;
 }
 
-function renderArchive({ label, name, intro, slug, dirSegment, cars }) {
+function renderArchive({ label, name, intro, slug, dirSegment, cars, extra }) {
   const inner = render(T.archiwum, {
     ARCHIVE_LABEL: esc(label),
     ARCHIVE_NAME: esc(name),
     ARCHIVE_INTRO: esc(intro),
-    CAR_CARDS: cars.map(carCard).join('\n'),
+    CAR_CARDS: cars.map(carCard).join('\n') + (extra || ''),
   });
   const html = wrapLayout({
     title: `${label}: ${name} - chiptuning`,
@@ -551,9 +617,25 @@ function renderArchive({ label, name, intro, slug, dirSegment, cars }) {
 }
 
 function buildCatalog(cars) {
+  // Każdy wpis (verified + synthetic) dostaje własną statyczną stronę
+  // /tuning/{slug}.html dzięki czemu Google indeksuje wszystkie ~20 000
+  // wariantów (zapytania typu "BMW 320d tuning" trafiają na konkretną
+  // podstronę). Synthetic wpisy mają `car.synthetic === true` (z kolumny
+  // `synthetic` w katalog.csv) - renderCarPage dokleja banner szacunkowy
+  // i pomija aggregateRating.
+  const verified = cars.filter((c) => !c.synthetic);
+
+  // Pre-buduj indeks marka -> [Car], żeby relatedCarsHtml było O(K) zamiast
+  // O(N) na każdej z 20 000 stron.
+  const brandIndex = new Map();
+  for (const c of cars) {
+    let b = brandIndex.get(c.marka);
+    if (!b) { b = []; brandIndex.set(c.marka, b); }
+    b.push(c);
+  }
 
   for (const car of cars) {
-    writeFile(path.join(OUT, 'tuning', `${car.slug}.html`), renderCarPage(car, cars));
+    writeFile(path.join(OUT, 'tuning', `${car.slug}.html`), renderCarPage(car, cars, brandIndex));
   }
 
   const groups = {
@@ -577,7 +659,16 @@ function buildCatalog(cars) {
       map.get(slug).cars.push(c);
     }
     for (const [slug, { name, cars: list }] of map) {
-      renderArchive({ label: g.label, name, intro: g.intro(name), slug, dirSegment: g.dir, cars: list });
+      // Cap dużych archiwów (np. 3000+ wariantów BMW) - link do wyszukiwarki
+      // dla pozostałych. Verified pierwsze, syntetyki dopełniają.
+      const ARCHIVE_CAP = 80;
+      const ver = list.filter((c) => !c.synthetic);
+      const syn = list.filter((c) => c.synthetic);
+      const capped = ver.concat(syn).slice(0, ARCHIVE_CAP);
+      const moreNote = list.length > capped.length
+        ? `<p class="archive-more">Pokazujemy ${capped.length} z ${list.length} pozycji. Pozostałe znajdziesz w <a href="/katalog/?q=${encodeURIComponent(name)}">wyszukiwarce katalogu</a>.</p>`
+        : '';
+      renderArchive({ label: g.label, name, intro: g.intro(name), slug, dirSegment: g.dir, cars: capped, extra: moreNote });
       written.push(`/${g.dir}/${slug}`);
     }
   }
@@ -586,19 +677,16 @@ function buildCatalog(cars) {
     .map((m) => `<a href="/marka/${slugify(m)}">${esc(m)}</a>`)
     .join('\n');
 
-  const catalogJson = JSON.stringify(cars.map((c) => ({
-    marka: c.marka, model: c.model, generacja: c.generacja,
-    rok_od: c.rok_od, rok_do: c.rok_do, silnik: c.silnik, slug: c.slug,
-    sterownik: c.sterownik, pojemnosc: c.pojemnosc,
-    km0: c.moc_km_seryjna, km1: c.moc_km_tuning,
-    nm0: c.moment_seryjny, nm1: c.moment_tuning,
-    diff_km: c.diff_km, diff_nm: c.diff_nm,
-  }))).replace(/</g, '\\u003c');
-
-  const inner = render(T.katalog, { BRAND_LINKS: brandLinks, CATALOG_JSON: catalogJson });
+  // Strona /katalog/ pobiera dane przez fetch /data/katalog.json - inline'owanie
+  // ~8 MB JSON-a do HTML byłoby zabójcze. Tu renderujemy tylko meta + linki marek.
+  const inner = render(T.katalog, {
+    BRAND_LINKS: brandLinks,
+    CATALOG_COUNT: String(cars.length),
+    VERIFIED_COUNT: String(verified.length),
+  });
   const html = wrapLayout({
     title: 'Katalog chiptuningu - sprawdź swoje auto',
-    description: 'Sprawdź, ile mocy i momentu obrotowego może uzyskać Twoje auto po chiptuningu. Kilkaset modeli diesli w bazie. Wyszukiwarka i filtry zaawansowane.',
+    description: `Sprawdź, ile mocy i momentu obrotowego może uzyskać Twoje auto po chiptuningu. ${cars.length}+ modeli w bazie (diesle i benzyna). Wyszukiwarka, filtry zaawansowane, odczyt po VIN.`,
     canonicalPath: '/katalog/',
     content: inner,
     breadcrumbs: [
@@ -609,15 +697,20 @@ function buildCatalog(cars) {
   writeFile(path.join(OUT, 'katalog', 'index.html'), html);
   written.push('/katalog/');
 
-  // Expose JSON for other pages (comparator, calculators, search)
-  writeFile(path.join(OUT, 'data', 'katalog.json'), JSON.stringify(cars.map((c) => ({
+  // JSON dla katalogu / wyszukiwarki / komparatora / kalkulatorów. Kompaktowe
+  // klucze (km0/km1/nm0/nm1) - bez pretty-print, ~2-3 MB nieskompresowane.
+  const jsonOut = cars.map((c) => ({
     marka: c.marka, model: c.model, generacja: c.generacja,
     rok_od: c.rok_od, rok_do: c.rok_do, silnik: c.silnik, slug: c.slug,
-    sterownik: c.sterownik, pojemnosc: c.pojemnosc,
+    sterownik: c.sterownik, pojemnosc: c.pojemnosc, paliwo: c.paliwo,
     km0: c.moc_km_seryjna, km1: c.moc_km_tuning,
+    kw0: c.moc_kw_seryjna, kw1: c.moc_kw_tuning,
     nm0: c.moment_seryjny, nm1: c.moment_tuning,
     diff_km: c.diff_km, diff_nm: c.diff_nm,
-  }))));
+    s: c.synthetic ? 1 : 0,
+    marka_slug: c.marka_slug, silnik_slug: c.silnik_slug, sterownik_slug: c.sterownik_slug,
+  }));
+  writeFile(path.join(OUT, 'data', 'katalog.json'), JSON.stringify(jsonOut));
 
   return written;
 }
@@ -1115,7 +1208,9 @@ function pageArtForSlug(slug) {
       <text x="368" y="304" font-family="Inter, sans-serif" font-size="7.5" fill="currentColor" opacity="0.7" letter-spacing="2">DRG-201/A</text>
     </svg>`,
 
-    hamownia: `<svg class="page-hero-art" viewBox="0 0 460 320" aria-hidden="true" focusable="false">
+    // Blueprint hero (rzut boczny auta na hamowni) został usunięty na życzenie - strona /hamownia/ nie potrzebuje tego obrazka.
+    hamownia: '',
+    _hamownia_disabled: `<svg class="page-hero-art" viewBox="0 0 460 320" aria-hidden="true" focusable="false">
       <defs>
         <pattern id="hatch-h" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
           <line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="0.5" opacity="0.35"/>
@@ -1851,9 +1946,10 @@ function main() {
 
   let urls = [];
 
-  console.log('- Building catalog (CSV -> pages)');
+  console.log('- Building catalog (CSV + synthetic -> pages)');
   const cars = loadCatalog();
-  console.log(`  loaded ${cars.length} cars`);
+  const verified = cars.filter((c) => !c.synthetic);
+  console.log(`  loaded ${cars.length} cars (${verified.length} verified + ${cars.length - verified.length} synthetic)`);
   urls = urls.concat(buildCatalog(cars));
 
   console.log('- Building static pages');
@@ -1864,21 +1960,27 @@ function main() {
   console.log(`  loaded ${realizations.length} realizations`);
   urls = urls.concat(buildRealizations(realizations));
 
+  // Kalkulatory / komparator / quiz inline'ują katalog do swoich stron jako
+  // CARS_JSON. Przy 20 000 syntetyków zrobiłoby się z tego ~4 MB na stronę.
+  // Operujemy więc tylko na verified - dla tych użytkowników wartości w
+  // kalkulatorze są też pewniejsze (zmierzone, nie szacunkowe).
   console.log('- Building calculators');
-  urls = urls.concat(buildCalculators(cars));
+  urls = urls.concat(buildCalculators(verified));
 
   console.log('- Building comparator');
-  urls = urls.concat(buildComparator(cars));
+  urls = urls.concat(buildComparator(verified));
 
   console.log('- Building quiz');
-  urls = urls.concat(buildQuiz(cars));
+  urls = urls.concat(buildQuiz(verified));
 
   console.log('- Building dyno gallery');
-  urls = urls.concat(buildDynoGallery(realizations, cars));
+  urls = urls.concat(buildDynoGallery(realizations, verified));
 
   console.log('- Building home');
-  const dynoCount = realizations.filter((r) => r.km0 && r.km1).length + Math.min(30, cars.length);
-  const avgGain = Math.round(cars.reduce((s, c) => s + (c.diff_km || 0), 0) / Math.max(1, cars.length));
+  // Statystyki na stronie głównej liczone z verified (zmierzone) - syntetyki
+  // mają z założenia bardzo zachowawcze przyrosty, więc zaniżyłyby średnią.
+  const dynoCount = realizations.filter((r) => r.km0 && r.km1).length + Math.min(30, verified.length);
+  const avgGain = Math.round(verified.reduce((s, c) => s + (c.diff_km || 0), 0) / Math.max(1, verified.length));
   urls = urls.concat(buildHome({
     years: new Date().getFullYear() - BUSINESS.founded,
     cars: cars.length,
