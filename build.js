@@ -85,6 +85,7 @@ const T = {
   home: readFile(path.join(TEMPLATES, 'home.html')),
   katalog: readFile(path.join(TEMPLATES, 'katalog.html')),
   auto: readFile(path.join(TEMPLATES, 'auto.html')),
+  autoDyn: readFile(path.join(TEMPLATES, 'auto-dyn.html')),
   archiwum: readFile(path.join(TEMPLATES, 'archiwum.html')),
   page: readFile(path.join(TEMPLATES, 'page.html')),
   realizacjeList: readFile(path.join(TEMPLATES, 'realizacje-list.html')),
@@ -554,9 +555,12 @@ function renderCarPage(car, allCars, brandIndex) {
   });
 }
 
-// Każde auto z CSV ma własną statyczną stronę /tuning/{slug}.html, indeksowalną przez Google.
+// Wszystkie auta z CSV są renderowane przez wspólną stronę dynamiczną
+// /tuning/?slug={slug} (klient pobiera /data/katalog.json i renderuje JS-em).
+// Dzięki temu nie generujemy tysięcy plików HTML, co rozwalało deploy na
+// Vercelu. Każde wewnętrzne odwołanie do auta używa tego URL.
 function carUrl(car) {
-  return car ? `/tuning/${car.slug}` : '/tuning/';
+  return car ? `/tuning/?slug=${encodeURIComponent(car.slug)}` : '/tuning/';
 }
 
 function carCard(car) {
@@ -593,21 +597,23 @@ function renderArchive({ label, name, intro, slug, dirSegment, cars, extra }) {
 }
 
 function buildCatalog(cars) {
-  // Każdy wpis CSV dostaje własną statyczną stronę /tuning/{slug}.html
-  // dzięki czemu Google indeksuje wszystkie warianty.
-
-  // Pre-buduj indeks marka -> [Car], żeby relatedCarsHtml było O(K) zamiast
-  // O(N) na każdej ze stron.
-  const brandIndex = new Map();
-  for (const c of cars) {
-    let b = brandIndex.get(c.marka);
-    if (!b) { b = []; brandIndex.set(c.marka, b); }
-    b.push(c);
-  }
-
-  for (const car of cars) {
-    writeFile(path.join(OUT, 'tuning', `${car.slug}.html`), renderCarPage(car, cars, brandIndex));
-  }
+  // Pojedyncza dynamiczna strona /tuning/index.html obsługuje wszystkie wpisy
+  // z CSV - klient pobiera /data/katalog.json i renderuje detale po stronie
+  // przeglądarki. Wcześniej generowaliśmy ~4000 statycznych HTML-i, co
+  // przekraczało limity hostingu. CSV pozostaje jedynym źródłem danych.
+  const dynInner = render(T.autoDyn, {});
+  const dynHtml = wrapLayout({
+    title: 'Chiptuning - katalog modeli',
+    description: 'Sprawdź jakie efekty można uzyskać po chiptuningu konkretnego modelu auta. Dane mocy, momentu, sterowników z naszego katalogu.',
+    canonicalPath: '/tuning/',
+    content: dynInner,
+    extraScripts: '<script src="/js/auto-runtime.js" defer></script>',
+    breadcrumbs: [
+      { name: 'Strona główna', url: '/' },
+      { name: 'Katalog', url: '/katalog/' },
+    ],
+  });
+  writeFile(path.join(OUT, 'tuning', 'index.html'), dynHtml);
 
   const groups = {
     marka: { label: 'Marka', dir: 'marka', keyer: (c) => c.marka, slug: (c) => c.marka_slug,
@@ -619,7 +625,7 @@ function buildCatalog(cars) {
   };
 
   const written = [];
-  for (const car of cars) written.push(`/tuning/${car.slug}`);
+  written.push('/tuning/');
 
   for (const g of Object.values(groups)) {
     const map = new Map();
@@ -1648,7 +1654,7 @@ function buildDynoGallery(realizations, cars) {
       km0: c.moc_km_seryjna, km1: c.moc_km_tuning,
       nm0: c.moment_seryjny, nm1: c.moment_tuning,
       rok: '', slug: c.slug,
-      href: `/tuning/${c.slug}`,
+      href: `/tuning/?slug=${encodeURIComponent(c.slug)}`,
     });
   }
 

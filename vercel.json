@@ -10,6 +10,9 @@
     { "source": "/polityka-prywatnosci", "destination": "/polityka-prywatnosci/", "permanent": true },
     { "source": "/regulamin", "destination": "/regulamin/", "permanent": true }
   ],
+  "rewrites": [
+    { "source": "/tuning/:slug/", "destination": "/tuning/?slug=:slug" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
