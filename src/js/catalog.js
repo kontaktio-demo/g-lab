@@ -419,8 +419,11 @@
     // has settled, so by the time the user types into the search box it's
     // already cached. Falls back to a setTimeout in browsers without
     // requestIdleCallback.
-    var schedule = window.requestIdleCallback || function (cb) { return setTimeout(cb, 1500); };
-    schedule(function () { loadFullData().catch(function () {}); }, { timeout: 3000 });
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(function () { loadFullData().catch(function () {}); }, { timeout: 3000 });
+    } else {
+      setTimeout(function () { loadFullData().catch(function () {}); }, 1500);
+    }
   }
 
   function init() {

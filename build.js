@@ -673,15 +673,16 @@ function buildCatalog(cars) {
     }
   }
 
-  const brandLinks = [...new Set(cars.map((c) => c.marka))].sort()
-    .map((m) => `<a href="/marka/${slugify(m)}">${esc(m)}</a>`)
-    .join('\n');
-
-  // Lista marek inline'owana do <select> w /katalog/. Dzięki temu pierwsza
-  // interakcja (wybór marki) działa natychmiast, bez czekania na pobranie
-  // jakichkolwiek danych. data-slug pozwala JS-owi pobrać shard danej marki.
+  // Wspólna posortowana lista marek - używana zarówno w "chmurze marek"
+  // pod selectorem, jak i jako inline'owane <option> w samym <select>.
+  // Dzięki inline'owanym opcjom pierwsza interakcja (wybór marki) działa
+  // natychmiast, bez czekania na pobranie jakichkolwiek danych. data-slug
+  // pozwala JS-owi pobrać shard /data/katalog/<slug>.json danej marki.
   const brandsSorted = [...new Set(cars.map((c) => c.marka))]
     .sort((a, b) => a.localeCompare(b, 'pl'));
+  const brandLinks = brandsSorted
+    .map((m) => `<a href="/marka/${slugify(m)}">${esc(m)}</a>`)
+    .join('\n');
   const brandOptions = brandsSorted
     .map((m) => `<option value="${esc(m)}" data-slug="${esc(slugify(m))}">${esc(m)}</option>`)
     .join('\n');
