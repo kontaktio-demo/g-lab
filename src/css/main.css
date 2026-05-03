@@ -297,6 +297,7 @@ p { margin: 0 0 1em; }
 .cta-band h2 { margin: 0 0 0.5rem; }
 .cta-band p { margin: 0; color: var(--text-muted); }
 
+.selector-grid[hidden] { display: none; } /* HTML [hidden] is overridden by display:grid below without this rule */
 .selector-grid {
   display: grid; grid-template-columns: repeat(4, 1fr) auto;
   gap: 1rem; align-items: end;
