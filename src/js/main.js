@@ -139,7 +139,7 @@
     update();
   }
 
-
+  function initPageLoad() {
     // Sync paint with rAF so reveal/hero appear together with body fade-in
     if (window.requestAnimationFrame) {
       window.requestAnimationFrame(function () {
