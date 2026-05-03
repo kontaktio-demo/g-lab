@@ -1568,19 +1568,7 @@ body.nav-open { overflow: hidden; }
 .faq-item[open] summary { color: #ff001e; }
 .faq-item > div { padding-bottom: 0.8rem; opacity: 0.9; }
 
-/* Sticky mobile CTA */
-.sticky-cta { position: fixed; bottom: 0; left: 0; right: 0; display: none;
-  z-index: 50; background: rgba(10,10,10,0.96); border-top: 1px solid rgba(255, 0, 30,0.3);
-  backdrop-filter: blur(8px); padding: 0.5rem; gap: 0.5rem; }
-.sticky-cta-btn { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
-  padding: 0.85rem 0.5rem; border-radius: 6px; font-weight: 700; text-decoration: none; }
-.sticky-cta-call { background: rgba(255,255,255,0.08); color: var(--text); }
-.sticky-cta-wa { background: #25D366; color: #fff; }
-.sticky-cta-quote { background: #ff001e; color: #fff; }
-@media (max-width: 720px) {
-  .sticky-cta { display: flex; }
-  body { padding-bottom: 64px; }
-}
+/* Sticky mobile CTA - removed (per request: no bottom bar on phones) */
 
 /* Kalkulatory */
 .kalk-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem;
@@ -1755,9 +1743,6 @@ body.nav-open { overflow: hidden; }
   .quiz-actions { flex-direction: column-reverse; align-items: stretch; }
   .quiz-actions .btn-ghost { margin-right: 0; }
   .quiz-actions .btn { width: 100%; }
-  /* Sticky CTA - mniejszy padding, żeby się zmieściło na małym ekranie */
-  .sticky-cta { padding: 0.5rem 0.75rem; }
-  .sticky-cta .btn { padding: 0.6rem 0.9rem; font-size: 0.85rem; }
   /* CTA band - mniej zbity wokół */
   .cta-band { gap: 1rem; }
   .cta-band .btn { width: 100%; }
