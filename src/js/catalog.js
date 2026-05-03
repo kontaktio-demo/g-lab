@@ -98,7 +98,7 @@
   }
 
   function carUrl(c) {
-    return '/tuning/?slug=' + encodeURIComponent(c.slug);
+    return '/tuning/' + encodeURIComponent(c.slug) + '/';
   }
 
   // VIN heuristic: 17 chars from {A-HJ-NPR-Z0-9} (no I, O, Q).
