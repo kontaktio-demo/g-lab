@@ -677,10 +677,21 @@ function buildCatalog(cars) {
     .map((m) => `<a href="/marka/${slugify(m)}">${esc(m)}</a>`)
     .join('\n');
 
+  // Lista marek inline'owana do <select> w /katalog/. Dzięki temu pierwsza
+  // interakcja (wybór marki) działa natychmiast, bez czekania na pobranie
+  // jakichkolwiek danych. data-slug pozwala JS-owi pobrać shard danej marki.
+  const brandsSorted = [...new Set(cars.map((c) => c.marka))]
+    .sort((a, b) => a.localeCompare(b, 'pl'));
+  const brandOptions = brandsSorted
+    .map((m) => `<option value="${esc(m)}" data-slug="${esc(slugify(m))}">${esc(m)}</option>`)
+    .join('\n');
+
   // Strona /katalog/ pobiera dane przez fetch /data/katalog.json - inline'owanie
-  // ~8 MB JSON-a do HTML byłoby zabójcze. Tu renderujemy tylko meta + linki marek.
+  // ~8 MB JSON-a do HTML byłoby zabójcze. Tu renderujemy tylko meta + linki marek
+  // oraz inline'owaną listę marek do selecta (kilka KB).
   const inner = render(T.katalog, {
     BRAND_LINKS: brandLinks,
+    BRAND_OPTIONS: brandOptions,
     CATALOG_COUNT: String(cars.length),
     VERIFIED_COUNT: String(verified.length),
   });
@@ -711,6 +722,19 @@ function buildCatalog(cars) {
     marka_slug: c.marka_slug, silnik_slug: c.silnik_slug, sterownik_slug: c.sterownik_slug,
   }));
   writeFile(path.join(OUT, 'data', 'katalog.json'), JSON.stringify(jsonOut));
+
+  // Per-brand shards: szybki wybór modelu/roku/silnika bez ściągania całego
+  // ~8 MB pliku. Plik per marka ma typowo kilka-kilkadziesiąt KB po gzip.
+  // /katalog/ ładuje shard dopiero, gdy użytkownik wybierze markę.
+  const shardsByBrand = new Map();
+  for (const c of jsonOut) {
+    let arr = shardsByBrand.get(c.marka_slug);
+    if (!arr) { arr = []; shardsByBrand.set(c.marka_slug, arr); }
+    arr.push(c);
+  }
+  for (const [slug, list] of shardsByBrand) {
+    writeFile(path.join(OUT, 'data', 'katalog', `${slug}.json`), JSON.stringify(list));
+  }
 
   return written;
 }
