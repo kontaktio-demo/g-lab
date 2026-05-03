@@ -1799,3 +1799,57 @@ body.nav-open { overflow: hidden; }
 .footer-social { margin-top: 0.75rem; display: flex; gap: 0.6rem; align-items: center; }
 .footer-social-link { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.06); color: var(--text); transition: background 0.15s, color 0.15s; }
 .footer-social-link:hover { background: var(--accent); color: #0a0a0a; }
+
+/* ----- Synthetic catalog: estimate badges, banners, dynamic /tuning/ page ----- */
+.car-badge {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 1px 6px;
+  border-radius: 999px;
+  vertical-align: middle;
+  margin-left: 0.35em;
+  text-transform: uppercase;
+}
+.car-badge-est {
+  background: rgba(255, 193, 7, 0.18);
+  color: #b87b00;
+  border: 1px solid rgba(255, 193, 7, 0.45);
+}
+.estimate-banner {
+  display: block;
+  padding: 0.85rem 1rem;
+  margin: 0.5rem 0 1.25rem;
+  background: rgba(255, 193, 7, 0.10);
+  border-left: 3px solid #f0b90b;
+  border-radius: 4px;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+.search-meta-vin {
+  background: rgba(0, 120, 240, 0.08);
+  border-left: 3px solid #1d4ed8;
+  padding: 0.55rem 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+}
+.search-meta-vin code {
+  background: rgba(0,0,0,0.06);
+  padding: 0 4px;
+  border-radius: 3px;
+  font-size: 0.95em;
+}
+.archive-more {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0,0,0,0.04);
+  border-radius: 4px;
+  font-size: 0.92rem;
+}
+.catalog-hint {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--muted, #666);
+}

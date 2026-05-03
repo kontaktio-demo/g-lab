@@ -1,0 +1,117 @@
+<nav class="breadcrumbs container" aria-label="Breadcrumb">
+  <a href="/">Strona główna</a> /
+  <a href="/katalog/">Katalog</a> /
+  <span id="auto-bc-marka">...</span>
+</nav>
+
+<section class="section car-detail" id="auto-shell">
+  <div class="container car-detail-grid">
+    <div class="car-detail-main">
+      <h1 id="auto-title">Wczytuję dane auta...</h1>
+      <p class="lead" id="auto-lead">Pobieram szczegóły z katalogu G-Lab.</p>
+
+      <noscript>
+        <p class="alert alert-warning">
+          Ta strona wczytuje dane auta dynamicznie - włącz JavaScript, aby ją zobaczyć,
+          lub <a href="/katalog/">wróć do katalogu</a> i wybierz model z listy.
+        </p>
+      </noscript>
+
+      <div id="auto-body" hidden>
+        <p class="estimate-banner" id="auto-estimate-banner" hidden>
+          <strong>Wartości szacunkowe.</strong> Dla tej generacji silnika podajemy bardzo
+          zachowawcze przyrosty mocy i momentu, oddalone od realnego limitu. Finalne
+          wartości potwierdzamy zawsze pomiarem na własnej hamowni - zarówno przed,
+          jak i po chiptuningu. Skontaktuj się z nami, a wyślemy indywidualną wycenę
+          dla Twojego konkretnego egzemplarza.
+        </p>
+
+        <div class="power-grid">
+          <div class="power-cell">
+            <span class="label">Moc seryjna</span>
+            <span class="value"><span id="km0">--</span> <small>KM</small></span>
+            <span class="sub"><span id="kw0">--</span> kW</span>
+          </div>
+          <div class="power-cell highlight">
+            <span class="label">Moc po tuningu</span>
+            <span class="value"><span id="km1">--</span> <small>KM</small></span>
+            <span class="sub"><span id="kw1">--</span> kW</span>
+            <span class="diff">+<span id="dkm">--</span> KM (<span id="dpct">--</span>%)</span>
+          </div>
+          <div class="power-cell">
+            <span class="label">Moment seryjny</span>
+            <span class="value"><span id="nm0">--</span> <small>Nm</small></span>
+          </div>
+          <div class="power-cell highlight">
+            <span class="label">Moment po tuningu</span>
+            <span class="value"><span id="nm1">--</span> <small>Nm</small></span>
+            <span class="diff">+<span id="dnm">--</span> Nm</span>
+          </div>
+        </div>
+
+        <div id="auto-dyno"></div>
+
+        <table class="spec-table">
+          <tbody>
+            <tr><th>Marka</th><td><a id="lnk-marka" href="#">--</a></td></tr>
+            <tr><th>Model</th><td id="td-model">--</td></tr>
+            <tr><th>Generacja</th><td id="td-gen">--</td></tr>
+            <tr><th>Lata produkcji</th><td id="td-lata">--</td></tr>
+            <tr><th>Paliwo</th><td id="td-paliwo">--</td></tr>
+            <tr><th>Pojemność</th><td id="td-poj">--</td></tr>
+            <tr><th>Silnik</th><td><a id="lnk-silnik" href="#">--</a></td></tr>
+            <tr><th>Sterownik (ECU)</th><td><a id="lnk-ster" href="#">--</a></td></tr>
+          </tbody>
+        </table>
+
+        <div class="cta-box">
+          <h3>Zainteresowany chiptuningiem tego auta?</h3>
+          <p>Skontaktuj się z nami - doradzimy najlepsze rozwiązanie, wykonamy pomiar
+            referencyjny na hamowni i przedstawimy ostateczną propozycję.</p>
+          <div class="cta-box-actions">
+            <a id="lnk-wycena" href="/wycena/" class="btn btn-primary">Wyceń tuning</a>
+            <a href="/kontakt/" class="btn btn-ghost">Umów wizytę</a>
+          </div>
+        </div>
+      </div>
+
+      <div id="auto-not-found" hidden>
+        <h1>Nie znaleźliśmy tego auta</h1>
+        <p class="lead">Słownik katalogu nie zawiera pozycji o podanym identyfikatorze.
+          Wróć do <a href="/katalog/">katalogu</a> i wybierz auto z listy lub
+          <a href="/kontakt/">skontaktuj się z nami</a>.</p>
+      </div>
+    </div>
+    <aside class="car-detail-aside">
+      <div class="aside-box">
+        <h4>Powiązane</h4>
+        <ul id="aside-links">
+          <li><a href="/katalog/">Pełny katalog</a></li>
+        </ul>
+      </div>
+      <div class="aside-box aside-cta">
+        <strong>Działamy od 2006 roku</strong>
+        <p>Każda realizacja kończy się pomiarem na własnej hamowni. Plik oryginalny
+          zachowujemy bezpłatnie.</p>
+        <a href="tel:+48508146945" class="btn btn-primary btn-block">Zadzwoń +48 508 146 945</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="section section-tight" id="auto-stages-wrap" hidden>
+  <div class="container">
+    <h2 class="section-title section-title-sm">Stage 1 / 2 / 3 dla tego silnika</h2>
+    <div class="stages-grid" id="auto-stages"></div>
+    <p class="stages-note">Wartości Stage 2 i Stage 3 są <strong>szacunkowe</strong>
+      i zależą od indywidualnej konfiguracji auta. Każda realizacja kończy się
+      pomiarem na hamowni.</p>
+  </div>
+</section>
+
+<section class="section section-tight" id="auto-related-wrap" hidden>
+  <div class="container">
+    <h2 class="section-title section-title-sm">Inne warianty z tej generacji</h2>
+    <div class="cars-grid cars-grid-related" id="auto-related"></div>
+  </div>
+</section>
