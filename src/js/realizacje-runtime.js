@@ -1,5 +1,5 @@
-// G-Lab — runtime hydratacja realizacji z backendu (Render).
-// Działa na /realizacje/ — dociąga publikowane realizacje z API i mergeuje z istniejącym statycznym gridem.
+// G-Lab - runtime hydratacja realizacji z backendu (Render).
+// Działa na /realizacje/ - dociąga publikowane realizacje z API i mergeuje z istniejącym statycznym gridem.
 (function () {
   'use strict';
   if (!window.GLab || !window.GLab.api) return;

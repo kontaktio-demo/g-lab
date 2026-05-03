@@ -4,17 +4,17 @@ subtitle: "Eliminacja problematycznych elementów układu wydechowego w dieslach
 slug: "dpf-egr"
 ---
 
-## DPF I EGR — KONIEC Z AWARIAMI UKŁADU WYDECHOWEGO
+## DPF I EGR - KONIEC Z AWARIAMI UKŁADU WYDECHOWEGO
 
-Profesjonalna dezaktywacja problematycznych elementów układu wydechowego w silnikach diesla — wykonana programowo, w sposób trwały i bez błędów na desce rozdzielczej.
+Profesjonalna dezaktywacja problematycznych elementów układu wydechowego w silnikach diesla - wykonana programowo, w sposób trwały i bez błędów na desce rozdzielczej.
 
-W G-Lab podchodzimy do tematu DPF i EGR tak samo jak do chiptuningu — indywidualnie i z pełną odpowiedzialnością za efekt. Modyfikacje opieramy o fabryczne pliki kalibracyjne sterownika silnika, dzięki czemu po zabiegu auto pracuje stabilnie, bez ostrzeżeń, błędów i prób wymuszonej regeneracji.
+W G-Lab podchodzimy do tematu DPF i EGR tak samo jak do chiptuningu - indywidualnie i z pełną odpowiedzialnością za efekt. Modyfikacje opieramy o fabryczne pliki kalibracyjne sterownika silnika, dzięki czemu po zabiegu auto pracuje stabilnie, bez ostrzeżeń, błędów i prób wymuszonej regeneracji.
 
 ## Filtr cząstek stałych (DPF / FAP)
 
 Zatkany DPF to jeden z najczęstszych problemów w silnikach diesla, szczególnie w autach eksploatowanych głównie w mieście. Wymuszone regeneracje, spadki mocy, rosnące spalanie i ostatecznie wymiana filtra to koszt nawet kilku tysięcy złotych.
 
-**Nasze rozwiązanie:** fizyczne usunięcie wkładu filtra wraz z **programową dezaktywacją w sterowniku silnika (ECU)**. Modyfikujemy mapy odpowiedzialne za pomiar różnicy ciśnień, temperaturę spalin oraz proces regeneracji — bez błędów, bez ostrzeżeń, bez wpadania auta w cykle „dopalania".
+**Nasze rozwiązanie:** fizyczne usunięcie wkładu filtra wraz z **programową dezaktywacją w sterowniku silnika (ECU)**. Modyfikujemy mapy odpowiedzialne za pomiar różnicy ciśnień, temperaturę spalin oraz proces regeneracji - bez błędów, bez ostrzeżeń, bez wpadania auta w cykle "dopalania".
 
 ## Zawór EGR
 

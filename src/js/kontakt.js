@@ -1,4 +1,4 @@
-// G-Lab — formularz kontaktowy.
+// G-Lab - formularz kontaktowy.
 // Jeśli backend (window.GLAB_CFG.api) jest skonfigurowany, wysyła zapytanie do /api/leads.
 // W przeciwnym wypadku otwiera mailto jako fallback.
 (function () {
@@ -19,7 +19,7 @@
     var auto = String(data.get('auto') || '').trim();
     var wiadomosc = String(data.get('wiadomosc') || '').trim();
 
-    var subject = 'Zapytanie ze strony G-Lab' + (auto ? ' — ' + auto : '');
+    var subject = 'Zapytanie ze strony G-Lab' + (auto ? ' - ' + auto : '');
     var body =
       'Cześć G-Lab,\n\n' +
       (wiadomosc || '(brak treści)') + '\n\n' +

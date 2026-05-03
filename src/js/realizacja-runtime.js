@@ -1,4 +1,4 @@
-// G-Lab — dynamiczna podstrona /realizacje/podglad/?slug=...
+// G-Lab - dynamiczna podstrona /realizacje/podglad/?slug=...
 // Pobiera realizację z backendu i renderuje pod stałym statycznym layoutem.
 (function () {
   'use strict';
@@ -21,7 +21,7 @@
 
   // Loading skeleton
   root.innerHTML =
-    '<section class="hero hero-page"><div class="container"><h1>Wczytywanie…</h1></div></section>';
+    '<section class="hero hero-page"><div class="container"><h1>Wczytywanie...</h1></div></section>';
 
   fetch(window.GLab.api + '/api/realizations/' + encodeURIComponent(slug))
     .then(function (r) {
@@ -32,14 +32,14 @@
     .then(render)
     .catch(function (err) {
       root.innerHTML =
-        '<section class="section"><div class="container"><h1>Ups…</h1>' +
+        '<section class="section"><div class="container"><h1>Ups...</h1>' +
         '<p class="lead">' + window.GLab.escHtml(err.message || String(err)) + '</p>' +
         '<p><a class="btn btn-primary" href="/realizacje/">Wróć do realizacji</a></p>' +
         '</div></section>';
     });
 
   function render(r) {
-    document.title = (r.title || 'Realizacja') + ' — G-Lab Chip Tuning';
+    document.title = (r.title || 'Realizacja') + ' - G-Lab Chip Tuning';
     var metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc && r.krotki_opis) metaDesc.setAttribute('content', r.krotki_opis);
 
