@@ -1,9 +1,10 @@
 // G-Lab dynamic car detail page runtime.
-// Loads /data/katalog.json once, finds the car by ?slug=... (or by URL path
-// /tuning/{slug}/ via Vercel rewrite), and renders title, power table, dyno
-// chart, spec table, related links and Stage 1/2/3.
-// All catalog entries (sourced from katalog.csv) are rendered through this
-// single dynamic page - we no longer emit one static HTML per car.
+// Each car in katalog.csv is rendered to a static /tuning/{slug}/index.html
+// page at build time (see build.js renderCarPage). This runtime is used
+// only by the catalog landing /tuning/index.html as a fallback for the
+// legacy /tuning/?slug=... URL pattern: it fetches /data/katalog.json,
+// finds the car by ?slug=..., and renders title, power table, dyno chart,
+// spec table, related links and Stage 1/2/3 inline.
 
 (function () {
   'use strict';
@@ -124,7 +125,7 @@
   }
 
   function carUrl(c) {
-    return '/tuning/?slug=' + encodeURIComponent(c.slug);
+    return '/tuning/' + encodeURIComponent(c.slug) + '/';
   }
 
   function renderRelated(car, all) {
@@ -222,10 +223,17 @@
   }
 
   function init() {
-    // Slug można podać przez ?slug=... albo przez ścieżkę /tuning/{slug}/
-    // (Vercel rewrite mapuje legacy URL-e na ten sam dynamiczny dokument).
+    // Slug może przyjść przez legacy ?slug=... (z dawnych linków). Każdy
+    // wpis w katalogu ma swoją statyczną stronę /tuning/{slug}/, więc
+    // jeżeli widzimy ?slug=, robimy upgrade do kanonicznego URL-a (Vercel
+    // też to robi 301-em po stronie serwera; tu trzymamy fallback dla
+    // Netlify / lokalnego dev-serwera).
     var params = new URLSearchParams(location.search);
     var requested = params.get('slug');
+    if (requested && /^[a-z0-9-]{1,160}$/.test(requested) && location.pathname.replace(/\/+$/, '/') === '/tuning/') {
+      location.replace('/tuning/' + encodeURIComponent(requested) + '/');
+      return;
+    }
     if (!requested) {
       var m = location.pathname.match(/^\/tuning\/([^/?#]+)\/?$/);
       if (m) requested = decodeURIComponent(m[1]);

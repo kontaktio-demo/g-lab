@@ -8,11 +8,21 @@
     { "source": "/hamownia", "destination": "/hamownia/", "permanent": true },
     { "source": "/kontakt", "destination": "/kontakt/", "permanent": true },
     { "source": "/polityka-prywatnosci", "destination": "/polityka-prywatnosci/", "permanent": true },
-    { "source": "/regulamin", "destination": "/regulamin/", "permanent": true }
+    { "source": "/regulamin", "destination": "/regulamin/", "permanent": true },
+    {
+      "source": "/tuning",
+      "has": [{ "type": "query", "key": "slug", "value": "(?<slug>.+)" }],
+      "destination": "/tuning/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/tuning/",
+      "has": [{ "type": "query", "key": "slug", "value": "(?<slug>.+)" }],
+      "destination": "/tuning/:slug/",
+      "permanent": true
+    }
   ],
-  "rewrites": [
-    { "source": "/tuning/:slug/", "destination": "/tuning/?slug=:slug" }
-  ],
+  "rewrites": [],
   "headers": [
     {
       "source": "/(.*)",

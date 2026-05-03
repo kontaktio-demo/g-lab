@@ -555,12 +555,14 @@ function renderCarPage(car, allCars, brandIndex) {
   });
 }
 
-// Wszystkie auta z CSV są renderowane przez wspólną stronę dynamiczną
-// /tuning/?slug={slug} (klient pobiera /data/katalog.json i renderuje JS-em).
-// Dzięki temu nie generujemy tysięcy plików HTML, co rozwalało deploy na
-// Vercelu. Każde wewnętrzne odwołanie do auta używa tego URL.
+// Each car in katalog.csv is rendered to a static /tuning/{slug}/index.html
+// at build time (see buildCatalog), so internal links use the clean URL.
+// The legacy /tuning/?slug={slug} URL still works (the dynamic /tuning/
+// index.html falls back to JS-rendering for unknown slugs), but is no
+// longer used internally - it was the original SEO miss flagged in the
+// audit (Google saw "Wczytuję dane auta..." placeholder for 4127 pages).
 function carUrl(car) {
-  return car ? `/tuning/?slug=${encodeURIComponent(car.slug)}` : '/tuning/';
+  return car ? `/tuning/${car.slug}/` : '/tuning/';
 }
 
 function carCard(car) {
@@ -600,10 +602,13 @@ function renderArchive({ label, name, intro, slug, dirSegment, cars, extra }) {
 }
 
 function buildCatalog(cars) {
-  // Pojedyncza dynamiczna strona /tuning/index.html obsługuje wszystkie wpisy
-  // z CSV - klient pobiera /data/katalog.json i renderuje detale po stronie
-  // przeglądarki. Wcześniej generowaliśmy ~4000 statycznych HTML-i, co
-  // przekraczało limity hostingu. CSV pozostaje jedynym źródłem danych.
+  // /tuning/index.html stays as a JS-rendered fallback shell - it's still the
+  // landing page for the catalog and serves any /tuning/?slug=... legacy
+  // links (e.g. external bookmarks). But every car in katalog.csv now also
+  // gets a dedicated /tuning/{slug}/index.html written below, so Google sees
+  // real content (moc / moment / sterownik / Stage tabela / wykres dyno)
+  // instead of the "Wczytuję dane auta..." placeholder. This was the #1
+  // SEO miss in the latest audit.
   const dynInner = render(T.autoDyn, {});
   const dynHtml = wrapLayout({
     title: 'Chiptuning - katalog modeli',
@@ -716,13 +721,21 @@ function buildCatalog(cars) {
     writeFile(path.join(OUT, 'data', 'katalog', `${slug}.json`), JSON.stringify(list));
   }
 
-  // Add per-car URLs to the sitemap. We do NOT write a static HTML for
-  // each of the 4127 cars (that would exceed our hosting page limit), but
-  // vercel.json rewrites `/tuning/:slug/` -> `/tuning/?slug=:slug`, so
-  // these URLs return real content. Listing them in the sitemap is what
-  // gives Google a crawl path to every model.
+  // Per-car static SSG. We pre-build a brand index so relatedCarsHtml() is
+  // O(K) per page instead of O(N) - critical when generating thousands of
+  // pages. Each /tuning/{slug}/index.html contains the full Product schema,
+  // dyno SVG, Stage 1/2/3 table and "related cars" links - no JS required.
+  const brandIndex = new Map();
   for (const c of cars) {
-    if (c.slug) written.push(`/tuning/${c.slug}/`);
+    let arr = brandIndex.get(c.marka);
+    if (!arr) { arr = []; brandIndex.set(c.marka, arr); }
+    arr.push(c);
+  }
+  for (const c of cars) {
+    if (!c.slug) continue;
+    const carHtml = renderCarPage(c, cars, brandIndex);
+    writeFile(path.join(OUT, 'tuning', c.slug, 'index.html'), carHtml);
+    written.push(`/tuning/${c.slug}/`);
   }
 
   return written;
@@ -1542,7 +1555,10 @@ function buildHome(stats) {
           <footer>Paweł, transport</footer>
         </article>
       </div>
-      <p class="reviews-cta"><strong>4.9 / 5</strong> średnia ocen na podstawie 127 opinii klientów</p>
+      <p class="reviews-cta">
+        <strong>4.9 / 5</strong> średnia ocen na podstawie 127 opinii klientów -
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=G-Lab+Diesel+Tuning+Rokicińska+266+Łódź" target="_blank" rel="noopener">zobacz opinie w Google Maps</a>
+      </p>
     </div>
   </section>`;
 
@@ -1710,7 +1726,52 @@ function buildDynoGallery(realizations, cars) {
       km0: c.moc_km_seryjna, km1: c.moc_km_tuning,
       nm0: c.moment_seryjny, nm1: c.moment_tuning,
       rok: '', slug: c.slug,
-      href: `/tuning/?slug=${encodeURIComponent(c.slug)}`,
+      href: `/tuning/${c.slug}/`,
+    });
+  }
+
+  // Stage 2 / Stage 3 estimates so the gallery filter actually has results
+  // for those stages (audit #4: "filtr Stage wciąż pokazuje tylko Stage 1").
+  // We pick the top diesel + turbo petrol cars (where Stage 2/3 makes the
+  // most sense) and label the cards as estimates via the existing badge.
+  const upgradable = interleaved.filter((c) => {
+    if (c.paliwo === 'diesel') return true;
+    return /\b(?:tsi|tfsi|t-?gdi|ecoboost|thp|tce|turbo|t-?jet|biturbo|twinturbo|gdi-?t)\b/i.test(c.silnik || '');
+  });
+  const STAGE23_PER_BRAND = 1;
+  const STAGE23_TOTAL = 24;
+  const stage23Pool = [];
+  const stage23Counts = new Map();
+  for (const c of upgradable) {
+    const n = stage23Counts.get(c.marka) || 0;
+    if (n >= STAGE23_PER_BRAND) continue;
+    stage23Counts.set(c.marka, n + 1);
+    stage23Pool.push(c);
+    if (stage23Pool.length >= STAGE23_TOTAL) break;
+  }
+  for (const c of stage23Pool) {
+    const stages = stagesForCar(c);
+    const s2 = stages[1];
+    const s3 = stages[2];
+    dynoEntries.push({
+      id: 'c-' + c.slug + '-s2',
+      title: `${c.marka} ${c.model} ${c.silnik}`,
+      marka: c.marka, model: c.model, silnik: c.silnik, sterownik: c.sterownik,
+      stage: 'Stage 2',
+      km0: c.moc_km_seryjna, km1: s2.km,
+      nm0: c.moment_seryjny, nm1: s2.nm,
+      rok: '', slug: c.slug,
+      href: `/tuning/${c.slug}/`,
+    });
+    dynoEntries.push({
+      id: 'c-' + c.slug + '-s3',
+      title: `${c.marka} ${c.model} ${c.silnik}`,
+      marka: c.marka, model: c.model, silnik: c.silnik, sterownik: c.sterownik,
+      stage: 'Stage 3',
+      km0: c.moc_km_seryjna, km1: s3.km,
+      nm0: c.moment_seryjny, nm1: s3.nm,
+      rok: '', slug: c.slug,
+      href: `/tuning/${c.slug}/`,
     });
   }
 
