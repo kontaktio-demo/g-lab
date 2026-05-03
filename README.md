@@ -637,7 +637,7 @@ Dodaj do `analyticsHead()` w `build.js` — działa identycznie jak GA4/GTM (zmi
 **Odpowiedź:** Stwórz `content/pages/cennik.md` z frontmatterem `title`, `slug: cennik`, ewentualnie `subtitle` i treścią. Odbuduj stronę.
 
 **P:** Jak zmienić kolory marki (pomarańczowy / żółty)?
-**O:** W `src/css/main.css` użyj search&replace na `#ff5a1f` (primary) i `#ffb020` (accent). Wkrótce planujemy wynieść je do CSS custom properties.
+**O:** W `src/css/main.css` użyj search&replace na `#ff001e` (primary) i `#ff5566` (accent). Wkrótce planujemy wynieść je do CSS custom properties.
 
 **P:** Jak zmienić zdjęcia opinii / dodać prawdziwych klientów?
 **O:** Edytuj `reviewsHtml` w funkcji `buildHome()` w `build.js`, lub przenieś listę do `content/opinie.json` i wczytaj w `loadOpinions()`.

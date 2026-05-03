@@ -15,7 +15,7 @@ html, body {
   text-rendering: optimizeLegibility;
 }
 
-::selection { background: #ff5a1f; color: #fff; }
+::selection { background: #ff001e; color: #fff; }
 
 /* Subtelny scrollbar w tonacji panelu */
 *::-webkit-scrollbar { width: 10px; height: 10px; }

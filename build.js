@@ -367,15 +367,15 @@ function dynoChartSvg(car, opts) {
   <path d="${stockTorque}" class="dyno-line dyno-stock dyno-torque" fill="none" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.4" stroke-dasharray="3 3"/>
 
   <!-- tuned curves (animated draw) -->
-  <path d="${tunedPower}" class="dyno-line dyno-tuned dyno-power-tuned" fill="none" stroke="#ff5a1f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="${tunedTorque}" class="dyno-line dyno-tuned dyno-torque-tuned" fill="none" stroke="#ffb020" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="${tunedPower}" class="dyno-line dyno-tuned dyno-power-tuned" fill="none" stroke="#ff001e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="${tunedTorque}" class="dyno-line dyno-tuned dyno-torque-tuned" fill="none" stroke="#ff5566" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 
   <!-- peak markers -->
   <g class="dyno-peaks">
-    <circle cx="${xAt(4000)}" cy="${yAt(car.moc_km_tuning || 0)}" r="4" fill="#ff5a1f"/>
-    <text x="${xAt(4000) + 8}" y="${yAt(car.moc_km_tuning || 0) - 6}" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#ff5a1f">${car.moc_km_tuning || 0} KM</text>
-    <circle cx="${xAt(2400)}" cy="${yAt(car.moment_tuning || 0)}" r="4" fill="#ffb020"/>
-    <text x="${xAt(2400) + 8}" y="${yAt(car.moment_tuning || 0) - 6}" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffb020">${car.moment_tuning || 0} Nm</text>
+    <circle cx="${xAt(4000)}" cy="${yAt(car.moc_km_tuning || 0)}" r="4" fill="#ff001e"/>
+    <text x="${xAt(4000) + 8}" y="${yAt(car.moc_km_tuning || 0) - 6}" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#ff001e">${car.moc_km_tuning || 0} KM</text>
+    <circle cx="${xAt(2400)}" cy="${yAt(car.moment_tuning || 0)}" r="4" fill="#ff5566"/>
+    <text x="${xAt(2400) + 8}" y="${yAt(car.moment_tuning || 0) - 6}" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#ff5566">${car.moment_tuning || 0} Nm</text>
   </g>
 </svg>
 <figcaption class="dyno-legend">
@@ -1704,17 +1704,17 @@ function buildOgImage() {
       <stop offset="100%" stop-color="#1a1a1a"/>
     </linearGradient>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ff5a1f" stroke-opacity="0.08" stroke-width="1"/>
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ff001e" stroke-opacity="0.08" stroke-width="1"/>
     </pattern>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect width="1200" height="630" fill="url(#grid)"/>
-  <text x="80" y="220" font-family="Inter, system-ui, sans-serif" font-size="120" font-weight="900" fill="#fafafa" letter-spacing="-4">G-<tspan fill="#ff5a1f">Lab</tspan></text>
+  <text x="80" y="220" font-family="Inter, system-ui, sans-serif" font-size="120" font-weight="900" fill="#fafafa" letter-spacing="-4">G-<tspan fill="#ff001e">Lab</tspan></text>
   <text x="80" y="290" font-family="Inter, system-ui, sans-serif" font-size="36" font-weight="600" fill="#fafafa" opacity="0.85">Chiptuning diesli · DPF/EGR · hamownia</text>
   <text x="80" y="340" font-family="Inter, system-ui, sans-serif" font-size="28" fill="#fafafa" opacity="0.6">Łódź · Rokicińska 266 · od 2006 roku</text>
-  <g transform="translate(80,420)" fill="none" stroke="#ff5a1f" stroke-width="3" stroke-linecap="round">
+  <g transform="translate(80,420)" fill="none" stroke="#ff001e" stroke-width="3" stroke-linecap="round">
     <path d="M0 130 Q 200 110 380 60 T 700 30" opacity="0.9"/>
-    <path d="M0 150 Q 200 145 380 130 T 700 110" stroke="#ffb020" opacity="0.8"/>
+    <path d="M0 150 Q 200 145 380 130 T 700 110" stroke="#ff5566" opacity="0.8"/>
     <path d="M0 170 Q 200 175 380 165 T 700 155" stroke="#fafafa" stroke-opacity="0.4" stroke-dasharray="6 4"/>
   </g>
   <text x="800" y="540" font-family="Inter, system-ui, sans-serif" font-size="24" fill="#fafafa" opacity="0.55">g-lab.pl</text>
