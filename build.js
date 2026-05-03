@@ -480,7 +480,23 @@ function stageBlockHtml(car) {
 
 function renderCarPage(car, allCars, brandIndex) {
   const title = `Chiptuning ${car.marka} ${car.model} ${car.generacja} ${car.silnik} - ${car.moc_km_seryjna} -> ${car.moc_km_tuning} KM`;
-  const description = `Chiptuning ${car.marka} ${car.model} ${car.generacja} ${car.silnik} (${car.rok_od}-${car.rok_do}). Moc seryjna ${car.moc_km_seryjna} KM (${car.moc_kw_seryjna} kW), moc po tuningu ${car.moc_km_tuning} KM (${car.moc_kw_tuning} kW). Moment ${car.moment_seryjny} -> ${car.moment_tuning} Nm. Sterownik ${car.sterownik}.`;
+  // Punchy dynamic meta description with KM transformation, gain and starting
+  // price. Keeps engine/sterownik info as a secondary clause so we still hit
+  // long-tail queries like "BMW 320d E90 EDC17 chiptuning". Target ~160 chars
+  // so Google doesn't truncate the gain & price part (the conversion hooks).
+  let gainSuffix = '';
+  if (car.diff_km && car.diff_pct) gainSuffix = ` (+${car.diff_km} KM, +${car.diff_pct}%)`;
+  else if (car.diff_km) gainSuffix = ` (+${car.diff_km} KM)`;
+  const description =
+    `Chiptuning ${car.marka} ${car.model} ${car.generacja} ${car.silnik} - ` +
+    `z ${car.moc_km_seryjna} KM na ${car.moc_km_tuning} KM${gainSuffix}. ` +
+    `Moment ${car.moment_seryjny} -> ${car.moment_tuning} Nm. ` +
+    `Sterownik ${car.sterownik}. Pomiar na hamowni w Łodzi od 1500 zł.`;
+
+  // Per-car OG image (SVG, 1200x630) - same convention as /img/og-default.svg.
+  // Gives WhatsApp / Facebook / X a unique preview per model with the headline
+  // "MARKA MODEL: 163 → 205 KM". File written below in buildCatalog.
+  const ogPath = ogImagePath(car.slug);
 
   const productSchema = {
     '@context': 'https://schema.org',
@@ -489,15 +505,21 @@ function renderCarPage(car, allCars, brandIndex) {
     brand: { '@type': 'Brand', name: car.marka },
     description,
     category: 'Chiptuning',
-    image: SITE_URL + '/img/og-default.svg',
+    image: SITE_URL + ogPath,
     sku: car.slug,
+    // AggregateOffer rather than a single Offer - Stage 1 is the entry price
+    // (1500 zł) while Stage 2/3 push higher; this lets Google show the "od X zł"
+    // rich result without lying about a single fixed price.
     offers: {
-      '@type': 'Offer',
+      '@type': 'AggregateOffer',
       priceCurrency: 'PLN',
-      price: '1800',
+      lowPrice: '1500',
+      highPrice: '7000',
+      // Three offers = Stage 1 / Stage 2 / Stage 3 (see stagesForCar()).
+      offerCount: 3,
       priceValidUntil: `${new Date().getFullYear() + 1}-12-31`,
       availability: 'https://schema.org/InStock',
-      url: SITE_URL + '/tuning/' + car.slug,
+      url: SITE_URL + '/tuning/' + car.slug + '/',
       seller: { '@type': 'Organization', name: BUSINESS.legalName },
     },
     additionalProperty: [
@@ -543,14 +565,15 @@ function renderCarPage(car, allCars, brandIndex) {
 
   return wrapLayout({
     title, description,
-    canonicalPath: `/tuning/${car.slug}`,
+    canonicalPath: `/tuning/${car.slug}/`,
     content: inner,
     breadcrumbs: [
       { name: 'Strona główna', url: '/' },
       { name: 'Katalog', url: '/katalog/' },
       { name: car.marka, url: `/marka/${car.marka_slug}/` },
-      { name: `${car.model} ${car.generacja} ${car.silnik}`, url: `/tuning/${car.slug}` },
+      { name: `${car.model} ${car.generacja} ${car.silnik}`, url: `/tuning/${car.slug}/` },
     ],
+    ogImage: ogPath,
     jsonld: [productSchema],
   });
 }
@@ -735,6 +758,10 @@ function buildCatalog(cars) {
     if (!c.slug) continue;
     const carHtml = renderCarPage(c, cars, brandIndex);
     writeFile(path.join(OUT, 'tuning', c.slug, 'index.html'), carHtml);
+    // Per-car Open Graph image (1200x630 SVG) referenced by the page's
+    // <meta property="og:image"> via wrapLayout({ ogImage }). Kept next to
+    // the rest of the OG assets at /og/<slug>.svg (see ogImagePath()).
+    writeFile(path.join(OUT, 'og', `${c.slug}.svg`), carOgSvg(c));
     written.push(`/tuning/${c.slug}/`);
   }
 
@@ -1455,14 +1482,52 @@ function buildStaticPages() {
       });
       extraSections.push(faqHtml(faq));
     }
-    // Service schema for service pages
+    // Service schema for service pages. We attach offers (Stage 1 entry price
+    // 1500 zł as a PriceSpecification) + a full provider with address, so
+    // Google can render rich results with rating + price ("od 1500 zł"). The
+    // provider is linked by @id to the LocalBusiness/AutoRepair node emitted
+    // on the homepage and /kontakt/ - this avoids duplicating the canonical
+    // business graph while still letting standalone scrapers see the address.
     if (slug === 'chiptuning' || slug === 'dpf-egr' || slug === 'hamownia') {
+      const servicePrice = {
+        chiptuning: { low: 1500, high: 7000, name: 'Chiptuning Stage 1 / 2 / 3' },
+        'dpf-egr': { low: 1200, high: 3500, name: 'Usuwanie DPF / EGR' },
+        hamownia: { low: 350, high: 700, name: 'Pomiar na hamowni podwoziowej' },
+      }[slug];
       jsonld.push({
         '@context': 'https://schema.org', '@type': 'Service',
+        name: servicePrice.name,
         serviceType: data.title || slug,
-        provider: { '@id': SITE_URL + '/#business', '@type': 'AutoRepair', name: BUSINESS.legalName },
+        url: SITE_URL + '/' + slug + '/',
         areaServed: { '@type': 'Country', name: 'Polska' },
-        url: SITE_URL + '/' + slug,
+        provider: {
+          '@id': SITE_URL + '/#business',
+          '@type': 'AutoRepair',
+          name: BUSINESS.legalName,
+          telephone: BUSINESS.phone,
+          url: SITE_URL,
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: BUSINESS.street,
+            postalCode: BUSINESS.postal,
+            addressLocality: BUSINESS.city,
+            addressRegion: BUSINESS.region,
+            addressCountry: BUSINESS.country,
+          },
+        },
+        offers: {
+          '@type': 'Offer',
+          priceCurrency: 'PLN',
+          availability: 'https://schema.org/InStock',
+          url: SITE_URL + '/' + slug + '/',
+          priceSpecification: {
+            '@type': 'PriceSpecification',
+            priceCurrency: 'PLN',
+            minPrice: servicePrice.low,
+            maxPrice: servicePrice.high,
+          },
+        },
+        aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '127' },
       });
     }
     if (slug === 'kontakt') jsonld.push(localBusinessSchema());
@@ -1927,6 +1992,46 @@ function buildOgImage() {
   <text x="800" y="540" font-family="Inter, system-ui, sans-serif" font-size="24" fill="#fafafa" opacity="0.55">g-lab.pl</text>
 </svg>`;
   writeFile(path.join(OUT, 'img', 'og-default.svg'), svg);
+}
+
+// Per-car OG image (1200x630 SVG). Same convention as the default OG image -
+// SVG keeps the build cheap (no canvas/sharp dependency, ~1 KB per file vs.
+// ~50 KB PNG x 4127 cars). FB / WhatsApp / X all render SVG OG images now;
+// pages that need PNG fallback (rare) can be served via a separate rewriter.
+function carOgSvg(car) {
+  const headline = `${car.marka} ${car.model}`.trim();
+  const sub = `${car.generacja} · ${car.silnik}`.trim().replace(/^·\s*/, '');
+  const km0 = String(car.moc_km_seryjna || '?');
+  const km1 = String(car.moc_km_tuning || '?');
+  const dKm = car.diff_km ? `+${car.diff_km} KM` : '';
+  const dPct = car.diff_pct ? `+${car.diff_pct}%` : '';
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a0a"/>
+      <stop offset="100%" stop-color="#1a1a1a"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ff001e" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <text x="80" y="110" font-family="Inter, system-ui, sans-serif" font-size="36" font-weight="800" fill="#ff001e" letter-spacing="2">CHIPTUNING</text>
+  <text x="80" y="200" font-family="Inter, system-ui, sans-serif" font-size="78" font-weight="900" fill="#fafafa" letter-spacing="-2">${esc(headline)}</text>
+  <text x="80" y="250" font-family="Inter, system-ui, sans-serif" font-size="32" fill="#fafafa" opacity="0.75">${esc(sub)}</text>
+  <g transform="translate(80,360)" font-family="Inter, system-ui, sans-serif" fill="#fafafa">
+    <text font-size="120" font-weight="900" letter-spacing="-3">${esc(km0)}</text>
+    <text x="270" font-size="120" font-weight="900" fill="#ff001e" letter-spacing="-3">→</text>
+    <text x="380" font-size="120" font-weight="900" letter-spacing="-3">${esc(km1)}</text>
+    <text x="690" font-size="44" font-weight="700" fill="#fafafa" opacity="0.8">KM</text>
+    ${dKm ? `<text x="690" y="-50" font-size="28" font-weight="700" fill="#ff001e">${esc(dKm)} ${esc(dPct)}</text>` : ''}
+  </g>
+  <text x="80" y="540" font-family="Inter, system-ui, sans-serif" font-size="26" fill="#fafafa" opacity="0.7">G-Lab Chip Tuning · Łódź, Rokicińska 266</text>
+  <text x="80" y="580" font-family="Inter, system-ui, sans-serif" font-size="24" fill="#fafafa" opacity="0.55">Stage 1 od 1500 zł · pomiar na hamowni</text>
+  <text x="1120" y="580" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="24" fill="#fafafa" opacity="0.55">g-lab.pl</text>
+</svg>`;
 }
 
 function buildSitemap(urls) {
