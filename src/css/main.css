@@ -1492,3 +1492,6 @@ body.nav-open { overflow: hidden; }
 .footer-hours strong { color: var(--text); }
 .footer-whatsapp { color: #25D366; }
 .footer-whatsapp:hover { color: #1ebe57; }
+.footer-social { margin-top: 0.75rem; display: flex; gap: 0.6rem; align-items: center; }
+.footer-social-link { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.06); color: var(--text); transition: background 0.15s, color 0.15s; }
+.footer-social-link:hover { background: var(--accent); color: #0a0a0a; }

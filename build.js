@@ -158,7 +158,10 @@ function localBusinessSchema() {
     priceRange: '$$',
     areaServed: 'PL',
     aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '127' },
-    sameAs: [],
+    sameAs: [
+      'https://www.facebook.com/glabpl',
+      'https://www.youtube.com/channel/UC_SQgcCUMsSrnBptbObPt-Q',
+    ],
   };
 }
 function localBusinessJsonLd() { return jsonldScript(localBusinessSchema()); }

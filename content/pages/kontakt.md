@@ -15,7 +15,6 @@ Zapraszamy do naszego warsztatu przy Rokicińskiej 266 w Łodzi — miejsca, w k
 - **WhatsApp:** [+48 508 146 945](https://wa.me/48508146945)
 - **E-mail:** [kontakt@g-lab.pl](mailto:kontakt@g-lab.pl)
 - **Adres:** G-Lab Diesel Tuning, Rokicińska 266, 92-620 Łódź
-- **NIP:** 728-000-00-00 · **REGON:** 000000000
 
 ## Godziny otwarcia
 
