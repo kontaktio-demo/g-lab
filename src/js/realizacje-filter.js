@@ -39,7 +39,7 @@
   form.addEventListener('reset', function () { setTimeout(apply, 0); });
   apply();
 
-  // Hook dla realizacje-runtime.js — gdy domieszka ma nowe karty z backendu,
+  // Hook dla realizacje-runtime.js - gdy domieszka ma nowe karty z backendu,
   // odświeżamy cache + ponownie aplikujemy filtry.
   window.GLabRefilter = function () {
     cards = readCards();

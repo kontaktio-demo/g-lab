@@ -723,7 +723,7 @@ function buildRealizations(items) {
   // Realizacje statyczne (z Markdown) zachowują pretty URL /realizacje/<slug>/.
   // Realizacje dodane w panelu (Supabase) linkują pod /realizacje/podglad/?slug=<slug>.
   const previewHtml = wrapLayout({
-    title: 'Realizacja — G-Lab Chip Tuning',
+    title: 'Realizacja - G-Lab Chip Tuning',
     description: 'Szczegóły wybranej realizacji. Zobacz pomiar, użyte narzędzia i galerię.',
     canonicalPath: '/realizacje/podglad/',
     content: '<div id="realizacja-dyn"></div>',
@@ -826,10 +826,10 @@ function pageArtForSlug(slug) {
         <circle cx="362" cy="224" r="3"/><circle cx="362" cy="224" r="1" fill="currentColor" stroke="none"/>
         <!-- main microcontroller -->
         <rect x="170" y="110" width="120" height="90" rx="3"/>
-        <rect x="170" y="110" width="120" height="90" rx="3" fill="url(#hatch-c)" stroke="none" opacity="0.3"/>
+        <rect x="170" y="110" width="120" height="90" rx="3" fill="url(#hatch-c)" stroke="none" opacity="0.18"/>
         <text x="230" y="148" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="700" stroke="none" fill="currentColor">MCU</text>
-        <text x="230" y="162" text-anchor="middle" font-family="Inter, sans-serif" font-size="6.5" stroke="none" fill="currentColor" opacity="0.7" letter-spacing="1">TRICORE TC1797</text>
-        <text x="230" y="176" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" stroke="none" fill="currentColor" opacity="0.55" letter-spacing="1">180 MHz · 4 MB FLASH</text>
+        <text x="230" y="162" text-anchor="middle" font-family="Inter, sans-serif" font-size="6.5" stroke="none" fill="currentColor" opacity="0.75" letter-spacing="1">TRICORE TC1797</text>
+        <text x="230" y="176" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" stroke="none" fill="currentColor" opacity="0.6" letter-spacing="1">180 MHz · 4 MB FLASH</text>
         <!-- pin notch + dot -->
         <circle cx="178" cy="118" r="1.5" fill="currentColor" stroke="none"/>
         <!-- IC pins (top/bottom/left/right) -->
@@ -938,9 +938,9 @@ function pageArtForSlug(slug) {
           <line x1="335" y1="126" x2="410" y2="60"/>
           <circle cx="335" cy="126" r="1.5" fill="currentColor" stroke="none"/>
         </g>
-        <text x="20" y="56" font-family="Inter, sans-serif" font-size="7" stroke="none" fill="currentColor" opacity="0.75" letter-spacing="1">[1] PAMIĘĆ FLASH</text>
-        <text x="180" y="46" font-family="Inter, sans-serif" font-size="7" stroke="none" fill="currentColor" opacity="0.75" letter-spacing="1">[2] PROCESOR ECU</text>
-        <text x="370" y="56" font-family="Inter, sans-serif" font-size="7" stroke="none" fill="currentColor" opacity="0.75" letter-spacing="1">[3] STAB. NAPIĘCIA</text>
+        <text x="20" y="56" font-family="Inter, sans-serif" font-size="6.5" stroke="none" fill="currentColor" opacity="0.75" letter-spacing="1">[1] FLASH</text>
+        <text x="230" y="44" text-anchor="middle" font-family="Inter, sans-serif" font-size="6.5" stroke="none" fill="currentColor" opacity="0.75" letter-spacing="1">[2] PROCESOR ECU</text>
+        <text x="440" y="56" text-anchor="end" font-family="Inter, sans-serif" font-size="6.5" stroke="none" fill="currentColor" opacity="0.75" letter-spacing="1">[3] STAB. NAPIĘCIA</text>
         <!-- Title block -->
         <g opacity="0.55" stroke-width="0.8">
           <rect x="14" y="290" width="432" height="22"/>
@@ -1097,9 +1097,9 @@ function pageArtForSlug(slug) {
         <text x="233" y="247" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" stroke="none" fill="currentColor" opacity="0.7" letter-spacing="2">2 400 mm</text>
 
         <!-- Callouts -->
-        <text x="50" y="276" font-family="Inter, sans-serif" font-size="7" stroke="none" fill="currentColor" opacity="0.7" letter-spacing="1">[A] EGR — DEZAKTYWACJA</text>
-        <text x="220" y="276" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" stroke="none" fill="currentColor" opacity="0.7" letter-spacing="1">[B] DPF — USUNIĘCIE WKŁADU + MAPA</text>
-        <text x="430" y="276" text-anchor="end" font-family="Inter, sans-serif" font-size="7" stroke="none" fill="currentColor" opacity="0.7" letter-spacing="1">[C] SCR/AdBlue — OFF</text>
+        <text x="50" y="276" font-family="Inter, sans-serif" font-size="6.5" stroke="none" fill="currentColor" opacity="0.7" letter-spacing="1">[A] EGR OFF</text>
+        <text x="220" y="276" text-anchor="middle" font-family="Inter, sans-serif" font-size="6.5" stroke="none" fill="currentColor" opacity="0.7" letter-spacing="1">[B] DPF - WKŁAD + MAPA</text>
+        <text x="430" y="276" text-anchor="end" font-family="Inter, sans-serif" font-size="6.5" stroke="none" fill="currentColor" opacity="0.7" letter-spacing="1">[C] SCR / AdBlue OFF</text>
 
         <!-- Title block -->
         <g opacity="0.55" stroke-width="0.8">
@@ -1250,12 +1250,6 @@ function pageArtForSlug(slug) {
         <text x="62" y="36" font-family="Inter, sans-serif" font-size="6" stroke="none" fill="currentColor" opacity="0.7" letter-spacing="1">WYKRES MOC/MOMENT</text>
 
         <!-- title block -->
-        <g opacity="0.55" stroke-width="0.8">
-          <rect x="14" y="304" width="432" height="0"/>
-        </g>
-      </g>
-      <g opacity="0.55">
-        <rect x="14" y="304" width="432" height="0" fill="none" stroke="currentColor" stroke-width="0.8"/>
       </g>
       <g fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.55">
         <rect x="14" y="298" width="432" height="14"/>
@@ -1391,24 +1385,27 @@ function buildHome(stats) {
   </section>`;
 
   // Toolbar dla najpopularniejszych funkcji
-  const toolsBand = `<section class="section section-alt">
-    <div class="container tools-band">
-      <a class="tool-card" href="/kalkulatory/">
-        <h3>Kalkulatory</h3>
-        <p>Sprawdź ROI tuningu, oszczędności na paliwie i koszty Stage 1/2/3.</p>
-      </a>
-      <a class="tool-card" href="/porownaj/">
-        <h3>Porównaj modele</h3>
-        <p>Zestaw 2-3 silniki obok siebie - moc, moment, przyrost po tuningu.</p>
-      </a>
-      <a class="tool-card" href="/wycena/">
-        <h3>Wyceń tuning</h3>
-        <p>Quiz w 5 krokach - spersonalizowana wycena Twojego auta w 2 minuty.</p>
-      </a>
-      <a class="tool-card" href="/galeria-hamowni/">
-        <h3>Galeria hamowni</h3>
-        <p>Filtrowalna baza wykresów dyno - sprawdź realne efekty.</p>
-      </a>
+  const toolsBand = `<section class="section section-alt section-corner-accents">
+    <div class="container">
+      <h2 class="section-title">Narzędzia, które pomogą Ci się zdecydować</h2>
+      <div class="tools-band">
+        <a class="tool-card" href="/kalkulatory/">
+          <h3>Kalkulatory</h3>
+          <p>Policz ROI tuningu, oszczędność na paliwie i orientacyjne koszty Stage 1/2/3.</p>
+        </a>
+        <a class="tool-card" href="/porownaj/">
+          <h3>Porównaj modele</h3>
+          <p>Zestaw 2-3 silniki obok siebie: moc, moment, przyrost po tuningu.</p>
+        </a>
+        <a class="tool-card" href="/wycena/">
+          <h3>Wyceń tuning</h3>
+          <p>Quiz w 5 krokach. Spersonalizowana wycena Twojego auta w 2 minuty.</p>
+        </a>
+        <a class="tool-card" href="/galeria-hamowni/">
+          <h3>Galeria hamowni</h3>
+          <p>Filtrowalna baza wykresów dyno. Zobacz realne efekty z naszej hamowni.</p>
+        </a>
+      </div>
     </div>
   </section>`;
 
@@ -1437,7 +1434,7 @@ function buildHome(stats) {
   </section>`;
 
   const html = wrapLayout({
-    title: 'Chiptuning Łódź — diesel, DPF/EGR i hamownia podwoziowa | G-Lab',
+    title: 'Chiptuning Łódź - diesel, DPF/EGR i hamownia podwoziowa | G-Lab',
     description: 'Profesjonalny chiptuning diesli, usuwanie DPF/EGR, hamownia podwoziowa w Łodzi. Działamy od 2006 roku. Kilkaset modeli w bazie, ROI tuningu poniżej 12 miesięcy.',
     canonicalPath: '/',
     content: T.home + countersHtml + toolsBand + reviewsHtml + faqHtml(HOME_FAQ),

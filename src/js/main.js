@@ -49,7 +49,12 @@
       'main .gallery > *',
       'main .cta-band > *',
       'main .cta-box',
-      'main .aside-box'
+      'main .aside-box',
+      'main .process-steps > li',
+      'main .tools-band > *',
+      'main .reviews-grid > *',
+      'main .counters-grid > *',
+      'main .about-stats > li'
     ];
     autoSelectors.forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el, i) {
@@ -60,7 +65,12 @@
                        parent.classList.contains('cars-grid') ||
                        parent.classList.contains('brand-cloud') ||
                        parent.classList.contains('power-grid') ||
-                       parent.classList.contains('gallery'))) {
+                       parent.classList.contains('gallery') ||
+                       parent.classList.contains('process-steps') ||
+                       parent.classList.contains('tools-band') ||
+                       parent.classList.contains('reviews-grid') ||
+                       parent.classList.contains('counters-grid') ||
+                       parent.classList.contains('about-stats'))) {
           var delay = Math.min(i * 80, 480);
           el.style.setProperty('--reveal-delay', delay + 'ms');
         } else if (el.parentElement && el.parentElement.matches('.hero > .container, .section > .container')) {
@@ -87,7 +97,49 @@
     elements.forEach(function (el) { observer.observe(el); });
   }
 
-  function initPageLoad() {
+  function initParallax() {
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    // Auto-tag elements that benefit from subtle scroll parallax.
+    var candidates = document.querySelectorAll(
+      '.hero-blueprint, .page-hero-art'
+    );
+    if (!candidates.length) return;
+
+    var items = [];
+    candidates.forEach(function (el) {
+      if (el.classList.contains('no-parallax')) return;
+      el.classList.add('parallax');
+      // Strength: hero blueprints drift a bit more than page art
+      var strength = el.classList.contains('hero-blueprint') ? 0.18 : 0.10;
+      items.push({ el: el, strength: strength });
+    });
+    if (!items.length) return;
+
+    var ticking = false;
+    function update() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      items.forEach(function (it) {
+        var rect = it.el.getBoundingClientRect();
+        // distance from viewport center, normalized
+        var center = rect.top + rect.height / 2;
+        var delta = (center - vh / 2);
+        // cap so we don't move dramatically on tall heroes
+        var capped = Math.max(-200, Math.min(200, delta));
+        var y = (-capped * it.strength).toFixed(1);
+        it.el.style.setProperty('--parallax-y', y + 'px');
+      });
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
+
     // Sync paint with rAF so reveal/hero appear together with body fade-in
     if (window.requestAnimationFrame) {
       window.requestAnimationFrame(function () {
@@ -113,7 +165,7 @@
           if (d.hasAttribute('open')) d.removeAttribute('open');
           if (summary) summary.setAttribute('aria-expanded', 'false');
         } else {
-          // Always expanded on tablets/desktop — looks like normal sections
+          // Always expanded on tablets/desktop - looks like normal sections
           if (!d.hasAttribute('open')) d.setAttribute('open', '');
           if (summary) summary.setAttribute('aria-expanded', 'true');
         }
@@ -274,6 +326,7 @@
       initCookieConsent();
       initFooterAccordion();
       initImageFade();
+      initParallax();
     });
   } else {
     initNav();
@@ -283,5 +336,6 @@
     initCookieConsent();
     initFooterAccordion();
     initImageFade();
+    initParallax();
   }
 })();

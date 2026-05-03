@@ -1,9 +1,9 @@
-// G-Lab — wspólny moduł klienta (window.GLab).
+// G-Lab - wspólny moduł klienta (window.GLab).
 // Zapewnia:
-//  • API endpoint (z window.GLAB_CFG.api lub data-api na <html>)
-//  • renderPicture()  — generuje <picture> z wariantami AVIF/WebP/JPG + LQIP/blur
-//  • postLead()       — wysyłka formularzy (kontakt / wycena) na backend
-//  • escHtml(), formatDatePL()
+//  - API endpoint (z window.GLAB_CFG.api lub data-api na <html>)
+//  - renderPicture()  - generuje <picture> z wariantami AVIF/WebP/JPG + LQIP/blur
+//  - postLead()       - wysyłka formularzy (kontakt / wycena) na backend
+//  - escHtml(), formatDatePL()
 (function () {
   'use strict';
   var CFG = (window.GLAB_CFG = window.GLAB_CFG || {});
