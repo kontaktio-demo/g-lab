@@ -487,9 +487,11 @@ p { margin: 0 0 1em; }
   padding: 3rem 0 1.5rem; margin-top: 4rem;
 }
 .footer-grid {
-  display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2rem;
-  padding-bottom: 2rem;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem;
+  padding-bottom: 2rem; align-items: start;
 }
+.footer-brand p { margin: 0 0 0.6rem; }
+.footer-contact-info { font-size: 0.9rem; line-height: 1.6; }
 @media (max-width: 800px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
 .footer-grid h4 { color: var(--text); text-transform: none; letter-spacing: 0; font-size: 1rem; margin-bottom: 0.85rem; }
@@ -1133,13 +1135,7 @@ body.nav-open { overflow: hidden; }
   .footer-collapsible > ul { display: block; text-align: left; }
   .footer-collapsible > ul a { display: inline-block; padding: 0.45rem 0; }
 
-  /* Kontakt — widoczny zawsze, bez akordeonu */
-  .footer-contact {
-    padding: 1rem 0 0;
-    text-align: center;
-  }
-  .footer-contact h4 { margin: 0 0 0.5rem; font-size: 0.98rem; }
-  .footer-contact p { font-size: 0.9rem; line-height: 1.6; }
+  /* Kontakt — w bloku marki na górze, brak osobnej sekcji */
 
   .footer-bottom { padding-top: 1rem; font-size: 0.78rem; }
 }
@@ -1492,7 +1488,7 @@ body.nav-open { overflow: hidden; }
   .contact-form { grid-template-columns: 1fr; }
 }
 
-.footer-hours { margin-top: 1rem; font-size: 0.9rem; line-height: 1.55; opacity: 0.85; }
-.footer-hours strong { display: inline-block; margin-bottom: 0.25rem; color: var(--text); }
+.footer-hours { margin-top: 0.4rem; font-size: 0.9rem; line-height: 1.55; opacity: 0.85; }
+.footer-hours strong { color: var(--text); }
 .footer-whatsapp { color: #25D366; }
 .footer-whatsapp:hover { color: #1ebe57; }
