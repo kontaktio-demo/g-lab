@@ -421,7 +421,7 @@ function relatedCarsHtml(car, allCars, brandIndex) {
   </section>`;
 }
 
-// Stage multipliers tuned per engine character (real Stage 1 software → Stage 2/3
+// Stage multipliers tuned per engine character (real Stage 1 software -> Stage 2/3
 // estimates). Diesel and turbo petrol scale higher than NA petrol.
 function stageMultipliers(car) {
   if (car.paliwo === 'diesel') return { s2km: 1.10, s2nm: 1.07, s3km: 1.25, s3nm: 1.18 };
@@ -495,7 +495,7 @@ function renderCarPage(car, allCars, brandIndex) {
 
   // Per-car OG image (SVG, 1200x630) - same convention as /img/og-default.svg.
   // Gives WhatsApp / Facebook / X a unique preview per model with the headline
-  // "MARKA MODEL: 163 → 205 KM". File written below in buildCatalog.
+  // "MARKA MODEL: 163 -> 205 KM". File written below in buildCatalog.
   const ogPath = ogImagePath(car.slug);
 
   const productSchema = {
@@ -975,7 +975,7 @@ function pageArtForSlug(slug) {
         <rect x="170" y="110" width="120" height="90" rx="3" fill="url(#hatch-c)" stroke="none" opacity="0.18"/>
         <text x="230" y="148" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="700" stroke="none" fill="currentColor">MCU</text>
         <text x="230" y="162" text-anchor="middle" font-family="Inter, sans-serif" font-size="6.5" stroke="none" fill="currentColor" opacity="0.75" letter-spacing="1">TRICORE TC1797</text>
-        <text x="230" y="176" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" stroke="none" fill="currentColor" opacity="0.6" letter-spacing="1">180 MHz · 4 MB FLASH</text>
+        <text x="230" y="176" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" stroke="none" fill="currentColor" opacity="0.6" letter-spacing="1">180 MHz - 4 MB FLASH</text>
         <!-- pin notch + dot -->
         <circle cx="178" cy="118" r="1.5" fill="currentColor" stroke="none"/>
         <!-- IC pins (top/bottom/left/right) -->
@@ -1230,7 +1230,7 @@ function pageArtForSlug(slug) {
           <path d="M324 200 h 16 m -4 -3 l 4 3 l -4 3"/>
           <path d="M412 200 h 16 m -4 -3 l 4 3 l -4 3"/>
         </g>
-        <text x="40" y="222" font-family="Inter, sans-serif" font-size="6.5" stroke="none" fill="currentColor" opacity="0.6" letter-spacing="1">SPALINY →</text>
+        <text x="40" y="222" font-family="Inter, sans-serif" font-size="6.5" stroke="none" fill="currentColor" opacity="0.6" letter-spacing="1">SPALINY -></text>
 
         <!-- Dimension line below -->
         <g stroke-width="0.7" opacity="0.7">
@@ -1256,7 +1256,7 @@ function pageArtForSlug(slug) {
         </g>
       </g>
       <text x="22" y="304" font-family="Inter, sans-serif" font-size="7.5" fill="currentColor" opacity="0.7" letter-spacing="2">UKŁAD WYDECHOWY</text>
-      <text x="148" y="304" font-family="Inter, sans-serif" font-size="7.5" fill="currentColor" opacity="0.7" letter-spacing="2">DPF · EGR · SCR</text>
+      <text x="148" y="304" font-family="Inter, sans-serif" font-size="7.5" fill="currentColor" opacity="0.7" letter-spacing="2">DPF - EGR - SCR</text>
       <text x="268" y="304" font-family="Inter, sans-serif" font-size="7.5" fill="currentColor" opacity="0.7" letter-spacing="2">SCHEMAT</text>
       <text x="368" y="304" font-family="Inter, sans-serif" font-size="7.5" fill="currentColor" opacity="0.7" letter-spacing="2">DRG-201/A</text>
     </svg>`,
@@ -1406,7 +1406,7 @@ function pageArtForSlug(slug) {
         <line x1="360" y1="298" x2="360" y2="312"/>
       </g>
       <text x="22" y="308" font-family="Inter, sans-serif" font-size="7" fill="currentColor" opacity="0.7" letter-spacing="2">HAMOWNIA PODWOZIOWA</text>
-      <text x="148" y="308" font-family="Inter, sans-serif" font-size="7" fill="currentColor" opacity="0.7" letter-spacing="2">VT2/B1 · 4WD</text>
+      <text x="148" y="308" font-family="Inter, sans-serif" font-size="7" fill="currentColor" opacity="0.7" letter-spacing="2">VT2/B1 - 4WD</text>
       <text x="268" y="308" font-family="Inter, sans-serif" font-size="7" fill="currentColor" opacity="0.7" letter-spacing="2">RZUT BOCZNY</text>
       <text x="368" y="308" font-family="Inter, sans-serif" font-size="7" fill="currentColor" opacity="0.7" letter-spacing="2">DRG-301/A</text>
     </svg>`,
@@ -1866,8 +1866,8 @@ function buildDynoGallery(realizations, cars) {
             ${e.rok ? `<span class="badge badge-ghost">${esc(e.rok)}</span>` : ''}
           </div>
           <div class="dyno-card-numbers">
-            <span><strong>${e.km0} → ${e.km1}</strong> KM <em>+${(e.km1||0)-(e.km0||0)}</em></span>
-            ${e.nm0 && e.nm1 ? `<span><strong>${e.nm0} → ${e.nm1}</strong> Nm <em>+${e.nm1-e.nm0}</em></span>` : ''}
+            <span><strong>${e.km0} -> ${e.km1}</strong> KM <em>+${(e.km1||0)-(e.km0||0)}</em></span>
+            ${e.nm0 && e.nm1 ? `<span><strong>${e.nm0} -> ${e.nm1}</strong> Nm <em>+${e.nm1-e.nm0}</em></span>` : ''}
           </div>
         </div>
       </a>
@@ -1982,8 +1982,8 @@ function buildOgImage() {
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect width="1200" height="630" fill="url(#grid)"/>
   <text x="80" y="220" font-family="Inter, system-ui, sans-serif" font-size="120" font-weight="900" fill="#fafafa" letter-spacing="-4">G-<tspan fill="#ff001e">Lab</tspan></text>
-  <text x="80" y="290" font-family="Inter, system-ui, sans-serif" font-size="36" font-weight="600" fill="#fafafa" opacity="0.85">Chiptuning diesli · DPF/EGR · hamownia</text>
-  <text x="80" y="340" font-family="Inter, system-ui, sans-serif" font-size="28" fill="#fafafa" opacity="0.6">Łódź · Rokicińska 266 · od 2006 roku</text>
+  <text x="80" y="290" font-family="Inter, system-ui, sans-serif" font-size="36" font-weight="600" fill="#fafafa" opacity="0.85">Chiptuning diesli - DPF/EGR - hamownia</text>
+  <text x="80" y="340" font-family="Inter, system-ui, sans-serif" font-size="28" fill="#fafafa" opacity="0.6">Łódź - Rokicińska 266 - od 2006 roku</text>
   <g transform="translate(80,420)" fill="none" stroke="#ff001e" stroke-width="3" stroke-linecap="round">
     <path d="M0 130 Q 200 110 380 60 T 700 30" opacity="0.9"/>
     <path d="M0 150 Q 200 145 380 130 T 700 110" stroke="#ff5566" opacity="0.8"/>
@@ -2000,7 +2000,7 @@ function buildOgImage() {
 // pages that need PNG fallback (rare) can be served via a separate rewriter.
 function carOgSvg(car) {
   const headline = `${car.marka} ${car.model}`.trim();
-  const sub = `${car.generacja} · ${car.silnik}`.trim().replace(/^·\s*/, '');
+  const sub = `${car.generacja} - ${car.silnik}`.trim().replace(/^-\s*/, '');
   const km0 = String(car.moc_km_seryjna || '?');
   const km1 = String(car.moc_km_tuning || '?');
   const dKm = car.diff_km ? `+${car.diff_km} KM` : '';
@@ -2023,13 +2023,13 @@ function carOgSvg(car) {
   <text x="80" y="250" font-family="Inter, system-ui, sans-serif" font-size="32" fill="#fafafa" opacity="0.75">${esc(sub)}</text>
   <g transform="translate(80,360)" font-family="Inter, system-ui, sans-serif" fill="#fafafa">
     <text font-size="120" font-weight="900" letter-spacing="-3">${esc(km0)}</text>
-    <text x="270" font-size="120" font-weight="900" fill="#ff001e" letter-spacing="-3">→</text>
+    <text x="270" font-size="120" font-weight="900" fill="#ff001e" letter-spacing="-3">-></text>
     <text x="380" font-size="120" font-weight="900" letter-spacing="-3">${esc(km1)}</text>
     <text x="690" font-size="44" font-weight="700" fill="#fafafa" opacity="0.8">KM</text>
     ${dKm ? `<text x="690" y="-50" font-size="28" font-weight="700" fill="#ff001e">${esc(dKm)} ${esc(dPct)}</text>` : ''}
   </g>
-  <text x="80" y="540" font-family="Inter, system-ui, sans-serif" font-size="26" fill="#fafafa" opacity="0.7">G-Lab Chip Tuning · Łódź, Rokicińska 266</text>
-  <text x="80" y="580" font-family="Inter, system-ui, sans-serif" font-size="24" fill="#fafafa" opacity="0.55">Stage 1 od 1500 zł · pomiar na hamowni</text>
+  <text x="80" y="540" font-family="Inter, system-ui, sans-serif" font-size="26" fill="#fafafa" opacity="0.7">G-Lab Chip Tuning - Łódź, Rokicińska 266</text>
+  <text x="80" y="580" font-family="Inter, system-ui, sans-serif" font-size="24" fill="#fafafa" opacity="0.55">Stage 1 od 1500 zł - pomiar na hamowni</text>
   <text x="1120" y="580" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="24" fill="#fafafa" opacity="0.55">g-lab.pl</text>
 </svg>`;
 }

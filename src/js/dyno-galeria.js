@@ -11,7 +11,7 @@
   function gain(card) {
     var nums = card.querySelector('.dyno-card-numbers strong');
     if (!nums) return 0;
-    var m = String(nums.textContent).match(/(\d+)\s*[→\-]+\s*(\d+)/);
+    var m = String(nums.textContent).match(/(\d+)\s*[->\-]+\s*(\d+)/);
     if (!m) return 0;
     return +m[2] - +m[1];
   }
