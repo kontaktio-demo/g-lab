@@ -77,9 +77,9 @@
       var nmGain = r.nm0 && r.nm1 ? (r.nm1 - r.nm0) : null;
       dynoMini =
         '<div class="dyno-mini">' +
-        '<div class="dyno-row"><span>Moc</span><strong>' + r.km0 + ' → ' + r.km1 + ' KM</strong>' +
+        '<div class="dyno-row"><span>Moc</span><strong>' + r.km0 + ' -> ' + r.km1 + ' KM</strong>' +
         '<em class="gain">+' + kmGain + ' KM</em></div>' +
-        (nmGain != null ? '<div class="dyno-row"><span>Moment</span><strong>' + r.nm0 + ' → ' + r.nm1 + ' Nm</strong>' +
+        (nmGain != null ? '<div class="dyno-row"><span>Moment</span><strong>' + r.nm0 + ' -> ' + r.nm1 + ' Nm</strong>' +
           '<em class="gain">+' + nmGain + ' Nm</em></div>' : '') +
         '</div>';
     }
@@ -99,18 +99,18 @@
       '<section class="hero hero-page"><div class="container">' +
       '<nav class="breadcrumbs" aria-label="breadcrumbs"><a href="/">Strona główna</a> / <a href="/realizacje/">Realizacje</a> / <span>' + window.GLab.escHtml(r.title) + '</span></nav>' +
       '<h1>' + window.GLab.escHtml(r.title) + '</h1>' +
-      (r.samochod ? '<p class="lead">' + window.GLab.escHtml(r.samochod) + ' · ' + window.GLab.escHtml(window.GLab.formatDatePL(r.data)) + '</p>' : '') +
+      (r.samochod ? '<p class="lead">' + window.GLab.escHtml(r.samochod) + ' - ' + window.GLab.escHtml(window.GLab.formatDatePL(r.data)) + '</p>' : '') +
       '</div></section>' +
 
       '<section class="section"><div class="container">' +
       coverHtml +
-      (meta.length ? '<p class="meta-row">' + meta.map(window.GLab.escHtml).join(' · ') + '</p>' : '') +
+      (meta.length ? '<p class="meta-row">' + meta.map(window.GLab.escHtml).join(' - ') + '</p>' : '') +
       dynoMini +
       bodyHtml +
       tools +
       galleryHtml +
       '<p style="margin-top:2rem"><a class="btn btn-primary" href="/wycena/?slug=' + encodeURIComponent(r.slug) + '">Wyceń tuning swojego auta</a> ' +
-      '<a class="btn btn-ghost" href="/realizacje/">← Wszystkie realizacje</a></p>' +
+      '<a class="btn btn-ghost" href="/realizacje/"><- Wszystkie realizacje</a></p>' +
       '</div></section>';
   }
 })();

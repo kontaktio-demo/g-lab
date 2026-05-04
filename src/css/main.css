@@ -509,7 +509,7 @@ p { margin: 0 0 1em; }
 .footer-grid p { color: var(--text-muted); margin: 0; }
 .logo-footer { margin-bottom: 1rem; }
 
-/* Footer collapsible sections — look like normal blocks on desktop */
+/* Footer collapsible sections - look like normal blocks on desktop */
 .footer-collapsible { border: 0; padding: 0; margin: 0; }
 .footer-collapsible > summary {
   list-style: none;
@@ -988,7 +988,7 @@ body.nav-open { overflow: hidden; }
   .section { padding: 2.25rem 0; }
   .section-title { margin-bottom: 1.75rem; text-align: center; }
 
-  /* Hero — calmer, centered, full-width CTAs */
+  /* Hero - calmer, centered, full-width CTAs */
   .hero { padding: 2.5rem 0 1.75rem; text-align: center; border-bottom: 1px solid var(--border); }
   .hero-home::before {
     background-image:
@@ -1004,7 +1004,7 @@ body.nav-open { overflow: hidden; }
   .hero-cta { flex-direction: column; align-items: stretch; gap: 0.65rem; }
   .hero-cta .btn { width: 100%; text-align: center; }
 
-  /* Cards — slightly tighter padding, full-width feel */
+  /* Cards - slightly tighter padding, full-width feel */
   .cards-grid { grid-template-columns: 1fr; gap: 0.85rem; }
   .card-link { padding: 1.4rem 1.25rem; border-radius: 14px; }
   .card-link h3 { font-size: 1.15rem; margin-bottom: 0.4rem; }
@@ -1045,14 +1045,14 @@ body.nav-open { overflow: hidden; }
 
   .catalog-result { padding: 1.1rem; border-radius: 14px; font-size: 0.97rem; }
 
-  /* Brand cloud — center and tap-friendly */
+  /* Brand cloud - center and tap-friendly */
   .brand-cloud { gap: 0.5rem; justify-content: center; }
   .brand-cloud a { padding: 0.55rem 0.95rem; font-size: 0.92rem; }
 
   /* Breadcrumbs slightly tighter */
   .breadcrumbs { padding: 0.85rem 1rem; font-size: 0.82rem; }
 
-  /* Car detail — single column, smaller cells */
+  /* Car detail - single column, smaller cells */
   .car-detail-grid { gap: 1.5rem; }
   .power-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1.5rem 0; }
   .power-cell { padding: 1rem; border-radius: 12px; }
@@ -1068,14 +1068,14 @@ body.nav-open { overflow: hidden; }
 
   .aside-box { padding: 1.1rem; border-radius: 14px; }
 
-  /* Cars grid — single column */
+  /* Cars grid - single column */
   .cars-grid { grid-template-columns: 1fr; gap: 0.85rem; }
   .car-card { padding: 1.1rem; border-radius: 14px; }
 
   /* Realizations */
   .realization-card .body { padding: 1.1rem; }
 
-  /* Gallery — 2 cols on phones */
+  /* Gallery - 2 cols on phones */
   .gallery { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin: 1.25rem 0; }
 
   /* Markdown */
@@ -1087,7 +1087,7 @@ body.nav-open { overflow: hidden; }
   /* Buttons get bigger tap targets */
   .btn { padding: 0.85rem 1.25rem; min-height: 46px; display: inline-flex; align-items: center; justify-content: center; }
 
-  /* Footer — kompaktowa, zwijana stopka na mobilkach */
+  /* Footer - kompaktowa, zwijana stopka na mobilkach */
   .site-footer { padding: 2rem 0 1rem; margin-top: 2.5rem; }
   .footer-grid {
     grid-template-columns: 1fr;
@@ -1142,7 +1142,7 @@ body.nav-open { overflow: hidden; }
   .footer-collapsible > ul { display: block; text-align: left; }
   .footer-collapsible > ul a { display: inline-block; padding: 0.45rem 0; }
 
-  /* Kontakt — w bloku marki na górze, brak osobnej sekcji */
+  /* Kontakt - w bloku marki na górze, brak osobnej sekcji */
 
   .footer-bottom { padding-top: 1rem; font-size: 0.78rem; }
 }
