@@ -2,7 +2,7 @@
 title: "Kontakt"
 subtitle: "Skontaktuj się z nami - odpowiemy szybko."
 slug: "kontakt"
-description: "Kontakt G-Lab Diesel Tuning Łódź, Rokicińska 266. Telefon, e-mail, godziny otwarcia, dojazd, formularz zapytania o chiptuning i usługi DPF/EGR."
+description: "Kontakt G-Lab Chip Tuning Łódź, Rokicińska 266. Telefon, e-mail, godziny otwarcia, dojazd, formularz zapytania o chiptuning (diesel i benzyna) i usługi DPF/EGR."
 ---
 
 ## UMÓW WIZYTĘ U SPECJALISTÓW G-LAB
@@ -14,7 +14,7 @@ Zapraszamy do naszego warsztatu przy Rokicińskiej 266 w Łodzi - miejsca, w kt�
 - **Telefon:** [+48 508 146 945](tel:+48508146945)
 - **WhatsApp:** [+48 508 146 945](https://wa.me/48508146945)
 - **E-mail:** [kontakt@g-lab.pl](mailto:kontakt@g-lab.pl)
-- **Adres:** G-Lab Diesel Tuning, Rokicińska 266, 92-620 Łódź
+- **Adres:** G-Lab Chip Tuning, Rokicińska 266, 92-620 Łódź
 
 ## Godziny otwarcia
 
@@ -28,7 +28,7 @@ Warsztat znajduje się przy głównej drodze, dojazd jest dobrze oznakowany. Dla
 
 <div class="map-embed">
   <iframe
-    title="Mapa Google: G-Lab Diesel Tuning, Rokicińska 266, Łódź"
+    title="Mapa Google: G-Lab Chip Tuning, Rokicińska 266, Łódź"
     src="https://www.google.com/maps?q=Rokicińska+266,+92-620+Łódź&output=embed"
     width="100%" height="380" style="border:0; border-radius: 8px;"
     loading="lazy" referrerpolicy="no-referrer-when-downgrade"
